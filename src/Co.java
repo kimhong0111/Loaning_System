@@ -2,25 +2,28 @@ package src;
 
 public class Co{
     Applicant[] Application;
-    double[] loanAmoutnList;
+    double[] loanAmountList; 
+    Contract[] validContractList;
     int count;
 
     public Co(){
         this(1);
     }
     public Co(int maxRequest){
-        this.Application=new Applicant[maxRequest];
-        this.loanAmoutnList=new double[maxRequest];
+        this.Application=new Applicant[maxRequest]; 
+        this.loanAmountList=new double[maxRequest];
+        this.validContractList = new Contract[maxRequest];
         this.count=0;
-        ;        
     }
     public void addApplication(Applicant applicant,double loanAmount){
          if(applicant==null){
             System.out.println("Cannot add: application is null");
          }
              if(ValidateRequest(applicant,loanAmount)){
+                 Contract validContract = new Contract(applicant, loanAmount);
+                 validContractList[count] = validContract;
                  Application[count]=applicant;
-                 loanAmoutnList[count]=loanAmount;
+                 loanAmountList[count]=loanAmount;
                  count++;
                  System.out.println("Complete");
              
@@ -36,13 +39,18 @@ public class Co{
             if(age >= 18 &&  salary/2 > loanAmount){
               return true;
             }
-            
             return false;
     }
 
     public void printRequest(){
            for(int i=0;i<count;i++){
-             System.out.printf(Application[i].name+" request amount: "+loanAmoutnList[i]+"\n");
+             System.out.printf(Application[i].name+" request amount: "+loanAmountList[i]+"\n");
            }
+    }
+    public void printContract() {
+            System.out.printf("validApplicant: ");
+            for (int i=0;i<count;i++) {
+            System.out.printf(validContractList[i].contractApplicant.name + " ");
+            }
     }
 }
