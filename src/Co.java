@@ -1,34 +1,32 @@
 package src;
 
 public class Co{
-    Applicant[] Application;
-    double[] loanAmountList; 
+    String bankName;
+    int coId;
+    int bankId;
     Contract[] validContractList;
     int count;
 
-    public Co(){
-        this(1);
-    }
-    public Co(int maxRequest){
-        this.Application=new Applicant[maxRequest]; 
-        this.loanAmountList=new double[maxRequest];
+    public Co(int coId, int bankId, String bankName,int maxRequest){
+        this.coId = coId;
+        this.bankId = bankId;
+        this.bankName = bankName;
         this.validContractList = new Contract[maxRequest];
         this.count=0;
     }
-    public void addApplication(Applicant applicant,double loanAmount){
+    public void addApplication(Applicant applicant,double loanAmount,int duration, LoaningSystem bank){
          if(applicant==null){
             System.out.println("Cannot add: application is null");
          }
              if(ValidateRequest(applicant,loanAmount)){
-                 Contract validContract = new Contract(applicant, loanAmount);
+                 Contract validContract = new Contract(applicant, loanAmount,duration,bank);
+                 validContract.calInterest();
                  validContractList[count] = validContract;
-                 Application[count]=applicant;
-                 loanAmountList[count]=loanAmount;
                  count++;
                  System.out.println("Complete");
              
          } else {
-            System.out.println("Request was not accepted");
+            System.out.println(applicant.name + "'s request was not accepted");
          }
         
     }
@@ -42,15 +40,10 @@ public class Co{
             return false;
     }
 
-    public void printRequest(){
-           for(int i=0;i<count;i++){
-             System.out.printf(Application[i].name+" request amount: "+loanAmountList[i]+"\n");
-           }
-    }
     public void printContract() {
             System.out.printf("validApplicant: ");
             for (int i=0;i<count;i++) {
-            System.out.printf(validContractList[i].contractApplicant.name + " ");
+            System.out.printf(validContractList[i].contractApplicant.name + ", loanMoney: " + validContractList[i].amount);
             }
     }
 }

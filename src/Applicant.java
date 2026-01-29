@@ -1,6 +1,7 @@
 package src;
 
 public class Applicant {
+    int applicantId;
     String name;
     String gender;
     int salary;
