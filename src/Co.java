@@ -1,4 +1,4 @@
-package loan.src;
+package src;
 
 public class Co{
     String bankName;
