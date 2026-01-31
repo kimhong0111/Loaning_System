@@ -1,4 +1,4 @@
-package src;
+package loan.src;
 
 public class Co{
     String bankName;
@@ -17,14 +17,15 @@ public class Co{
     public void addApplication(Applicant applicant,double loanAmount,int duration, LoaningSystem bank){
          if(applicant==null){
             System.out.println("Cannot add: application is null");
+            return;
          }
-             if(ValidateRequest(applicant,loanAmount)){
-                 Contract validContract = new Contract(applicant, loanAmount,duration,bank);
-                 validContract.calInterest();
-                 validContractList[count] = validContract;
-                 count++;
-                 System.out.println("Complete");
-             
+         if(ValidateRequest(applicant,loanAmount)){
+             Contract validContract = new Contract(applicant, loanAmount,duration,bank);
+             validContract.calculateTotal();
+             bank.addContract(validContract);
+             validContractList[count] = validContract;
+             count++;
+             System.out.println("Complete");
          } else {
             System.out.println(applicant.name + "'s request was not accepted");
          }
@@ -43,7 +44,7 @@ public class Co{
     public void printContract() {
             System.out.printf("validApplicant: ");
             for (int i=0;i<count;i++) {
-            System.out.printf(validContractList[i].contractApplicant.name + ", loanMoney: " + validContractList[i].amount);
+            System.out.printf(validContractList[i].contractApplicant.name + ", loanMoney: " + validContractList[i].principal);
             }
     }
 }
