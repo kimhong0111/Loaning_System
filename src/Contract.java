@@ -1,22 +1,20 @@
-package src;
+package loan.src;
 public class Contract {
    //after CO review the application we need to make a contract make contract with applicant information amount bank name etc. contract should store application object after co review
    Applicant contractApplicant;
    int duration;
-   int interestRate;
-   double amount;
+   double interestRate;
+   double principal;
    LoaningSystem bank;
 
-   public Contract(Applicant applicant, double amount,int duration,LoaningSystem bank ){
+   public Contract(Applicant applicant, double principal,int duration,LoaningSystem bank ){
       this.contractApplicant = applicant;
-      this.amount = amount;
+      this.principal = principal;
       this.duration = duration;
       this.bank = bank;
+      this.interestRate = bank.currentInterestsRate;
    }
-   public void calInterest() {
-      if (duration < 1) {
-         amount = amount * 10.0 * duration; 
-      } else
-         amount = amount * 12.5 * duration;
-      }
+   public void calculateTotal() {
+      principal= principal * Math.pow(1+ interestRate, duration); // compound calculation
+   }
 }
