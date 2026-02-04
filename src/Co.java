@@ -1,11 +1,11 @@
 package src;
 
 public class Co{
-    String bankName; // reference
-    Contract[] validContractList; // reference
-    int coId; // primitive
-    int bankId; // primitive
-    int count; // primitive
+    String bankName; 
+    Contract[] validContractList; 
+    int coId; 
+    int bankId; 
+    int count; 
 
     public Co(int coId, int bankId, String bankName,int maxRequest){
         this.coId = coId;

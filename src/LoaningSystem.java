@@ -2,11 +2,11 @@ package src;
 
 public class LoaningSystem {
     // after making contract make sure you put the contract into the system 
-    String bankName; // reference
-    Contract[] contractList; // reference
-    int bankId; // primitive
-    double currentInterestsRate; // primitive
-    int count; // primitive
+    String bankName; 
+    Contract[] contractList; 
+    int bankId;
+    double currentInterestsRate; 
+    int count; 
    
     public LoaningSystem(String bankName,int bankId, double currentInterestsRate, int maxContract) {
         this.bankName = bankName;
