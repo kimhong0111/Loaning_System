@@ -1,11 +1,11 @@
 package src;
 
 public class Co{
-    String bankName;
-    int coId;
-    int bankId;
-    Contract[] validContractList;
-    int count;
+    String bankName; // reference
+    Contract[] validContractList; // reference
+    int coId; // primitive
+    int bankId; // primitive
+    int count; // primitive
 
     public Co(int coId, int bankId, String bankName,int maxRequest){
         this.coId = coId;
@@ -15,8 +15,13 @@ public class Co{
         this.count=0;
     }
     public void addApplication(Applicant applicant,double loanAmount,int duration, LoaningSystem bank){
-         if(applicant==null){
+        // null safety 
+         if(applicant==null ){
             System.out.println("Cannot add: application is null");
+            return;
+         }
+         if(bank==null ){
+            System.out.println("Cannot add: bank is null");
             return;
          }
          if(ValidateRequest(applicant,loanAmount)){
@@ -48,3 +53,4 @@ public class Co{
             }
     }
 }
+    
