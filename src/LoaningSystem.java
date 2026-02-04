@@ -22,7 +22,7 @@ public class LoaningSystem {
     public void displayList(){
         System.out.print("\nList: ");
         for (int i = 0; i < count; i++) {
-            System.out.print(" "+ contractList[i].contractApplicant.name);
+            System.out.print(" "+ contractList[i].applicant.name);
         }
     }
     
@@ -33,7 +33,7 @@ public class LoaningSystem {
         }
         for (int i = 0; i < count; i++) {
             // "String comparison" because if we use ==, we actually compare address if two variabels point to the same object
-            if (name.equals(contractList[i].applicantNameSnapshot)) {
+            if (name.equals(contractList[i].applicant.name)) {
                 return contractList[i];
             }
         }

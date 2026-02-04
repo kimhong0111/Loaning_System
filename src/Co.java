@@ -49,7 +49,7 @@ public class Co{
     public void printContract() {
             System.out.printf("validApplicant: ");
             for (int i=0;i<count;i++) {
-            System.out.printf(validContractList[i].contractApplicant.name + ", loanMoney: " + validContractList[i].principal);
+            System.out.printf(validContractList[i].applicant.name + ", loanMoney: " + validContractList[i].principal);
             }
     }
 }
