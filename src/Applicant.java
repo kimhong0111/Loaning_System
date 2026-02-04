@@ -12,5 +12,8 @@ public class Applicant {
       this.salary=salary;
       this.age=age;
   }
-  
+   @Override
+   public String toString() {
+      return "Name: " + name + ",Id: " + applicantId + ",gender: " + gender + ",salary: " + salary + ",age: " + age;
+   }  
 }

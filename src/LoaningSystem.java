@@ -39,5 +39,8 @@ public class LoaningSystem {
         }
         return null; 
     }
-
+    @Override
+    public String toString() {
+        return "Bank Name: " + bankName + ",Bank ID: " + bankId + ",Current Interest Rate: " + currentInterestsRate;
+    }
 }

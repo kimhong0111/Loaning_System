@@ -1,4 +1,6 @@
 package src;
+
+
 public class Contract {
    //after CO review the application we need to make a contract make contract with applicant information amount bank name etc. contract should store application object after co review
    Applicant applicant; 
@@ -16,5 +18,10 @@ public class Contract {
    }
    public void calculateTotal() {
       principal= principal * Math.pow(1+ interestRate, duration); // compound calculation
+   }
+
+   @Override
+   public String toString() {
+      return "Name: " + applicant.name +",Bank: " + bank.bankName + ",Amount: " + principal + ",Duration:" + duration;
    }
 }

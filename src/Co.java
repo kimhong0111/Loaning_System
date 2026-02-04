@@ -1,5 +1,6 @@
 package src;
 
+
 public class Co{
     String bankName; 
     Contract[] validContractList; 
@@ -51,6 +52,10 @@ public class Co{
             for (int i=0;i<count;i++) {
             System.out.printf(validContractList[i].applicant.name + ", loanMoney: " + validContractList[i].principal);
             }
+    }
+    @Override
+    public String toString() {
+        return "Co ID: " + coId + ",Bank ID: " + bankId + ",Bank Name: " + bankName;
     }
 }
     
