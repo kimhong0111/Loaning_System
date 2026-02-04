@@ -20,10 +20,15 @@ public class LoaningSystem {
         count++;
     }
     public void displayList(){
-        System.out.print("\nList: ");
+        if(count==0){
+            System.out.println("No contract in the system");
+            return;
+        }
+        System.out.print("List: ");
         for (int i = 0; i < count; i++) {
             System.out.print(" "+ contractList[i].applicant.name);
         }
+        System.out.println();
     }
     
     // null safety 

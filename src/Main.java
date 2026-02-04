@@ -29,10 +29,18 @@ public class Main {
             app3B.applicant.name="Panha101";
             System.out.println("After change app3A.name ="+ app3A.applicant.name);
         }
+        System.out.println("\nF3 -- Array stores references");  
+        ABA.displayList();
+        System.out.println("\nF4 -- Snapshot behavior");  
+        System.out.println("Before change app1.name ="+  app1.name);
+        app1.name="Hong101";
+        System.out.println("After change app1.name ="+  app1.name);
+        ABA.displayList();
         // toString test
+        System.out.println("\n=======================");
         System.out.println(app1.toString());
         System.out.println(ABA.toString());
         System.out.println(myCo.toString());
-        System.out.println(ABA.searchContractByName("Kimhong").toString());
+        System.out.println(ABA.searchContractByName("Hong101").toString());
     }
 }
