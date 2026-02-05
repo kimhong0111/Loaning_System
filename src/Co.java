@@ -2,18 +2,16 @@ package src;
 
 
 public class Co{
-    String bankName; 
+    LoaningSystem Bank;
     Contract[] validContractList; 
-    int coId; 
-    int bankId; 
+    static int indexID=1;
+    int coId=indexID;
     int count; 
 
-    public Co(int coId, int bankId, String bankName,int maxRequest){
-        this.coId = coId;
-        this.bankId = bankId;
-        this.bankName = bankName;
+    public Co(LoaningSystem Bank,int maxRequest){
+        this.Bank=Bank;
         this.validContractList = new Contract[maxRequest];
-        this.count=0;
+        this.coId=indexID++;
     }
     public void addApplication(Applicant applicant,double loanAmount,int duration, LoaningSystem bank){
         // null safety 
@@ -55,7 +53,7 @@ public class Co{
     }
     @Override
     public String toString() {
-        return "Co ID: " + coId + ",Bank ID: " + bankId + ",Bank Name: " + bankName;
+        return "Co ID: " + coId + ",Bank ID: " + Bank.bankId + ",Bank Name: " + Bank.bankName;
     }
 }
     

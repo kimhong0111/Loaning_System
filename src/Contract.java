@@ -17,7 +17,7 @@ public class Contract {
       this.interestRate = bank.currentInterestsRate;
    }
    public void calculateTotal() {
-      principal= principal * Math.pow(1+ interestRate, duration); // compound calculation
+      principal= principal * Math.pow(1+ interestRate, duration); 
    }
 
    @Override
