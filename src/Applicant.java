@@ -3,7 +3,8 @@ package src;
 public class Applicant {
     String name; 
     String gender; 
-    int applicantId; 
+    static int indexID=1;
+    int applicantId=indexID;
     int salary; 
     int age; 
   public Applicant(String name , String gender , int salary, int age){
@@ -11,6 +12,7 @@ public class Applicant {
       this.gender=gender;
       this.salary=salary;
       this.age=age;
+      this.applicantId=indexID++;
   }
    @Override
    public String toString() {

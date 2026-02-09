@@ -2,18 +2,13 @@ package src;
 
 
 public class Co{
-    String bankName; 
-    Contract[] validContractList; 
-    int coId; 
-    int bankId; 
-    int count; 
+    LoaningSystem Bank;
+    static int indexID=1;
+    int coId=indexID;
 
-    public Co(int coId, int bankId, String bankName,int maxRequest){
-        this.coId = coId;
-        this.bankId = bankId;
-        this.bankName = bankName;
-        this.validContractList = new Contract[maxRequest];
-        this.count=0;
+    public Co(LoaningSystem Bank,int maxRequest){
+        this.Bank=Bank;
+        this.coId=indexID++;
     }
     public void addApplication(Applicant applicant,double loanAmount,int duration, LoaningSystem bank){
         // null safety 
@@ -29,8 +24,6 @@ public class Co{
              Contract validContract = new Contract(applicant, loanAmount,duration,bank);
              validContract.calculateTotal();
              bank.addContract(validContract);
-             validContractList[count] = validContract;
-             count++;
              System.out.println("Complete");
          } else {
             System.out.println(applicant.name + "'s request was not accepted");
@@ -47,15 +40,9 @@ public class Co{
             return false;
     }
 
-    public void printContract() {
-            System.out.printf("validApplicant: ");
-            for (int i=0;i<count;i++) {
-            System.out.printf(validContractList[i].applicant.name + ", loanMoney: " + validContractList[i].principal);
-            }
-    }
     @Override
     public String toString() {
-        return "Co ID: " + coId + ",Bank ID: " + bankId + ",Bank Name: " + bankName;
+        return "Co ID: " + coId + ",Bank ID: " + Bank.bankId + ",Bank Name: " + Bank.bankName;
     }
 }
     

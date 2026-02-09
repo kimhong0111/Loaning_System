@@ -34,6 +34,7 @@ public class LoaningSystem {
     // null safety 
     public Contract searchContractByName(String name) {
         if (name == null) {
+            System.out.println("Name not found");
             return null;
         }
         for (int i = 0; i < count; i++) {
@@ -42,7 +43,7 @@ public class LoaningSystem {
                 return contractList[i];
             }
         }
-        return null; 
+        throw new NullPointerException("Name not found");
     }
     @Override
     public String toString() {
