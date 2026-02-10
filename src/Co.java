@@ -71,8 +71,7 @@ public class Co{
    
     public boolean ValidateRequest(Applicant applicant, double loanAmount){
         int salary=applicant.getSalary();
-        int age=applicant.getAge();
-            if(age >= 18 &&  salary/2 > loanAmount){
+        if(salary/2 > loanAmount){
               return true;
             }
             return false;
