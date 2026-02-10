@@ -4,15 +4,17 @@ package src;
 public class Co{
    private String name;
    private String role;
+   private int age;
    private LoaningSystem bank;
    private static int indexID=1;
    private int coId=indexID;
    
 
-     public Co(String name, LoaningSystem bank, String role){
-        this.name = name;
+     public Co(String name, LoaningSystem bank, String role , int age){
+        setName(name);
         this.role=role;
-        this.bank=bank;
+        setBank(bank);
+        setAge(age);
         this.coId=indexID++;
         
     }
@@ -68,6 +70,29 @@ public class Co{
         approvedContracts[approvedCount++] = contract;
     }
         */
+    public void setName(String name) {
+        String regex="^[A-Z][a-z]{2,29}+ [A-Z][a-z]{2,29}$";
+        if(name.matches(regex)){
+          this.name = name;
+        }
+          System.out.println("Invalid name format. Name should only contain letters");
+    }
+
+    public void setBank(LoaningSystem bank) {
+        if(bank != null){
+            this.bank = bank;
+        } else {
+            System.out.println("Invalid bank. Bank cannot be null.");
+        }
+    }
+
+    public void setAge(int age) {
+        if(age >= 18 && age <= 65){
+            this.age = age;
+        } else {
+            System.out.println("Invalid age. Age should be between 18 and 65.");
+        }
+    }
    
     public boolean ValidateRequest(Applicant applicant, double loanAmount){
         int salary=applicant.getSalary();
@@ -86,7 +111,7 @@ public class Co{
 
     @Override
     public String toString() {
-        return "Co ID: " + coId + ",Name: " + name + ",Bank ID: " + bank.bankId + ",Bank Name: " + bank.bankName;
+        return "Co ID: " + coId + ",Name: " + name + ",Bank ID: " + bank.bankId + ",Bank Name: " + bank.bankName + ",Role: " + role + ",Age: " + age;
     }
     
     public boolean equals(Co co2){
