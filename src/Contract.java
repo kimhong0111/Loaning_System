@@ -13,6 +13,7 @@ public class Contract {
    int contractId;
    private int coSignerCount = 0;
 
+
    public Contract(Applicant applicant, double principal, int duration, int max) {
       this.applicant = applicant;
       this.coSigners = new Co[max];
@@ -47,8 +48,8 @@ public class Contract {
 
    @Override
    public String toString() {
-      return "Contract ID: " + contractId + ", Applicant: " + applicant.name + 
-             ", Approved By: " + (approvingOfficer != null ? approvingOfficer.title + " ,Id: " + approvingOfficer.coId : "Pending") + 
+      return "Contract ID: " + contractId + ", Applicant: " + applicant.getName()+ 
+             ", Approved By: " + (approvingOfficer != null ? approvingOfficer.getRole() + " ,Id: " + approvingOfficer.getId() : "Pending") + 
              ", Principal: $" + String.format("%.2f", principal) + 
              ", Duration: " + duration + " years, Interest Rate: " + (interestRate * 100) + "%";
    }

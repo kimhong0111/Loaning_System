@@ -1,11 +1,10 @@
 package src;
 
 public class LoaningSystem {
-    // after making contract make sure you put the contract into the system 
     String bankName; 
-    Applicant[] applicants;
-    Contract[] contracts;
-    Co[] cos;
+    Applicant[] applicantLists;
+    Contract[] contractLists;
+    Co[] coLists;
     static int indexID=1;
     int bankId;
     double currentInterestsRate; 
@@ -17,9 +16,9 @@ public class LoaningSystem {
         this.bankName = bankName;
         this.bankId = indexID++;
         this.currentInterestsRate = currentInterestsRate;
-        applicants = new Applicant[max];
-        cos = new Co[max];
-        contracts = new Contract[max];
+        applicantLists = new Applicant[max];
+        coLists = new Co[max];
+        contractLists = new Contract[max];
         contractCount = 0;
         applicantCount = 0;
         coCount = 0;
@@ -29,11 +28,11 @@ public class LoaningSystem {
             System.out.println("Cannot add: contract is null");
             return;
         }
-        if (contractCount >= contracts.length) {
+        if (contractCount >= contractLists.length) {
             System.out.println("Cannot add: contract list is full");
             return;
         }
-        contracts[contractCount++] = contract;
+        contractLists[contractCount++] = contract;
     }
 
     public void addApplicant(Applicant applicant) {
@@ -41,16 +40,16 @@ public class LoaningSystem {
             System.out.println("Cannot add: applicant is null");
             return;
         }
-        if (applicantCount >= applicants.length) {
+        if (applicantCount >= applicantLists.length) {
             System.out.println("Cannot add: applicant list is full");
             return;
         }
         for (int i = 0; i < applicantCount; i++) {
-            if (applicants[i] == applicant) {
+            if (applicant.equals(applicantLists[i])) {
                 return;
             }
         }
-        applicants[applicantCount++] = applicant;
+        applicantLists[applicantCount++] = applicant;
     }
 
     public void addCo(Co co) {
@@ -58,16 +57,16 @@ public class LoaningSystem {
             System.out.println("Cannot add: CO is null");
             return;
         }
-        if (coCount >= cos.length) {
+        if (coCount >= coLists.length) {
             System.out.println("Cannot add: CO list is full");
             return;
         }
         for (int i = 0; i < coCount; i++) {
-            if (cos[i] == co) {
+            if (co.equals(coLists[i])) {
                 return;
             }
         }
-        cos[coCount++] = co;
+        coLists[coCount++] = co;
     }
     public void displayList(){
         if(contractCount==0){
@@ -76,7 +75,7 @@ public class LoaningSystem {
         }
         System.out.print("List: ");
         for (int i = 0; i < contractCount; i++) {
-            System.out.print(" "+ contracts[i].applicant.name);
+            System.out.print(" "+ contractLists[i].applicant.getName());
         }
         System.out.println();
     }
@@ -89,8 +88,8 @@ public class LoaningSystem {
         }
         for (int i = 0; i < contractCount; i++) {
             // "String comparison" because if we use ==, we actually compare address if two variabels point to the same object
-            if (name.equals(contracts[i].applicant.name)) {
-                return contracts[i];
+            if (name.equals(contractLists[i].applicant.getName())) {
+                return contractLists[i];
             }
         }
         throw new NullPointerException("Name not found");

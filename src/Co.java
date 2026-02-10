@@ -2,25 +2,21 @@ package src;
 
 
 public class Co{
-    Applicant[] applicants;
-    Contract[] approvedContracts;
-    LoaningSystem bank;
-    String name;
-    String title;
-    static int indexID=1;
-    int coId=indexID;
-    private int applicantCount = 0;
-    private int approvedCount = 0;
+   private String name;
+   private String role;
+   private LoaningSystem bank;
+   private static int indexID=1;
+   private int coId=indexID;
+   
 
-    public Co(String name,String title, LoaningSystem bank,int maxRequest){
+     public Co(String name, LoaningSystem bank, String role){
         this.name = name;
-        this.title = title;
+        this.role=role;
         this.bank=bank;
         this.coId=indexID++;
-        this.applicants = new Applicant[maxRequest];
-        this.approvedContracts = new Contract[maxRequest];
+        
     }
-    public void addApplication(Applicant applicant,double loanAmount,int duration, LoaningSystem bank){
+    public void addApplication(Applicant applicant, LoaningSystem bank, double loanAmount , int duration){
         // null safety 
          if(applicant==null ){
             System.out.println("Cannot add: application is null");
@@ -30,22 +26,22 @@ public class Co{
             System.out.println("Cannot add: bank is null");
             return;
          }
-         addApplicantToQueue(applicant);
          bank.addCo(this);
          if(ValidateRequest(applicant,loanAmount)){
              Contract approvedContract = new Contract(applicant, loanAmount, duration, 2);
              approvedContract.setApprovingOfficer(this);    
              approvedContract.calculateTotal();
-             addApprovedContract(approvedContract); // Store contract in CO's list
+           //  addApprovedContract(approvedContract); // need to change this 
              bank.addApplicant(applicant);
              bank.addContract(approvedContract);
-             System.out.println("Loan approved for " + applicant.name);
+             System.out.println("Loan approved for " + applicant.getName());
          } else {
-            System.out.println(applicant.name + "'s request was not accepted");
+            System.out.println(applicant.getName() + "'s request was not accepted");
          }
         
     }
 
+   /* 
     private void addApplicantToQueue(Applicant applicant) {
         if (applicantCount >= applicants.length) {
             System.out.println("Cannot add: applicant list is full");
@@ -57,8 +53,9 @@ public class Co{
             }
         }
         applicants[applicantCount++] = applicant;
-    }
+    } 
 
+    /* cannot use this 
     private void addApprovedContract(Contract contract) {
         if (contract == null) {
             System.out.println("Cannot add: contract is null");
@@ -70,19 +67,35 @@ public class Co{
         }
         approvedContracts[approvedCount++] = contract;
     }
-
+        */
+   
     public boolean ValidateRequest(Applicant applicant, double loanAmount){
-        int salary=applicant.salary;
-        int age=applicant.age;
+        int salary=applicant.getSalary();
+        int age=applicant.getAge();
             if(age >= 18 &&  salary/2 > loanAmount){
               return true;
             }
             return false;
     }
+    public String getRole(){
+          return role;
+
+    }
+    public int getId(){
+        return coId;
+    }
 
     @Override
     public String toString() {
-        return "Co ID: " + coId + ",Name: " + name + ",Bank ID: " + bank.bankId + ",Bank Name: " + bank.bankName + ",Title: " + title;
+        return "Co ID: " + coId + ",Name: " + name + ",Bank ID: " + bank.bankId + ",Bank Name: " + bank.bankName;
     }
+    
+    public boolean equals(Co co2){
+        if(this.name.equals(co2.name) && this.bank.bankId == co2.bank.bankId){
+            return true;
+        }
+        return false;
+     }
+    
 }
     
