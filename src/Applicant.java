@@ -9,12 +9,46 @@ public class Applicant {
    private int age; 
 
   public Applicant(String name , String gender , int salary, int age){
-      this.name=name;
-      this.gender=gender;
-      this.salary=salary;
-      this.age=age;
+      setName(name);
+      setGender(gender);
+      setAge(age);
+      setSalary(salary);
       this.applicantId=indexID++;
   }
+
+  public void setName(String name) {
+      String regex="^[A-Z][a-z]{2,29}+ [A-Z][a-z]{2,29}$";
+      if(name.matches(regex)){
+        this.name = name;
+      }
+        System.out.println("Invalid name format. Name should only contain letters");
+  }
+
+  public void setGender(String gender){
+    String regex="^[MF]$";
+    if(gender.matches(regex)){
+        this.gender=gender;
+  }
+     System.out.println("Invalid gender format. Gender should be either 'M' or 'F'");
+}
+
+public void setSalary(int salary) {
+    if(salary > 0){
+        this.salary = salary;
+    } else {
+        System.out.println("Invalid salary. Salary should be a positive integer.");
+    }
+  }
+
+public void setAge(int age) {
+    if(age >= 18 && age <= 65){
+        this.age = age;
+    } else {
+        System.out.println("Invalid age. Age should be between 18 and 65.");
+    }
+  }
+
+
 
   public String getName() {
       return name;
@@ -22,9 +56,10 @@ public class Applicant {
   public int getSalary() {
       return salary;
     }
-    public int getAge() {
+  public int getAge() {
       return age;
     }
+  
     
    @Override
    public String toString() {
