@@ -18,7 +18,7 @@ public class Co{
         this.coId=indexID++;
         
     }
-    public void addApplication(Applicant applicant, Bank bank, double loanAmount , int duration){
+    public void addApplication(Applicant applicant,double loanAmount , int duration){
         // null safety 
          if(applicant==null ){
             System.out.println("Cannot add: application is null");
@@ -29,12 +29,11 @@ public class Co{
             return;
          }
          if(ValidateRequest(applicant,loanAmount)){
-             Contract approvedContract = new Contract(applicant, loanAmount, duration, 2);
+             Contract approvedContract = new Contract(applicant, loanAmount, duration);
              approvedContract.setApprovingOfficer(this);    
              approvedContract.calculateTotal();
            //  addApprovedContract(approvedContract); // need to change this 
-             bank.addApplicant(applicant);
-             bank.addContract(approvedContract);
+             bank.addApplicantAndContract(approvedContract, applicant);
              System.out.println("Loan approved for " + applicant.getName());
          } else {
             System.out.println(applicant.getName() + "'s request was not accepted");
@@ -93,7 +92,7 @@ public class Co{
             System.out.println("Invalid age. Age should be between 18 and 65.");
         }
     }
-   
+
     public boolean ValidateRequest(Applicant applicant, double loanAmount){
         int salary=applicant.getSalary();
         if(salary/2 > loanAmount){
