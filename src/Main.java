@@ -2,7 +2,7 @@ package src;
 
 public class Main {
     public static void main(String[] args) {
-        Bank ABA = new Bank("ABA",0.05,10);
+        Bank ABA = new Bank("ABA",0.05);
         Applicant app1=new Applicant("Keo Kimhong","M",2000,18);
         Applicant app2=new Applicant("Mao Vichea","M",1000,18);
 
@@ -41,7 +41,7 @@ public class Main {
 
 
         Applicant app4=new Applicant("Keo Kimhong","M",2000,18);
-        Applicant app5=new Applicant("Keo Kimhong","M",2000,18);
+        Applicant app5=new Applicant("Vong Sovanpanha","M",2000,20);
         System.out.println("\nF4 -- equals method");
         System.out.println("=======================");
         System.out.println("app4.equals(app5) = "+ app4.equals(app5));
@@ -49,5 +49,12 @@ public class Main {
 
         System.out.println(app4.toString());
         System.out.println(app5.toString());
+        /* 
+        Co myCo=new Co("Manager Chea",ABA,"Manager",40);
+        ABA.addCo(myCo);
+        myCo.addApplication(app4,800.00,2);
+        myCo.addApplication(app5, 300.0,1);
+        ABA.displayList();
+        */
     }
 }
