@@ -4,7 +4,7 @@ public class Applicant {
    private String name; 
    private String gender; 
    private static int indexID=1;
-   private int applicantId=indexID;
+   private int applicantId;
    private int salary; 
    private int age; 
 
@@ -20,6 +20,7 @@ public class Applicant {
       String regex="^[A-Z][a-z]{2,29}+ [A-Z][a-z]{2,29}$";
       if(name.matches(regex)){
         this.name = name;
+        return;
       }
         System.out.println("Invalid name format. Name should only contain letters");
   }
@@ -28,6 +29,7 @@ public class Applicant {
     String regex="^[MF]$";
     if(gender.matches(regex)){
         this.gender=gender;
+        return;
   }
      System.out.println("Invalid gender format. Gender should be either 'M' or 'F'");
 }
@@ -35,6 +37,7 @@ public class Applicant {
 public void setSalary(int salary) {
     if(salary > 0){
         this.salary = salary;
+        return;
     } else {
         System.out.println("Invalid salary. Salary should be a positive integer.");
     }
@@ -66,6 +69,10 @@ public void setAge(int age) {
       return "Name: " + name + ",Id: " + applicantId + ",gender: " + gender + ",salary: " + salary + ",age: " + age;
    }  
    public boolean equals(Applicant applicant2){
+      if(applicant2 == null){
+        return false;
+      }
+
        if(this.name.equals(applicant2.name)){
         return true;
        }

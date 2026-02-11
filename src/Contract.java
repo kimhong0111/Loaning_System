@@ -10,7 +10,7 @@ public class Contract {
    private double interestRate; 
    private double amount; 
    private static int indexID =1;
-   private int contractId;
+   private int contractId=indexID;
    private int coSignerCount = 0;
 
 

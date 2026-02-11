@@ -2,9 +2,9 @@ package src;
 
 public class Main {
     public static void main(String[] args) {
-        LoaningSystem ABA = new LoaningSystem("ABA",001,0.05,10);
-        Applicant app1=new Applicant("Kimhong","M",2000,18);
-        Applicant app2=new Applicant("Vichea","M",1000,18);
+        LoaningSystem ABA = new LoaningSystem("ABA",0.05,10);
+        Applicant app1=new Applicant("Keo Kimhong","M",2000,18);
+        Applicant app2=new Applicant("Mao Vichea","M",1000,18);
 
     /*
         Co myCo=new Co(ABA,10);
@@ -40,10 +40,14 @@ public class Main {
     */
 
 
-        Applicant app4=new Applicant("Kimhong","M",2000,18);
-        Applicant app5=new Applicant("Kimhong","M",2000,18);
+        Applicant app4=new Applicant("Keo Kimhong","M",2000,18);
+        Applicant app5=new Applicant("Keo Kimhong","M",2000,18);
         System.out.println("\nF4 -- equals method");
         System.out.println("=======================");
         System.out.println("app4.equals(app5) = "+ app4.equals(app5));
+
+
+        System.out.println(app4.toString());
+        System.out.println(app5.toString());
     }
 }

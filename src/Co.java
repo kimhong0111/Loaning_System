@@ -74,6 +74,7 @@ public class Co{
         String regex="^[A-Z][a-z]{2,29}+ [A-Z][a-z]{2,29}$";
         if(name.matches(regex)){
           this.name = name;
+          return;
         }
           System.out.println("Invalid name format. Name should only contain letters");
     }
@@ -114,11 +115,15 @@ public class Co{
 
     @Override
     public String toString() {
-        return "Co ID: " + coId + ",Name: " + name + ",Bank ID: " + bank.bankId + ",Bank Name: " + bank.bankName + ",Role: " + role + ",Age: " + age;
+        return "Co ID: " + coId + ",Name: " + name + ",Bank ID: " + bank.getBankId()+ ",Bank Name: " + bank.getName() + ",Role: " + role + ",Age: " + age + "id: "+ coId;
     }
     
     public boolean equals(Co co2){
-        if(this.name.equals(co2.name) && this.bank.bankId == co2.bank.bankId){
+        if(co2 == null){
+            return false;
+        }
+
+        if(this.name.equals(co2.name) && this.bank.getName().equals(co2.bank.getName())){
             return true;
         }
         return false;

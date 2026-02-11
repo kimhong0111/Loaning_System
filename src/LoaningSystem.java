@@ -1,18 +1,18 @@
 package src;
 
 public class LoaningSystem {
-    String bankName; 
-    Applicant[] applicantLists;
-    Contract[] contractLists;
-    Co[] coLists;
-    static int indexID=1;
-    int bankId;
-    double currentInterestsRate; 
-    int contractCount; 
-    int applicantCount;
-    int coCount;
+   private String bankName; 
+   private Applicant[] applicantLists;
+   private Contract[] contractLists;
+   private Co[] coLists;
+   private static int indexID=1;
+   private int bankId=indexID;
+   private double currentInterestsRate; 
+   private int contractCount; 
+   private int applicantCount;
+   private int coCount;
    
-    public LoaningSystem(String bankName,int bankId, double currentInterestsRate, int max) {
+    public LoaningSystem(String bankName, double currentInterestsRate, int max) {
         setBankName(bankName);
         this.bankId = indexID++;
         this.currentInterestsRate = currentInterestsRate;
@@ -24,13 +24,22 @@ public class LoaningSystem {
         coCount = 0;
     }
     public void setBankName(String bankName){
-        String regex = "^[A-Z][a-z]{2,29}$";
+        String regex = "[A-Za-z]{2,29}$";
         if(bankName.matches(regex)){
             this.bankName = bankName;
         } else {
             System.out.println("Invalid bank name format. Bank name should start with an uppercase letter followed by lowercase letters, and be between 3 and 30 characters long.");
         }
     }
+
+    public String getName() {
+        return bankName;
+    }
+
+    public int getBankId() {
+        return bankId;
+    }
+
     
     public void addContract(Contract contract) {
         if (contract == null) {
@@ -96,7 +105,6 @@ public class LoaningSystem {
             return null;
         }
         for (int i = 0; i < contractCount; i++) {
-            // "String comparison" because if we use ==, we actually compare address if two variabels point to the same object
             if (name.equals(contractLists[i].getApplicant().getName())) {
                 return contractLists[i];
             }
@@ -113,7 +121,7 @@ public class LoaningSystem {
     }
     @Override
     public String toString() {
-        return "Bank Name: " + bankName + ",Bank ID: " + bankId + ",Current Interest Rate: " + currentInterestsRate;
+        return "Bank Name: " + bankName + ",Bank ID: " + bankId + ",Current Interest Rate: " + currentInterestsRate + ",Number of Contracts: " + contractCount + ",Number of Applicants: " + applicantCount + ",Number of COs: " + coCount + "id: "+ bankId;
     }
 
 }
