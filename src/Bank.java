@@ -1,24 +1,25 @@
 package src;
+import java.util.ArrayList;
 
 public class Bank {
    private String bankName; 
-   private Applicant[] applicantLists;
-   private Contract[] contractLists;
-   private Co[] coLists;
+   private ArrayList<Applicant> applicantLists;
+   private ArrayList<Contract> contractLists;
+   private ArrayList<Co> coLists;
    private static int indexID=1;
    private int bankId=indexID;
    private double currentInterestsRate; 
    private int contractCount; 
    private int applicantCount;
    private int coCount;
-   
-    public Bank(String bankName, double currentInterestsRate, int max) {
+
+    public Bank(String bankName, double currentInterestsRate) {
         setBankName(bankName);
         this.bankId = indexID++;
         this.currentInterestsRate = currentInterestsRate;
-        applicantLists = new Applicant[max];
-        coLists = new Co[max];
-        contractLists = new Contract[max];
+        applicantLists = new ArrayList<Applicant>();
+        coLists = new ArrayList<Co>();
+        contractLists = new ArrayList<Contract>();
         contractCount = 0;
         applicantCount = 0;
         coCount = 0;
@@ -46,28 +47,26 @@ public class Bank {
             System.out.println("Cannot add: contract is null");
             return;
         }
-        if (contractCount >= contractLists.length) {
+        if (contractCount >= contractLists.size()) {
             System.out.println("Cannot add: contract list is full");
             return;
         }
-        contractLists[contractCount++] = contract;
+        contractLists.add(contract);
     }
 
-    public void addApplicant(Applicant applicant) {
-        if (applicant == null) {
+    public void addApplicantAndContract(Contract approvedContract, Applicant applicant) {
+        if (approvedContract == null) {
             System.out.println("Cannot add: applicant is null");
             return;
         }
-        if (applicantCount >= applicantLists.length) {
-            System.out.println("Cannot add: applicant list is full");
-            return;
-        }
-        for (int i = 0; i < applicantCount; i++) {
-            if (applicant.equals(applicantLists[i])) {
+        for (int i = 0; i < contractCount; i++) {
+            if (approvedContract.getApplicant().applicantId == contractLists.get(i).getApplicant().applicantId) {
+                contractLists.get(i).setAmount(approvedContract.getAmount()); // Update existing applicant
                 return;
             }
         }
-        applicantLists[applicantCount++] = applicant;
+        applicantLists.add(applicant);
+        contractLists.add(approvedContract);
     }
 
     public void addCo(Co co) {
@@ -75,16 +74,16 @@ public class Bank {
             System.out.println("Cannot add: CO is null");
             return;
         }
-        if (coCount >= coLists.length) {
+        if (coCount >= coLists.size()) {
             System.out.println("Cannot add: CO list is full");
             return;
         }
         for (int i = 0; i < coCount; i++) {
-            if (co.equals(coLists[i])) {
+            if (co.equals(coLists.get(i))) {
                 return;
             }
         }
-        coLists[coCount++] = co;
+        coLists.add(co);
     }
     public void displayList(){
         if(contractCount==0){
@@ -93,7 +92,7 @@ public class Bank {
         }
         System.out.print("List: ");
         for (int i = 0; i < contractCount; i++) {
-            System.out.print(" "+ contractLists[i].getApplicant().getName());
+            System.out.print(" "+ contractLists.get(i).getApplicant().getName());
         }
         System.out.println();
     }
@@ -105,16 +104,16 @@ public class Bank {
             return null;
         }
         for (int i = 0; i < contractCount; i++) {
-            if (name.equals(contractLists[i].getApplicant().getName())) {
-                return contractLists[i];
+            if (name.equals(contractLists.get(i).getApplicant().getName())) {
+                return contractLists.get(i);
             }
         }
         throw new NullPointerException("Name not found");
     }
     public Co searchCoById(int id) {
         for (int i = 0; i < coCount; i++) {
-            if (coLists[i].getId() == id) {
-                return coLists[i];
+            if (coLists.get(i).getId() == id) {
+                return coLists.get(i);
             }
         }
         throw new NullPointerException("ID not found");
