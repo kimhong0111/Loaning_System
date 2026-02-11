@@ -1,12 +1,12 @@
 package src;
-
+import java.util.ArrayList;
 
 public class Contract {
    //after CO review the application we need to make a contract make contract with applicant information amount bank name etc. contract should store application object after co review
    private Co approvingOfficer;  // Credit officer who approved this contract
-   private Co[] coSigners;       // Array of co-signers (third parties guaranteeing the loan)
+   private ArrayList<Co> coSigners;       // Array of co-signers (third parties guaranteeing the loan)
    private Applicant applicant;
-   private int duration; 
+   private int duration;    
    private double interestRate; 
    private double amount; 
    private static int indexID =1;
@@ -14,13 +14,13 @@ public class Contract {
    private int coSignerCount = 0;
 
 
-   public Contract(Applicant applicant, double amount, int duration, int max) {
-      this.coSigners = new Co[max];
+   public Contract(Applicant applicant, double amount, int duration) {
+      this.coSigners = new ArrayList<Co>();
       setApplicant(applicant);
       setAmount(amount);
       setDuration(duration);
       this.contractId = indexID++;
-      this.interestRate = 0.05;  // Default 5% interest rate
+      this.interestRate = 0.05;  
    }
    public void setApprovingOfficer(Co officer) {
       if (officer == null || officer.getBank().searchCoById(officer.getId()) == null) {
@@ -34,7 +34,7 @@ public class Contract {
          System.out.println("Error: Amount must be positive");
          return;
       }
-      this.amount = amount;
+      this.amount +=amount;
    }
    public void setDuration(int duration) {
       if (duration <= 0) {
@@ -60,11 +60,12 @@ public class Contract {
          System.out.println("Error: Co-signer cannot be null");
          return false;
       }
-      if (coSignerCount >= coSigners.length) {
-         System.out.println("Error: Maximum co-signers reached (" + coSigners.length + ")");
+      if (coSignerCount >= coSigners.size()) {
+         System.out.println("Error: Maximum co-signers reached (" + coSigners.size() + ")");
          return false;
       }
-      coSigners[coSignerCount++] = coSigner;
+      coSigners.add(coSigner);
+      coSignerCount++;
       return true;
    }
    public void calculateTotal() {
@@ -91,4 +92,13 @@ public class Contract {
    public int getDuration() {
       return duration;  
    } 
+   public boolean equals(Contract contract2){
+      if(contract2 == null){
+         return false;
+      }
+      if(this.applicant.getName().equals(contract2.applicant.getName()) && this.amount == contract2.amount && this.duration == contract2.duration){
+         return true;
+      }
+      return false;
+   }
 }
