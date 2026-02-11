@@ -5,12 +5,12 @@ public class Co{
    private String name;
    private String role;
    private int age;
-   private LoaningSystem bank;
+   private Bank bank;
    private static int indexID=1;
    private int coId=indexID;
    
 
-     public Co(String name, LoaningSystem bank, String role , int age){
+     public Co(String name, Bank bank, String role , int age){
         setName(name);
         this.role=role;
         setBank(bank);
@@ -18,7 +18,7 @@ public class Co{
         this.coId=indexID++;
         
     }
-    public void addApplication(Applicant applicant, LoaningSystem bank, double loanAmount , int duration){
+    public void addApplication(Applicant applicant, Bank bank, double loanAmount , int duration){
         // null safety 
          if(applicant==null ){
             System.out.println("Cannot add: application is null");
@@ -28,7 +28,6 @@ public class Co{
             System.out.println("Cannot add: bank is null");
             return;
          }
-         bank.addCo(this);
          if(ValidateRequest(applicant,loanAmount)){
              Contract approvedContract = new Contract(applicant, loanAmount, duration, 2);
              approvedContract.setApprovingOfficer(this);    
@@ -79,7 +78,7 @@ public class Co{
           System.out.println("Invalid name format. Name should only contain letters");
     }
 
-    public void setBank(LoaningSystem bank) {
+    public void setBank(Bank bank) {
         if(bank != null){
             this.bank = bank;
         } else {
@@ -109,7 +108,7 @@ public class Co{
     public int getId(){
         return coId;
     }
-    public LoaningSystem getBank(){
+    public Bank getBank(){
         return bank;
     }
 

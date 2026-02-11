@@ -1,6 +1,6 @@
 package src;
 
-public class LoaningSystem {
+public class Bank {
    private String bankName; 
    private Applicant[] applicantLists;
    private Contract[] contractLists;
@@ -12,7 +12,7 @@ public class LoaningSystem {
    private int applicantCount;
    private int coCount;
    
-    public LoaningSystem(String bankName, double currentInterestsRate, int max) {
+    public Bank(String bankName, double currentInterestsRate, int max) {
         setBankName(bankName);
         this.bankId = indexID++;
         this.currentInterestsRate = currentInterestsRate;

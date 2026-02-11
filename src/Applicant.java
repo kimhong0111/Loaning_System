@@ -4,7 +4,7 @@ public class Applicant {
    private String name; 
    private String gender; 
    private static int indexID=1;
-   private int applicantId;
+   public  int applicantId;
    private int salary; 
    private int age; 
 
