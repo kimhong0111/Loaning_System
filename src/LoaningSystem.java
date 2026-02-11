@@ -13,7 +13,7 @@ public class LoaningSystem {
     int coCount;
    
     public LoaningSystem(String bankName,int bankId, double currentInterestsRate, int max) {
-        this.bankName = bankName;
+        setBankName(bankName);
         this.bankId = indexID++;
         this.currentInterestsRate = currentInterestsRate;
         applicantLists = new Applicant[max];
@@ -23,6 +23,15 @@ public class LoaningSystem {
         applicantCount = 0;
         coCount = 0;
     }
+    public void setBankName(String bankName){
+        String regex = "^[A-Z][a-z]{2,29}$";
+        if(bankName.matches(regex)){
+            this.bankName = bankName;
+        } else {
+            System.out.println("Invalid bank name format. Bank name should start with an uppercase letter followed by lowercase letters, and be between 3 and 30 characters long.");
+        }
+    }
+    
     public void addContract(Contract contract) {
         if (contract == null) {
             System.out.println("Cannot add: contract is null");
@@ -75,7 +84,7 @@ public class LoaningSystem {
         }
         System.out.print("List: ");
         for (int i = 0; i < contractCount; i++) {
-            System.out.print(" "+ contractLists[i].applicant.getName());
+            System.out.print(" "+ contractLists[i].getApplicant().getName());
         }
         System.out.println();
     }
@@ -88,14 +97,23 @@ public class LoaningSystem {
         }
         for (int i = 0; i < contractCount; i++) {
             // "String comparison" because if we use ==, we actually compare address if two variabels point to the same object
-            if (name.equals(contractLists[i].applicant.getName())) {
+            if (name.equals(contractLists[i].getApplicant().getName())) {
                 return contractLists[i];
             }
         }
         throw new NullPointerException("Name not found");
     }
+    public Co searchCoById(int id) {
+        for (int i = 0; i < coCount; i++) {
+            if (coLists[i].getId() == id) {
+                return coLists[i];
+            }
+        }
+        throw new NullPointerException("ID not found");
+    }
     @Override
     public String toString() {
         return "Bank Name: " + bankName + ",Bank ID: " + bankId + ",Current Interest Rate: " + currentInterestsRate;
     }
+
 }

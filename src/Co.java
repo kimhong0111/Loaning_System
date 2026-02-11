@@ -108,6 +108,9 @@ public class Co{
     public int getId(){
         return coId;
     }
+    public LoaningSystem getBank(){
+        return bank;
+    }
 
     @Override
     public String toString() {
