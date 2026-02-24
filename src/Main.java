@@ -2,7 +2,7 @@ package src;
 
 public class Main {
     public static void main(String[] args) {
-        Bank ABA = new Bank("ABA",0.05);
+        LoaningSystem ABA = new LoaningSystem("ABA",0.05);
         Applicant app1=new Applicant("Keo Kimhong","M",2000,18);
         Applicant app2=new Applicant("Mao Vichea","M",1000,18);
 

@@ -1,19 +1,22 @@
 package src;
 import java.util.ArrayList;
 
-public class Bank {
-   private String bankName; 
-   private ArrayList<Applicant> applicantLists;
-   private ArrayList<Contract> contractLists;
-   private ArrayList<Co> coLists;
-   private static int indexID=1;
-   private int bankId=indexID;
-   private double currentInterestsRate; 
-   private int contractCount; 
-   private int applicantCount;
-   private int coCount;
+public class LoaningSystem {
 
-    public Bank(String bankName, double currentInterestsRate) {
+    // ===== Fields =====
+    private String bankName;
+    private ArrayList<Applicant> applicantLists;
+    private ArrayList<Contract> contractLists;
+    private ArrayList<Co> coLists;
+    private static int indexID = 1;
+    private int bankId = indexID;
+    private double currentInterestsRate;
+    private int contractCount;
+    private int applicantCount;
+    private int coCount;
+
+    // ===== Constructor =====
+    public LoaningSystem(String bankName, double currentInterestsRate) {
         setBankName(bankName);
         this.bankId = indexID++;
         this.currentInterestsRate = currentInterestsRate;
@@ -24,15 +27,8 @@ public class Bank {
         applicantCount = 0;
         coCount = 0;
     }
-    public void setBankName(String bankName){
-        String regex = "[A-Za-z]{2,29}$";
-        if(bankName.matches(regex)){
-            this.bankName = bankName;
-        } else {
-            System.out.println("Invalid bank name format. Bank name should start with an uppercase letter followed by lowercase letters, and be between 3 and 30 characters long.");
-        }
-    }
 
+    // ===== Getters =====
     public String getName() {
         return bankName;
     }
@@ -41,7 +37,17 @@ public class Bank {
         return bankId;
     }
 
-    
+    // ===== Setters with validation =====
+    public void setBankName(String bankName) {
+        String regex = "[A-Za-z]{2,29}$";
+        if (bankName.matches(regex)) {
+            this.bankName = bankName;
+        } else {
+            System.out.println("Invalid bank name format. Bank name should start with an uppercase letter followed by lowercase letters, and be between 3 and 30 characters long.");
+        }
+    }
+
+    // ===== Business Logic Methods =====
     public void addContract(Contract contract) {
         if (contract == null) {
             System.out.println("Cannot add: contract is null");
@@ -85,19 +91,20 @@ public class Bank {
         }
         coLists.add(co);
     }
-    public void displayList(){
-        if(contractCount==0){
+    public void displayList() {
+        if (contractCount == 0) {
             System.out.println("No contract in the system");
             return;
         }
         System.out.print("List: ");
         for (int i = 0; i < contractCount; i++) {
-            System.out.print(" "+ contractLists.get(i).getApplicant().getName());
+            System.out.print(" " + contractLists.get(i).getApplicant().getName());
         }
         System.out.println();
     }
-    
-    // null safety 
+
+    // ===== Search Methods =====
+    // null safety
     public Contract searchContractByName(String name) {
         if (name == null) {
             System.out.println("Name not found");
@@ -118,9 +125,11 @@ public class Bank {
         }
         throw new NullPointerException("ID not found");
     }
+
+    // ===== toString =====
     @Override
     public String toString() {
-        return "Bank Name: " + bankName + ",Bank ID: " + bankId + ",Current Interest Rate: " + currentInterestsRate + ",Number of Contracts: " + contractCount + ",Number of Applicants: " + applicantCount + ",Number of COs: " + coCount + "id: "+ bankId;
+        return "Bank Name: " + bankName + ",Bank ID: " + bankId + ",Current Interest Rate: " + currentInterestsRate + ",Number of Contracts: " + contractCount + ",Number of Applicants: " + applicantCount + ",Number of COs: " + coCount + "id: " + bankId;
     }
 
 }
