@@ -2,30 +2,40 @@ package src;
 import java.util.ArrayList;
 
 public class LoaningSystem {
+    // ===== Action =====
+    public static final String APPROVE_LOAN = "approve_loan";
+    public static final String REJECT_LOAN = "reject_loan";
+    public static final String ADD_STAFF = "add_staff";
+    public static final String REMOVE_STAFF = "remove_staff";
+    public static final String VIEW_CONTRACT = "view_contract";
+    public static final String VIEW_APPLICANT = "view_applicant";
+    public static final String VIEW_STAFF = "view_staff";
+    public static final String SUBMIT_APPLICATION = "submit_application";
+    public static final String DRAFT_CONTRACT = "draft_contract";
 
     // ===== Fields =====
     private String bankName;
     private ArrayList<Applicant> applicantLists;
     private ArrayList<Contract> contractLists;
-    private ArrayList<Co> coLists;
+    private ArrayList<IStaff> staffLists;
     private static int indexID = 1;
     private int bankId = indexID;
-    private double currentInterestsRate;
+    private static double currentInterestsRate = 0.05; // Default interest rate
     private int contractCount;
     private int applicantCount;
-    private int coCount;
+    private int staffCount;
 
     // ===== Constructor =====
     public LoaningSystem(String bankName, double currentInterestsRate) {
         setBankName(bankName);
         this.bankId = indexID++;
-        this.currentInterestsRate = currentInterestsRate;
+        setCurrentInterestsRate(currentInterestsRate);
         applicantLists = new ArrayList<Applicant>();
-        coLists = new ArrayList<Co>();
+        staffLists = new ArrayList<IStaff>();
         contractLists = new ArrayList<Contract>();
         contractCount = 0;
         applicantCount = 0;
-        coCount = 0;
+        staffCount = 0;
     }
 
     // ===== Getters =====
@@ -36,6 +46,9 @@ public class LoaningSystem {
     public int getBankId() {
         return bankId;
     }
+    public static double getCurrentInterestsRate() {
+        return currentInterestsRate;
+    }   
 
     // ===== Setters with validation =====
     public void setBankName(String bankName) {
@@ -47,6 +60,13 @@ public class LoaningSystem {
         }
     }
 
+    public static void setCurrentInterestsRate(double rate) {
+        if (rate >= 0 && rate <= 1) {
+            currentInterestsRate = rate;
+        } else {
+            System.out.println("Invalid interest rate. Interest rate should be between 0 and 1.");
+        }
+    }
     // ===== Business Logic Methods =====
     public void addContract(Contract contract) {
         if (contract == null) {
@@ -75,21 +95,46 @@ public class LoaningSystem {
         contractLists.add(approvedContract);
     }
 
-    public void addCo(Co co) {
-        if (co == null) {
-            System.out.println("Cannot add: CO is null");
+    public void addStaff(IStaff staff) {
+        if (staff == null) {
+            System.out.println("Cannot add: staff is null");
             return;
         }
-        if (coCount >= coLists.size()) {
-            System.out.println("Cannot add: CO list is full");
-            return;
-        }
-        for (int i = 0; i < coCount; i++) {
-            if (co.equals(coLists.get(i))) {
+        for (int i = 0; i < staffLists.size(); i++) {
+            if (staff.getStaffId() == staffLists.get(i).getStaffId()) {
+                System.out.println("Staff already exists: " + staff.getName());
                 return;
             }
         }
-        coLists.add(co);
+        staffLists.add(staff);
+        staffCount++;
+        System.out.println("Staff added: " + staff.getName() + " (" + staff.getRole() + ")");
+    }
+
+    public void addApplicant(Applicant applicant) {
+        if (applicant == null) {
+            System.out.println("Cannot add: applicant is null");
+            return;
+        }
+        for (int i = 0; i < applicantLists.size(); i++) {
+            if (applicant.getApplicantId() == applicantLists.get(i).getApplicantId()) {
+                System.out.println("Applicant already exists: " + applicant.getName());
+                return;
+            }
+        }
+        applicantLists.add(applicant);
+        applicantCount++;
+        System.out.println("Applicant stored: " + applicant.getName() + " (ID: " + applicant.getApplicantId() + ")");
+    }
+
+    public void storeContract(Contract contract) {
+        if (contract == null) {
+            System.out.println("Cannot add: contract is null");
+            return;
+        }
+        contractLists.add(contract);
+        contractCount++;
+        System.out.println("Contract stored: Contract #" + contract.getContractId() + " for " + contract.getApplicant().getName());
     }
     public void displayList() {
         if (contractCount == 0) {
@@ -117,19 +162,52 @@ public class LoaningSystem {
         }
         throw new NullPointerException("Name not found");
     }
-    public Co searchCoById(int id) {
-        for (int i = 0; i < coCount; i++) {
-            if (coLists.get(i).getId() == id) {
-                return coLists.get(i);
+    public IStaff searchStaffById(int id) {
+        for (int i = 0; i < staffLists.size(); i++) {
+            if (staffLists.get(i).getStaffId() == id) {
+                return staffLists.get(i);
             }
         }
-        throw new NullPointerException("ID not found");
+        return null;
+    }
+
+    public Applicant searchApplicantById(int id) {
+        for (int i = 0; i < applicantLists.size(); i++) {
+            if (applicantLists.get(i).getApplicantId() == id) {
+                return applicantLists.get(i);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Applicant> getApplicantList() {
+        return applicantLists;
+    }
+
+    public ArrayList<Contract> getContractList() {
+        return contractLists;
+    }
+
+    public ArrayList<IStaff> getStaffList() {
+        return staffLists;
+    }
+
+    public int getApplicantCount() {
+        return applicantCount;
+    }
+
+    public int getContractCount() {
+        return contractCount;
+    }
+
+    public int getStaffCount() {
+        return staffCount;
     }
 
     // ===== toString =====
     @Override
     public String toString() {
-        return "Bank Name: " + bankName + ",Bank ID: " + bankId + ",Current Interest Rate: " + currentInterestsRate + ",Number of Contracts: " + contractCount + ",Number of Applicants: " + applicantCount + ",Number of COs: " + coCount + "id: " + bankId;
+        return "Bank Name: " + bankName + ",Bank ID: " + bankId + ",Current Interest Rate: " + currentInterestsRate + ",Number of Contracts: " + contractCount + ",Number of Applicants: " + applicantCount + ",Number of Staff: " + staffCount + ",ID: " + bankId;
     }
 
 }

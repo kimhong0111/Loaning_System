@@ -1,23 +1,21 @@
 package src;
 
 
-public class Co {
+public class Staff {
 
     // ===== Fields =====
     private String name;
     private String role;
-    private int age;
     private LoaningSystem bank;
     private static int indexID = 1;
-    private int coId = indexID;
+    private int StaffId = indexID;
 
     // ===== Constructor =====
-    public Co(String name, LoaningSystem bank, String role, int age) {
+    public Staff(String name, LoaningSystem bank, String role, int age) {
         setName(name);
         this.role = role;
         setBank(bank);
-        setAge(age);
-        this.coId = indexID++;
+        this.StaffId = indexID++;
     }
 
     // ===== Getters =====
@@ -26,7 +24,7 @@ public class Co {
     }
 
     public int getId() {
-        return coId;
+        return StaffId;
     }
 
     public LoaningSystem getBank() {
@@ -51,15 +49,8 @@ public class Co {
         }
     }
 
-    public void setAge(int age) {
-        if (age >= 18 && age <= 65) {
-            this.age = age;
-        } else {
-            System.out.println("Invalid age. Age should be between 18 and 65.");
-        }
-    }
 
-    // ===== Business Logic Methods =====
+    // ==== Business Logic Methods =====
     public void addApplication(Applicant applicant, double loanAmount, int duration) {
         // null safety
         if (applicant == null) {
@@ -72,7 +63,7 @@ public class Co {
         }
         if (ValidateRequest(applicant, loanAmount)) {
             Contract approvedContract = new Contract(applicant, loanAmount, duration);
-            approvedContract.setApprovingOfficer(this);
+            // approvedContract.setApprovingOfficer(this);
             approvedContract.calculateTotal();
             // addApprovedContract(approvedContract); // need to change this
             bank.addApplicantAndContract(approvedContract, applicant);
@@ -93,15 +84,15 @@ public class Co {
     // ===== Comparison and toString =====
     @Override
     public String toString() {
-        return "Co ID: " + coId + ",Name: " + name + ",Bank ID: " + bank.getBankId() + ",Bank Name: " + bank.getName() + ",Role: " + role + ",Age: " + age + "id: " + coId;
+        return "Staff ID: " + StaffId + ",Name: " + name + ",Bank ID: " + bank.getBankId() + ",Bank Name: " + bank.getName() + ",Role: " + role + "id: " + StaffId;
     }
 
-    public boolean equals(Co co2) {
-        if (co2 == null) {
+    public boolean equals(Staff staff2) {
+        if (staff2 == null) {
             return false;
         }
 
-        if (this.name.equals(co2.name) && this.bank.getName().equals(co2.bank.getName())) {
+        if (this.name.equals(staff2.name) && this.bank.getName().equals(staff2  .bank.getName())) {
             return true;
         }
         return false;

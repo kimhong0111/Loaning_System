@@ -4,29 +4,38 @@ import java.util.ArrayList;
 public class Contract {
 
     // ===== Fields =====
-    private Co approvingOfficer;         // Credit officer who approved this contract
-    private ArrayList<Co> coSigners;      // Array of co-signers (third parties guaranteeing the loan)
+    private IStaff approvingOfficer;         // Credit officer who approved this contract
+    private IStaff draftingOfficer;          // Legal officer who drafted this contract
+    private ArrayList<IStaff> coSigners;      // Array of co-signers (third parties guaranteeing the loan)
     private Applicant applicant;
     private int duration;
     private double interestRate;
     private double amount;
     private static int indexID = 1;
     private int contractId = indexID;
-    private int coSignerCount = 0;
+    private int staffSignerCount = 0;
 
     // ===== Constructor =====
     public Contract(Applicant applicant, double amount, int duration) {
-        this.coSigners = new ArrayList<Co>();
+        this.coSigners = new ArrayList<IStaff>();
         setApplicant(applicant);
         setAmount(amount);
         setDuration(duration);
         this.contractId = indexID++;
-        this.interestRate = 0.05;
+        this.interestRate = LoaningSystem.getCurrentInterestsRate(); // get current interest rate from the bank
     }
 
     // ===== Getters =====
-    public Co getApprovingOfficer() {
+    public IStaff getApprovingOfficer() {
         return approvingOfficer;
+    }
+
+    public IStaff getDraftingOfficer() {
+        return draftingOfficer;
+    }
+
+    public int getContractId() {
+        return contractId;
     }
 
     public Applicant getApplicant() {
@@ -42,12 +51,20 @@ public class Contract {
     }
 
     // ===== Setters with validation =====
-    public void setApprovingOfficer(Co officer) {
-        if (officer == null || officer.getBank().searchCoById(officer.getId()) == null) {
+    public void setApprovingOfficer(IStaff officer) {
+        if (officer == null || officer.getBank().searchStaffById(officer.getStaffId()) == null) {
             System.out.println("Error: Approving officer cannot be null or must belong to a bank");
             return;
         }
         this.approvingOfficer = officer;
+    }
+
+    public void setDraftingOfficer(IStaff officer) {
+        if (officer == null || officer.getBank().searchStaffById(officer.getStaffId()) == null) {
+            System.out.println("Error: Drafting officer cannot be null or must belong to a bank");
+            return;
+        }
+        this.draftingOfficer = officer;
     }
 
     public void setAmount(double amount) {
@@ -56,6 +73,7 @@ public class Contract {
             return;
         }
         this.amount += amount;
+        calculateTotal();
     }
 
     public void setDuration(int duration) {
@@ -78,17 +96,17 @@ public class Contract {
     }
 
     // ===== Co-Signer and Calculation Methods =====
-    public boolean addCoSigner(Co coSigner) {
-        if (coSigner == null) {
-            System.out.println("Error: Co-signer cannot be null");
+    public boolean addStaffSigner(IStaff staffSigner) {
+        if (staffSigner == null) {
+            System.out.println("Error: Staff signer cannot be null");
             return false;
         }
-        if (coSignerCount >= coSigners.size()) {
+        if (staffSignerCount >= coSigners.size()) {
             System.out.println("Error: Maximum co-signers reached (" + coSigners.size() + ")");
             return false;
         }
-        coSigners.add(coSigner);
-        coSignerCount++;
+        coSigners.add(staffSigner);
+        staffSignerCount++;
         return true;
     }
 
@@ -100,7 +118,7 @@ public class Contract {
     @Override
     public String toString() {
         return "Contract ID: " + contractId + ", Applicant: " + applicant.getName() +
-                ", Approved By: " + (approvingOfficer != null ? approvingOfficer.getRole() + " ,Id: " + approvingOfficer.getId() : "Pending") +
+                ", Approved By: " + (approvingOfficer != null ? approvingOfficer.getRole() + " ,Id: " + approvingOfficer.getStaffId() : "Pending") +
                 ", Amount: $" + String.format("%.2f", amount) +
                 ", Duration: " + duration + " years, Interest Rate: " + (interestRate * 100) + "%";
     }
