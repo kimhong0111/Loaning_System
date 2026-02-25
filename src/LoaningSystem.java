@@ -82,11 +82,20 @@ public class LoaningSystem {
 
         return true;
     }
+    public boolean requirePermission(String action){
+        if(loggedInStaff==null){
+            System.out.println("Please login first");
+            return false;
+        }
+
+
+        return true;
+    }
 
     public void staffLogin(String username, String password) {
 
         if (isBlank(username) || password == null) {
-            setLastMessage("Login failed: missing username/password.");
+            System.out.println("Login failed: missing username/password.");
             return;
         }
 
@@ -106,12 +115,18 @@ public class LoaningSystem {
                 }
 
                 loggedInStaff = s;
-                setLastMessage("Login success. Welcome " + s.getName() + "!");
+            System.out.println("Login success. Welcome " + s.getName() + "!");
                 return;
             }
         }
 
-        setLastMessage("Login failed: username not found.");
+    System.out.println("Login failed: username not found.");
+    }
+
+
+    public boolean isBlank(String username){
+          return username==null || username.trim().isEmpty();
+        
     }
     // ===== Business Logic Methods =====
     public void addContract(Contract contract) {

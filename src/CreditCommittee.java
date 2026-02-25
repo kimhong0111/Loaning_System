@@ -3,7 +3,7 @@ package src;
 public class CreditCommittee implements IStaff {
     
     // ===== Fields =====
-     private String name;
+    private String name;
     private String password;
     private String role;
     private LoaningSystem bank;
@@ -106,21 +106,31 @@ public class CreditCommittee implements IStaff {
             System.out.println("[CreditCommittee " + getName() + "] Viewing contract details for " + applicant.getName());
         }
     }
+        
+    
         public boolean isActive(){
         return active;
-    }
+      }
+
+        public boolean checkPassword(String password){
+            if(this.password.equals(password)){
+                return true;
+            }
+
+            return false;
+        }
 
         @Override
     public String toString() {
         return "Staff ID: " + StaffId + ",Name: " + name + ",Bank ID: " + bank.getBankId() + ",Bank Name: " + bank.getName() + ",Role: " + role + "id: " + StaffId;
     }
 
-    public boolean equals(Staff staff2) {
+    public boolean equals(IStaff staff2) {
         if (staff2 == null) {
             return false;
         }
 
-        if (this.name.equals(staff2.name) && this.bank.getName().equals(staff2  .bank.getName())) {
+        if (this.name.equals(staff2.getName()) && this.StaffId==staff2.getStaffId()) {
             return true;
         }
         return false;

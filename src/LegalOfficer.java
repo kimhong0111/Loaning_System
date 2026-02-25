@@ -3,7 +3,7 @@ package src;
 public class LegalOfficer implements IStaff {
     
     // ===== Fields =====
-  private String name;
+     private String name;
     private String password;
     private String role;
     private LoaningSystem bank;
@@ -60,9 +60,26 @@ public class LegalOfficer implements IStaff {
             System.out.println("Invalid bank. Bank cannot be null.");
         }
     }
+    public boolean validateApplicant(Applicant applicant, double requestedAmount) {
+        if (applicant == null) {
+            System.out.println("Error: Applicant cannot be null");
+            return false;
+        }
+        if (applicant.getSalary() < requestedAmount) {
+            System.out.println("Validation failed: Salary too low");
+            return false;
+        }
+        if (applicant.getAge() < 21 || applicant.getAge() > 65) {
+            System.out.println("Validation failed: Age not within acceptable range");
+            return false;
+        }
+        // Additional credit checks can be added here
+        return true;
+    }
     @Override
     public boolean can(String action) {
-        return (action.equals(LoaningSystem.VIEW_CONTRACT) || action.equals(LoaningSystem.VIEW_APPLICANT)|| action.equals(LoaningSystem.DRAFT_CONTRACT));
+        return (action.equals(LoaningSystem.APPROVE_LOAN) || action.equals(LoaningSystem.REJECT_LOAN)
+        || action.equals(LoaningSystem.VIEW_CONTRACT) || action.equals(LoaningSystem.VIEW_APPLICANT)    );
     }
 
     @Override
@@ -72,40 +89,50 @@ public class LegalOfficer implements IStaff {
             return;
         }
 
-        if (action.equals(LoaningSystem.DRAFT_CONTRACT)) {
-            System.out.println("[LegalOfficer " + getName() + "] Drafting contract for " + applicant.getName());
-            System.out.println("    - Preparing legal documents...");
-            System.out.println("    - Verifying applicant information...");
-            System.out.println("    - Finalizing contract terms...");
-            System.out.println("    Status: Contract drafted successfully.");
+        if (action.equals(LoaningSystem.APPROVE_LOAN)) {
+            System.out.println("[CreditCommittee " + getName() + "] Validating application from " + applicant.getName());
+            System.out.println("    - Checking salary: $" + applicant.getSalary());
+            System.out.println("    - Checking age: " + applicant.getAge());
+            System.out.println("    - Credit score evaluation...");
+            System.out.println("    Status: APPROVED - Application meets all credit criteria.");
+            System.out.println("    Next step: Sending to Legal Officer for contract drafting.");
+        } else if (action.equals(LoaningSystem.REJECT_LOAN))    {
+            System.out.println("[CreditCommittee " + getName() + "] Validating application from " + applicant.getName());
+            System.out.println("    Status: REJECTED - Does not meet credit criteria.");
+            System.out.println("    Application process terminated.");
         } else if (action.equals(LoaningSystem.VIEW_APPLICANT)) {
-            System.out.println("[LegalOfficer " + getName() + "] Viewing applicant: " + applicant);
+            System.out.println("[CreditCommittee " + getName() + "] Viewing applicant: " + applicant);
         } else if (action.equals(LoaningSystem.VIEW_CONTRACT)) {
-            System.out.println("[LegalOfficer " + getName() + "] Viewing contract for " + applicant.getName());
+            System.out.println("[CreditCommittee " + getName() + "] Viewing contract details for " + applicant.getName());
         }
     }
-
-    // Method to draft and store contract in the system
-    public void draftAndStoreContract(Applicant applicant, Contract contract) {
-        if (applicant == null || contract == null) {
-            System.out.println("Error: Cannot draft contract - applicant or contract is null");
-            return;
-        }
         
-        // Perform the draft action
-        job(applicant, LoaningSystem.DRAFT_CONTRACT);
-        
-        // Store applicant and contract in the bank system
-        System.out.println("    - Storing applicant in bank system...");
-        bank.addApplicant(applicant);
-        
-        System.out.println("    - Storing contract in bank system...");
-        bank.storeContract(contract);
-        
-        System.out.println("    Contract #" + contract.getContractId() + " is now officially registered in the system.");
-    }
-
-    public boolean isActive(){
+    
+        public boolean isActive(){
         return active;
+      }
+
+        public boolean checkPassword(String password){
+            if(this.password.equals(password)){
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+    public String toString() {
+        return "Staff ID: " + StaffId + ",Name: " + name + ",Bank ID: " + bank.getBankId() + ",Bank Name: " + bank.getName() + ",Role: " + role + "id: " + StaffId;
+    }
+
+    public boolean equals(IStaff staff2) {
+        if (staff2 == null) {
+            return false;
+        }
+
+        if (this.name.equals(staff2.getName()) && this.StaffId==staff2.getStaffId()) {
+            return true;
+        }
+        return false;
     }
 }

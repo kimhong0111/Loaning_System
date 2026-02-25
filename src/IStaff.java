@@ -9,4 +9,5 @@ public interface IStaff {
     public boolean can(String action);
     public void job(Applicant applicant, String action);
     public boolean isActive();
+    public boolean checkPassword(String password);
 }

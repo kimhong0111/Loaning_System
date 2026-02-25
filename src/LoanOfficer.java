@@ -23,6 +23,15 @@ public class LoanOfficer implements IStaff {
     }
 
 
+    public boolean checkPassword(String password){
+        if(this.password.equals(password)){
+            return true;
+        }
+
+        return false;
+
+    }
+
     public void setPassword(String password) {
         String pw = (password == null) ? "" : password;
         // simple rule for teaching: >= 4 chars
