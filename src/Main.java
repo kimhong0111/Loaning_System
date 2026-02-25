@@ -19,10 +19,10 @@ public class Main {
         CreditCommittee creditCommittee = new CreditCommittee("Sarah Johnson", bank, "Credit Committee", 42);
         LegalOfficer legalOfficer = new LegalOfficer("Michael Brown", bank, "Legal Officer", 38);
 
-        bank.addStaff(loanOfficer);
-        bank.addStaff(creditCommittee);
-        bank.addStaff(legalOfficer);
-        System.out.println();
+        // bank.createStaff("John Smith", bank, "Loan Officer", 35);
+        // bank.createStaff("Sarah Johnson", bank, "Credit Committee", 42);
+        // bank.createStaff("Michael Brown", bank, "Legal Officer", 38 );
+        // System.out.println();
 
         // ===== STEP 1: LoanOfficer Surveys Applicant Information =====
         System.out.println("STEP 1: LoanOfficer Surveys Applicant Information");

@@ -95,20 +95,26 @@ public class LoaningSystem {
         contractLists.add(approvedContract);
     }
 
-    public void addStaff(IStaff staff) {
-        if (staff == null) {
-            System.out.println("Cannot add: staff is null");
-            return;
+    public void createStaff(String name, LoaningSystem bank, String role, int age) {
+        if (role.equals("Manager")) {
+            Manager newManager = new Manager(name, bank, role, age);
+            staffLists.add(newManager);
+            staffCount++;
+        } else if (role.equals("Loan Officer")) {
+            LoanOfficer newLoanOfficer = new LoanOfficer(name, bank, role, age);
+            staffLists.add(newLoanOfficer);
+            staffCount++;
+        } else if (role.equals("Legal Officer")) {
+            LegalOfficer newLegalOfficer = new LegalOfficer(name, bank, role, age);
+            staffLists.add(newLegalOfficer);
+            staffCount++;
+        } else if (role.equals("Credit Committee")) {
+            CreditCommittee newCreditCommittee = new CreditCommittee(name, bank, role, age);
+            staffLists.add(newCreditCommittee);
+            staffCount++;
+        } else {
+            System.out.println("Invalid role: " + role + ". Staff not created.");
         }
-        for (int i = 0; i < staffLists.size(); i++) {
-            if (staff.getStaffId() == staffLists.get(i).getStaffId()) {
-                System.out.println("Staff already exists: " + staff.getName());
-                return;
-            }
-        }
-        staffLists.add(staff);
-        staffCount++;
-        System.out.println("Staff added: " + staff.getName() + " (" + staff.getRole() + ")");
     }
 
     public void addApplicant(Applicant applicant) {

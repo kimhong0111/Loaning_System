@@ -30,6 +30,9 @@ public class Staff {
     public LoaningSystem getBank() {
         return bank;
     }
+    public static int getNextIndexID() {
+        return indexID++;
+    }
 
     // ===== Setters with validation =====
     public void setName(String name) {

@@ -5,6 +5,7 @@ public interface IStaff {
     public int getStaffId();
     public String getRole();
     public LoaningSystem getBank(); 
+    public int password = 1234; // default 
     public boolean can(String action);
     public void job(Applicant applicant, String action);
 }

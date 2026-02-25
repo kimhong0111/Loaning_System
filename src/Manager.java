@@ -53,5 +53,9 @@ public class Manager implements IStaff {
     public boolean can(String action) {
         return (action.equals(LoaningSystem.ADD_STAFF) || action.equals(LoaningSystem.REMOVE_STAFF) || action.equals(LoaningSystem.VIEW_STAFF));
     }
-
+    @Override
+    public void job(Applicant applicant, String action) {
+        // TODO Auto-generated method stub
+        
+    }
 }

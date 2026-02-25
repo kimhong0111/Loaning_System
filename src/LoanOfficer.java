@@ -6,15 +6,14 @@ public class LoanOfficer implements IStaff {
     private String name;
     private String role;
     private LoaningSystem bank;
-    private static int indexID = 1;
-    private int staffId = indexID;
+    private int staffId;
 
     // ===== Constructor =====
     public LoanOfficer(String name, LoaningSystem bank, String role, int age) {
         setName(name);
         this.role = role;
         setBank(bank);
-        this.staffId = indexID++;
+        this.staffId = Staff.getNextIndexID();
     }
 
     // ===== Getters =====
