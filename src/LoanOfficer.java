@@ -3,17 +3,31 @@ package src;
 public class LoanOfficer implements IStaff {
     
     // ===== Fields =====
-    private String name;
+     private String name;
+    private String password;
     private String role;
     private LoaningSystem bank;
-    private int staffId;
+    private static int indexID = 1;
+    private int StaffId;
+    public boolean active;
 
     // ===== Constructor =====
-    public LoanOfficer(String name, LoaningSystem bank, String role, int age) {
+    public LoanOfficer(String name, LoaningSystem bank, String role, int age, String password) {
         setName(name);
         this.role = role;
         setBank(bank);
-        this.staffId = Staff.getNextIndexID();
+        this.StaffId =Staff.getNextIndexID();
+        this.active=true;
+        setPassword(password);
+
+    }
+
+
+    public void setPassword(String password) {
+        String pw = (password == null) ? "" : password;
+        // simple rule for teaching: >= 4 chars
+        if (pw.length() < 4) this.password = "0000";
+        else this.password = pw;
     }
 
     // ===== Getters =====
@@ -24,7 +38,7 @@ public class LoanOfficer implements IStaff {
         return role;
     }
     public int getStaffId() {
-        return staffId;
+        return StaffId;
     }
 
     public LoaningSystem getBank() {
@@ -69,5 +83,9 @@ public class LoanOfficer implements IStaff {
             System.out.println("    - Gender: " + applicant.getGender());
             System.out.println("    Status: Information collected. Sending to Credit Committee for validation.");
         }
+    }
+
+        public boolean isActive(){
+        return active;
     }
 }

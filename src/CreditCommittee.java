@@ -3,19 +3,31 @@ package src;
 public class CreditCommittee implements IStaff {
     
     // ===== Fields =====
-    private String name;
+     private String name;
+    private String password;
     private String role;
     private LoaningSystem bank;
-    private int staffId;
+    private int StaffId;
+    public boolean active;
 
     // ===== Constructor =====
-    public CreditCommittee(String name, LoaningSystem bank, String role, int age) {
+    public CreditCommittee(String name, LoaningSystem bank, String role, int age, String password) {
         setName(name);
         this.role = role;
         setBank(bank);
-        this.staffId = Staff.getNextIndexID();
+        this.StaffId =Staff.getNextIndexID();
+        this.active=true;
+        setPassword(password);
+
     }
 
+
+    public void setPassword(String password) {
+        String pw = (password == null) ? "" : password;
+        // simple rule for teaching: >= 4 chars
+        if (pw.length() < 4) this.password = "0000";
+        else this.password = pw;
+    }
     // ===== Getters =====
     public String getName() {
         return name;
@@ -24,7 +36,7 @@ public class CreditCommittee implements IStaff {
         return role;
     }
     public int getStaffId() {
-        return staffId;
+        return StaffId;
     }
 
     public LoaningSystem getBank() {
@@ -93,5 +105,24 @@ public class CreditCommittee implements IStaff {
         } else if (action.equals(LoaningSystem.VIEW_CONTRACT)) {
             System.out.println("[CreditCommittee " + getName() + "] Viewing contract details for " + applicant.getName());
         }
+    }
+        public boolean isActive(){
+        return active;
+    }
+
+        @Override
+    public String toString() {
+        return "Staff ID: " + StaffId + ",Name: " + name + ",Bank ID: " + bank.getBankId() + ",Bank Name: " + bank.getName() + ",Role: " + role + "id: " + StaffId;
+    }
+
+    public boolean equals(Staff staff2) {
+        if (staff2 == null) {
+            return false;
+        }
+
+        if (this.name.equals(staff2.name) && this.bank.getName().equals(staff2  .bank.getName())) {
+            return true;
+        }
+        return false;
     }
 }

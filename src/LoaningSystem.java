@@ -25,6 +25,8 @@ public class LoaningSystem {
     private int applicantCount;
     private int staffCount;
 
+    private IStaff loggedInStaff;
+
     // ===== Constructor =====
     public LoaningSystem(String bankName, double currentInterestsRate) {
         setBankName(bankName);
@@ -67,6 +69,50 @@ public class LoaningSystem {
             System.out.println("Invalid interest rate. Interest rate should be between 0 and 1.");
         }
     }
+
+    private boolean requireStaffLogin() {
+        if (loggedInStaff == null) {
+            return false;
+        }
+
+        if (!loggedInStaff.isActive()) {
+            loggedInStaff = null;
+            return false;
+        }
+
+        return true;
+    }
+
+    public void staffLogin(String username, String password) {
+
+        if (isBlank(username) || password == null) {
+            setLastMessage("Login failed: missing username/password.");
+            return;
+        }
+
+        for (int i = 0; i < staffLists.size(); i++) {
+            IStaff s = staffLists.get(i);
+
+            if (s.getName().equalsIgnoreCase(username.trim())) {
+
+                if (!s.isActive()) {
+                    System.out.println("Login failed: staff is inactive.");
+                    return;
+                }
+
+                if (!s.checkPassword(password)) {
+                    System.out.println("Login failed: wrong password.");
+                    return;
+                }
+
+                loggedInStaff = s;
+                setLastMessage("Login success. Welcome " + s.getName() + "!");
+                return;
+            }
+        }
+
+        setLastMessage("Login failed: username not found.");
+    }
     // ===== Business Logic Methods =====
     public void addContract(Contract contract) {
         if (contract == null) {
@@ -95,21 +141,21 @@ public class LoaningSystem {
         contractLists.add(approvedContract);
     }
 
-    public void createStaff(String name, LoaningSystem bank, String role, int age) {
+    public void createStaff(String name, LoaningSystem bank, String role, int age, String password) {
         if (role.equals("Manager")) {
             Manager newManager = new Manager(name, bank, role, age);
             staffLists.add(newManager);
             staffCount++;
         } else if (role.equals("Loan Officer")) {
-            LoanOfficer newLoanOfficer = new LoanOfficer(name, bank, role, age);
+            LoanOfficer newLoanOfficer = new LoanOfficer(name, bank, role, age, password);
             staffLists.add(newLoanOfficer);
             staffCount++;
         } else if (role.equals("Legal Officer")) {
-            LegalOfficer newLegalOfficer = new LegalOfficer(name, bank, role, age);
+            LegalOfficer newLegalOfficer = new LegalOfficer(name, bank, role, age, password);
             staffLists.add(newLegalOfficer);
             staffCount++;
         } else if (role.equals("Credit Committee")) {
-            CreditCommittee newCreditCommittee = new CreditCommittee(name, bank, role, age);
+            CreditCommittee newCreditCommittee = new CreditCommittee(name, bank, role, age, password);
             staffLists.add(newCreditCommittee);
             staffCount++;
         } else {

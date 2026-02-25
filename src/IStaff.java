@@ -8,4 +8,5 @@ public interface IStaff {
     public int password = 1234; // default 
     public boolean can(String action);
     public void job(Applicant applicant, String action);
+    public boolean isActive();
 }

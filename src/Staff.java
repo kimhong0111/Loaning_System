@@ -5,17 +5,19 @@ public class Staff {
 
     // ===== Fields =====
     private String name;
+    private String password;
     private String role;
-    private LoaningSystem bank;
     private static int indexID = 1;
-    private int StaffId = indexID;
+    private int StaffId;
+    public boolean active;
 
     // ===== Constructor =====
-    public Staff(String name, LoaningSystem bank, String role, int age) {
+    public Staff(String name, LoaningSystem bank, String role, int age, String password) {
         setName(name);
         this.role = role;
-        setBank(bank);
-        this.StaffId = indexID++;
+        this.StaffId =Staff.getNextIndexID();
+        this.active=true;
+
     }
 
     // ===== Getters =====
@@ -27,9 +29,6 @@ public class Staff {
         return StaffId;
     }
 
-    public LoaningSystem getBank() {
-        return bank;
-    }
     public static int getNextIndexID() {
         return indexID++;
     }
@@ -44,13 +43,7 @@ public class Staff {
         System.out.println("Invalid name format. Name should only contain letters");
     }
 
-    public void setBank(LoaningSystem bank) {
-        if (bank != null) {
-            this.bank = bank;
-        } else {
-            System.out.println("Invalid bank. Bank cannot be null.");
-        }
-    }
+
 
 
     // ==== Business Logic Methods =====
@@ -60,10 +53,7 @@ public class Staff {
             System.out.println("Cannot add: application is null");
             return;
         }
-        if (bank == null) {
-            System.out.println("Cannot add: bank is null");
-            return;
-        }
+       
         if (ValidateRequest(applicant, loanAmount)) {
             Contract approvedContract = new Contract(applicant, loanAmount, duration);
             // approvedContract.setApprovingOfficer(this);
@@ -87,7 +77,7 @@ public class Staff {
     // ===== Comparison and toString =====
     @Override
     public String toString() {
-        return "Staff ID: " + StaffId + ",Name: " + name + ",Bank ID: " + bank.getBankId() + ",Bank Name: " + bank.getName() + ",Role: " + role + "id: " + StaffId;
+        return "Staff ID: " + StaffId + ",Name: " + name +  ",Role: " + role + "id: " + StaffId;
     }
 
     public boolean equals(Staff staff2) {
@@ -95,7 +85,7 @@ public class Staff {
             return false;
         }
 
-        if (this.name.equals(staff2.name) && this.bank.getName().equals(staff2  .bank.getName())) {
+        if (this.name.equals(staff2.name) && this.StaffId==staff2.StaffId) {
             return true;
         }
         return false;

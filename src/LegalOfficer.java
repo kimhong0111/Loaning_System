@@ -3,19 +3,31 @@ package src;
 public class LegalOfficer implements IStaff {
     
     // ===== Fields =====
-    private String name;
+  private String name;
+    private String password;
     private String role;
     private LoaningSystem bank;
-    private int staffId;
+    private int StaffId;
+    public boolean active;
 
     // ===== Constructor =====
-    public LegalOfficer(String name, LoaningSystem bank, String role, int age) {
+    public LegalOfficer(String name, LoaningSystem bank, String role, int age, String password) {
         setName(name);
         this.role = role;
         setBank(bank);
-        this.staffId = Staff.getNextIndexID();
+        this.StaffId =Staff.getNextIndexID();
+        this.active=true;
+        setPassword(password);
+
     }
 
+
+    public void setPassword(String password) {
+        String pw = (password == null) ? "" : password;
+        // simple rule for teaching: >= 4 chars
+        if (pw.length() < 4) this.password = "0000";
+        else this.password = pw;
+    }
     // ===== Getters =====
     public String getName() {
         return name;
@@ -24,7 +36,7 @@ public class LegalOfficer implements IStaff {
         return role;
     }
     public int getStaffId() {
-        return staffId;
+        return StaffId;
     }
 
     public LoaningSystem getBank() {
@@ -91,5 +103,9 @@ public class LegalOfficer implements IStaff {
         bank.storeContract(contract);
         
         System.out.println("    Contract #" + contract.getContractId() + " is now officially registered in the system.");
+    }
+
+    public boolean isActive(){
+        return active;
     }
 }
