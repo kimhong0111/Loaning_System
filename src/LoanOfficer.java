@@ -6,16 +6,13 @@ public class LoanOfficer implements IStaff {
      private String name;
     private String password;
     private String role;
-    private LoaningSystem bank;
-    private static int indexID = 1;
     private int StaffId;
     public boolean active;
 
     // ===== Constructor =====
-    public LoanOfficer(String name, LoaningSystem bank, String role, int age, String password) {
+    public LoanOfficer(String name, String role, int age, String password) {
         setName(name);
         this.role = role;
-        setBank(bank);
         this.StaffId =Staff.getNextIndexID();
         this.active=true;
         setPassword(password);
@@ -50,10 +47,7 @@ public class LoanOfficer implements IStaff {
         return StaffId;
     }
 
-    public LoaningSystem getBank() {
-        return bank;
-    }
-
+  
     // ===== Setters with validation =====
     public void setName(String name) {
         String regex = "^[A-Z][a-z]{2,29}+ [A-Z][a-z]{2,29}$";
@@ -64,18 +58,12 @@ public class LoanOfficer implements IStaff {
         System.out.println("Invalid name format. Name should only contain letters");
     }
 
-    public void setBank(LoaningSystem bank) {
-        if (bank != null) {
-            this.bank = bank;
-        } else {
-            System.out.println("Invalid bank. Bank cannot be null.");
-        }
-    }
+    
     @Override
     public boolean can(String action) {
         return (action.equals(LoaningSystem.SUBMIT_APPLICATION));
     }
-
+/* 
     @Override
     public void job(Applicant applicant, String action) {
         if (!can(action)) {
@@ -93,8 +81,24 @@ public class LoanOfficer implements IStaff {
             System.out.println("    Status: Information collected. Sending to Credit Committee for validation.");
         }
     }
+        */
 
         public boolean isActive(){
         return active;
+    }
+     @Override
+    public String toString() {
+        return "Staff ID: " + StaffId + ",Name: " + name +  ",Role: " + role + "id: " + StaffId;
+    }
+
+    public boolean equals(IStaff staff2) {
+        if (staff2 == null) {
+            return false;
+        }
+
+        if (this.name.equals(staff2.getName()) && this.StaffId==staff2.getStaffId()) {
+            return true;
+        }
+        return false;
     }
 }

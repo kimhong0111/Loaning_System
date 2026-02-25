@@ -6,15 +6,13 @@ public class Manager implements IStaff {
     private String name;
     private String password;
     private String role;
-    private LoaningSystem bank;
     private int StaffId;
     public boolean active;
 
     // ===== Constructor =====
-    public Manager(String name, LoaningSystem bank, String role, int age, String password) {
+    public Manager(String name, String role, int age, String password) {
         setName(name);
         this.role = role;
-        setBank(bank);
         this.StaffId =Staff.getNextIndexID();
         this.active=true;
         setPassword(password);
@@ -39,9 +37,7 @@ public class Manager implements IStaff {
         return StaffId;
     }
 
-    public LoaningSystem getBank() {
-        return bank;
-    }
+   
 
     // ===== Setters with validation =====
     public void setName(String name) {
@@ -53,13 +49,7 @@ public class Manager implements IStaff {
         System.out.println("Invalid name format. Name should only contain letters");
     }
 
-    public void setBank(LoaningSystem bank) {
-        if (bank != null) {
-            this.bank = bank;
-        } else {
-            System.out.println("Invalid bank. Bank cannot be null.");
-        }
-    }
+   
     public boolean validateApplicant(Applicant applicant, double requestedAmount) {
         if (applicant == null) {
             System.out.println("Error: Applicant cannot be null");
@@ -81,7 +71,7 @@ public class Manager implements IStaff {
         return (action.equals(LoaningSystem.APPROVE_LOAN) || action.equals(LoaningSystem.REJECT_LOAN)
         || action.equals(LoaningSystem.VIEW_CONTRACT) || action.equals(LoaningSystem.VIEW_APPLICANT)    );
     }
-
+  /*
     @Override
     public void job(Applicant applicant, String action) {
         if (!can(action)) {
@@ -106,6 +96,7 @@ public class Manager implements IStaff {
             System.out.println("[CreditCommittee " + getName() + "] Viewing contract details for " + applicant.getName());
         }
     }
+        */
         
     
         public boolean isActive(){
@@ -122,7 +113,7 @@ public class Manager implements IStaff {
 
         @Override
     public String toString() {
-        return "Staff ID: " + StaffId + ",Name: " + name + ",Bank ID: " + bank.getBankId() + ",Bank Name: " + bank.getName() + ",Role: " + role + "id: " + StaffId;
+        return "Staff ID: " + StaffId + ",Name: " + name +  ",Role: " + role + "id: " + StaffId;
     }
 
     public boolean equals(IStaff staff2) {

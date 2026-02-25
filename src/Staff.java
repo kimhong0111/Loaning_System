@@ -7,7 +7,7 @@ public class Staff {
     private String name;
     private String password;
     private String role;
-    private static int indexID = 1;
+    private static int staffIndexID = 1;
     private int StaffId;
     public boolean active;
 
@@ -30,7 +30,7 @@ public class Staff {
     }
 
     public static int getNextIndexID() {
-        return indexID++;
+        return staffIndexID++;
     }
 
     // ===== Setters with validation =====
@@ -44,7 +44,7 @@ public class Staff {
     }
 
 
-
+   /*
 
     // ==== Business Logic Methods =====
     public void addApplication(Applicant applicant, double loanAmount, int duration) {
@@ -73,6 +73,7 @@ public class Staff {
         }
         return false;
     }
+    */
 
     // ===== Comparison and toString =====
     @Override

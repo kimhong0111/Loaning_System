@@ -11,10 +11,9 @@ public class CreditCommittee implements IStaff {
     public boolean active;
 
     // ===== Constructor =====
-    public CreditCommittee(String name, LoaningSystem bank, String role, int age, String password) {
+    public CreditCommittee(String name , String role, int age, String password) {
         setName(name);
         this.role = role;
-        setBank(bank);
         this.StaffId =Staff.getNextIndexID();
         this.active=true;
         setPassword(password);
@@ -81,7 +80,7 @@ public class CreditCommittee implements IStaff {
         return (action.equals(LoaningSystem.APPROVE_LOAN) || action.equals(LoaningSystem.REJECT_LOAN)
         || action.equals(LoaningSystem.VIEW_CONTRACT) || action.equals(LoaningSystem.VIEW_APPLICANT)    );
     }
-
+/*
     @Override
     public void job(Applicant applicant, String action) {
         if (!can(action)) {
@@ -106,6 +105,7 @@ public class CreditCommittee implements IStaff {
             System.out.println("[CreditCommittee " + getName() + "] Viewing contract details for " + applicant.getName());
         }
     }
+        */
         
     
         public boolean isActive(){

@@ -89,6 +89,11 @@ public class LoaningSystem {
         }
 
 
+        if(!loggedInStaff.can(action)){
+            return false;
+        }
+
+
         return true;
     }
 
@@ -156,21 +161,31 @@ public class LoaningSystem {
         contractLists.add(approvedContract);
     }
 
-    public void createStaff(String name, LoaningSystem bank, String role, int age, String password) {
+    public void createStaff(String name, String role, int age, String password) {
+
+          
+        if (!requireStaffLogin() || !requirePermission(ADD_STAFF)) return;
+
+        if(isBlank(name) || isBlank(password)){
+            System.out.println("Cannot create staff: name or password is empty");
+        }
+
+
+
         if (role.equals("Manager")) {
-            Manager newManager = new Manager(name, bank, role, age);
+            Manager newManager = new Manager(name,role,age,password);
             staffLists.add(newManager);
             staffCount++;
         } else if (role.equals("Loan Officer")) {
-            LoanOfficer newLoanOfficer = new LoanOfficer(name, bank, role, age, password);
+            LoanOfficer newLoanOfficer = new LoanOfficer(name,role, age, password);
             staffLists.add(newLoanOfficer);
             staffCount++;
         } else if (role.equals("Legal Officer")) {
-            LegalOfficer newLegalOfficer = new LegalOfficer(name, bank, role, age, password);
+            LegalOfficer newLegalOfficer = new LegalOfficer(name,role, age, password);
             staffLists.add(newLegalOfficer);
             staffCount++;
         } else if (role.equals("Credit Committee")) {
-            CreditCommittee newCreditCommittee = new CreditCommittee(name, bank, role, age, password);
+            CreditCommittee newCreditCommittee = new CreditCommittee(name,role, age, password);
             staffLists.add(newCreditCommittee);
             staffCount++;
         } else {
