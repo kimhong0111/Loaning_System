@@ -38,6 +38,16 @@ public class LoaningSystem {
         contractCount = 0;
         applicantCount = 0;
         staffCount = 0;
+        loggedInStaff=null;
+
+        seedDefaultAdmin();
+
+    }
+
+    private void seedDefaultAdmin() {
+       
+        Manager admin = new Manager("Admin","Manager",20,"1234");
+        staffLists.add(admin);
     }
 
     // ===== Getters =====
@@ -51,6 +61,10 @@ public class LoaningSystem {
     public static double getCurrentInterestsRate() {
         return currentInterestsRate;
     }   
+
+    public String getLoggedInStaff(){
+     return loggedInStaff.getName() +"  " + loggedInStaff.getRole();
+    }
 
     // ===== Setters with validation =====
     public void setBankName(String bankName) {
@@ -119,7 +133,7 @@ public class LoaningSystem {
                     return;
                 }
 
-                loggedInStaff = s;
+            loggedInStaff = s;
             System.out.println("Login success. Welcome " + s.getName() + "!");
                 return;
             }
@@ -127,6 +141,12 @@ public class LoaningSystem {
 
     System.out.println("Login failed: username not found.");
     }
+
+    public void staffLogOut(){
+     loggedInStaff=null;
+     System.out.println("Logged out Successfully");
+    }
+    
 
 
     public boolean isBlank(String username){
@@ -161,7 +181,12 @@ public class LoaningSystem {
         contractLists.add(approvedContract);
     }
 
-    public void createStaff(String name, String role, int age, String password) {
+    public boolean isStaffLogin(){
+        return loggedInStaff!=null;
+
+    }
+
+    public void addStaff(String name, String role, int age, String password) {
 
           
         if (!requireStaffLogin() || !requirePermission(ADD_STAFF)) return;

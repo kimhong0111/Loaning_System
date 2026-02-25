@@ -52,7 +52,7 @@ public class Contract {
 
     // ===== Setters with validation =====
     public void setApprovingOfficer(IStaff officer) {
-        if (officer == null || officer.getBank().searchStaffById(officer.getStaffId()) == null) {
+        if (officer == null) {
             System.out.println("Error: Approving officer cannot be null or must belong to a bank");
             return;
         }
@@ -60,7 +60,7 @@ public class Contract {
     }
 
     public void setDraftingOfficer(IStaff officer) {
-        if (officer == null || officer.getBank().searchStaffById(officer.getStaffId()) == null) {
+        if (officer == null) {
             System.out.println("Error: Drafting officer cannot be null or must belong to a bank");
             return;
         }
