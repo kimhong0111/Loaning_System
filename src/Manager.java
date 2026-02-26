@@ -68,8 +68,7 @@ public class Manager implements IStaff {
     }
     @Override
     public boolean can(String action) {
-        return (action.equals(LoaningSystem.APPROVE_LOAN) || action.equals(LoaningSystem.REJECT_LOAN)
-        || action.equals(LoaningSystem.VIEW_CONTRACT) || action.equals(LoaningSystem.VIEW_APPLICANT)    );
+        return (action.equals(LoaningSystem.ADD_STAFF)|| action.equals(LoaningSystem.REMOVE_STAFF)|| action.equals(LoaningSystem.VIEW_STAFF)); 
     }
   /*
     @Override
@@ -99,19 +98,17 @@ public class Manager implements IStaff {
         */
         
     
-        public boolean isActive(){
+    public boolean isActive(){
         return active;
-      }
-
-        public boolean checkPassword(String password){
-            if(this.password.equals(password)){
-                return true;
-            }
-
-            return false;
+    }
+    public boolean checkPassword(String password){
+        if(this.password.equals(password)){
+            return true;
         }
+        return false;
+    }
 
-        @Override
+    @Override
     public String toString() {
         return "Staff ID: " + StaffId + ",Name: " + name +  ",Role: " + role + "id: " + StaffId;
     }
@@ -124,6 +121,6 @@ public class Manager implements IStaff {
         if (this.name.equals(staff2.getName()) && this.StaffId==staff2.getStaffId()) {
             return true;
         }
-        return false;
+            return false;
     }
 }

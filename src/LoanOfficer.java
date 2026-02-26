@@ -61,7 +61,7 @@ public class LoanOfficer implements IStaff {
     
     @Override
     public boolean can(String action) {
-        return (action.equals(LoaningSystem.SUBMIT_APPLICATION));
+        return (action.equals(LoaningSystem.SUBMIT_APPLICATION)|| action.equals(LoaningSystem.VIEW_APPLICATION)|| action.equals(LoaningSystem.VIEW_APPLICANT));
     }
 /* 
     @Override
