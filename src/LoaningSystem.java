@@ -11,7 +11,6 @@ public class LoaningSystem {
     public static final String VIEW_APPLICANT = "view_applicant";
     public static final String VIEW_STAFF = "view_staff";
     public static final String SUBMIT_APPLICATION = "submit_application";
-    public static final String DRAFT_CONTRACT = "draft_contract";
 
     // ===== Fields =====
     private String bankName;
@@ -45,8 +44,8 @@ public class LoaningSystem {
     }
 
     private void seedDefaultAdmin() {
-       
-        Manager admin = new Manager("Admin","Manager",20,"1234");
+       Staff s1 = new Staff("Admin", 30, "1234");
+        Manager admin = new Manager(s1, 2000);
         staffLists.add(admin);
     }
 
@@ -63,7 +62,7 @@ public class LoaningSystem {
     }   
 
     public String getLoggedInStaff(){
-     return loggedInStaff.getName() +"  " + loggedInStaff.getRole();
+     return loggedInStaff.getName();
     }
 
     // ===== Setters with validation =====
@@ -185,7 +184,7 @@ public class LoaningSystem {
         return loggedInStaff!=null;
 
     }
-
+/*
     public void addStaff(String name, String role, int age, String password) {
 
           
@@ -196,7 +195,7 @@ public class LoaningSystem {
         }
 
 
-
+     
         if (role.equals("Manager")) {
             Manager newManager = new Manager(name,role,age,password);
             staffLists.add(newManager);
@@ -217,6 +216,7 @@ public class LoaningSystem {
             System.out.println("Invalid role: " + role + ". Staff not created.");
         }
     }
+        */
 
     public void addApplicant(Applicant applicant) {
         if (applicant == null) {

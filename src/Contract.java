@@ -103,7 +103,7 @@ public class Contract {
     @Override
     public String toString() {
         return "Contract ID: " + contractId + ", Applicant: " + applicant.getName() +
-                ", Approved By: " + (approvingOfficer != null ? approvingOfficer.getRole() + " ,Id: " + approvingOfficer.getStaffId() : "Pending") +
+                ", Approved By: " + (approvingOfficer != null ?  " ,Id: " + approvingOfficer.getStaffId() : "Pending") +
                 ", Amount: $" + String.format("%.2f", amount) +
                 ", Duration: " + duration + " years, Interest Rate: " + (interestRate * 100) + "%";
     }

@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        /* 
         Scanner sc = new Scanner(System.in);
         LoaningSystem ABA= new LoaningSystem("ABA", 0.18);
         int choice=-1;
@@ -53,5 +54,12 @@ public class Main {
         System.out.println("8) List Orders");
         System.out.println("9) Logout");
         System.out.println("0) Exit");
+    }
+        */
+
+    Staff s1 = new Staff("John", 30, "password123");
+    Staff s2 = new Staff("Alice", 28, "pass456");
+    LoanOfficer lo1 = new LoanOfficer(s1, 1000);
+    CreditCommitee cc1 = new CreditCommitee(s2, 2000);
     }
 }

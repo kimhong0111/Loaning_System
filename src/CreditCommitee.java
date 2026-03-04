@@ -1,13 +1,15 @@
 package src;
 
-public class LoanOfficer extends Staff {
+import javax.security.auth.login.CredentialException;
+
+public class CreditCommitee extends Staff {
+    // Childs should have the same fields as other child  class and more
      private float salary;
     // ===== Constructor =====
-    public LoanOfficer(Staff s , float salary) {
+    public CreditCommitee(Staff s , float salary) {
         super(s.getName(), s.getAge(), s.getPassword());
         this.setSalary(salary);
-        System.out.println("Loan Officerr Constructor run Successfully");
-
+        System.out.println("Credit Commitee Constructor run Successfully");
         
     }
 
@@ -27,10 +29,10 @@ public class LoanOfficer extends Staff {
     
     @Override
     public boolean can(String action) {
-        return (action.equals(LoaningSystem.SUBMIT_APPLICATION)|| action.equals(LoaningSystem.VIEW_APPLICANT));
+        return (action.equals(LoaningSystem.APPROVE_LOAN)|| action.equals(LoaningSystem.VIEW_APPLICANT)|| action.equals(LoaningSystem.REJECT_LOAN) || action.equals(LoaningSystem.VIEW_APPLICANT));
     }
 
-    @Override
+        @Override
     public String toString(){
         return super.toString() + "salary : " + this.salary;
     }

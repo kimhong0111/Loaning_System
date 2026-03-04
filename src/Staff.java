@@ -1,36 +1,59 @@
 package src;
 
 
-public class Staff {
+public class Staff implements IStaff {
 
     // ===== Fields =====
     private String name;
+    private int age;
     private String password;
-    private String role;
     private static int staffIndexID = 1;
-    private int StaffId;
+    private int staffId;
     public boolean active;
 
     // ===== Constructor =====
-    public Staff(String name, LoaningSystem bank, String role, int age, String password) {
-        setName(name);
-        this.role = role;
-        this.StaffId =Staff.getNextIndexID();
+    public Staff(String name, int age, String password) {
+        this.name = name;
+        setAge(age);
+        this.staffId =Staff.getNextIndexID();
         this.active=true;
+        System.out.println("Staff Constructor run Successfully");
+
 
     }
 
     // ===== Getters =====
-    public String getRole() {
-        return role;
-    }
-
-    public int getId() {
-        return StaffId;
-    }
 
     public static int getNextIndexID() {
         return staffIndexID++;
+    }
+    public String getName(){
+        return name;
+    }
+
+    public int getStaffId(){
+        return staffId;
+    }
+    public int getAge(){
+        return age;
+    }
+
+    public String getPassword(){
+         return password;
+    }
+
+    public boolean isActive(){
+        return  active;
+    }
+
+    // check password
+    public boolean checkPassword(String password){
+        if(this.password.equals(password)){
+            return true;
+        }
+
+        return false;
+
     }
 
     // ===== Setters with validation =====
@@ -41,6 +64,15 @@ public class Staff {
             return;
         }
         System.out.println("Invalid name format. Name should only contain letters");
+    }
+
+
+    public void setAge(int age){
+         if(age < 0 || age > 99){
+            System.out.println("Invaild Age : write a correct age");
+         }else {
+            this.age=age;
+         }
     }
 
 
@@ -78,7 +110,7 @@ public class Staff {
     // ===== Comparison and toString =====
     @Override
     public String toString() {
-        return "Staff ID: " + StaffId + ",Name: " + name +  ",Role: " + role + "id: " + StaffId;
+        return "Staff ID: " + staffId + ",Name: " + name  + "id: " + staffId; 
     }
 
     public boolean equals(Staff staff2) {
@@ -86,10 +118,15 @@ public class Staff {
             return false;
         }
 
-        if (this.name.equals(staff2.name) && this.StaffId==staff2.StaffId) {
+        if (this.name.equals(staff2.name) && this.staffId==staff2.staffId) {
             return true;
         }
         return false;
     }
+
+    public boolean can(String action){
+        return false;
+    }
+
 
 }
