@@ -1,4 +1,4 @@
-java package src;
+package src;
 import java.util.ArrayList;
 
 public class Contract {
@@ -13,13 +13,12 @@ public class Contract {
     private double interestRate;            
 
     // Staff involvement
-    private IStaff approvingOfficer;  // set AFTER creation
-    private IStaff draftingOfficer;   // set AFTER creation
-    private ArrayList<IStaff> coSigners;
+    private Staff approvingOfficer;  // set AFTER creation
+    private Staff draftingOfficer;   // set AFTER creation
+    private ArrayList<Staff> coSigners;
 
     // Status
     private String status;  // "PENDING", "APPROVED", "REJECTED", "ACTIVE", "CLOSED"
-    private String createdDate;
     private static final int MAX_COSIGNERS = 3;
 
 
@@ -81,14 +80,14 @@ public class Contract {
 
 // will review later
   // Called by LoaningSystem after officer reviews
-public void setApprovingOfficer(IStaff officer) {
+public void setApprovingOfficer(Staff officer) {
     if (officer == null) return;
     this.approvingOfficer = officer;
 }
 
 // will review later
 // Called by LoaningSystem after legal drafts it
-public void setDraftingOfficer(IStaff officer) {
+public void setDraftingOfficer(Staff officer) {
     if (officer == null) return;
     this.draftingOfficer = officer;
 }
@@ -101,7 +100,7 @@ public void setStatus(String status) {
     this.status = status;
 }
 
-public boolean addCoSigner(IStaff signer) {
+public boolean addCoSigner(Staff signer) {
     if (signer == null) return false;
     if (coSigners.size() >= MAX_COSIGNERS) {
         System.out.println("Max co-signers reached.");
@@ -111,7 +110,11 @@ public boolean addCoSigner(IStaff signer) {
     return true;
 }
 
-public ArrayList<IStaff> getCoSigners() {
+public boolean isApproved() {
+    return status.equals("APPROVED");
+}
+
+public ArrayList<Staff> getCoSigners() {
     return coSigners;
 }
 
@@ -136,7 +139,7 @@ public String toString() {
            " | Duration: " + duration + " yrs" +
            " | Rate: " + (interestRate * 100) + "%" +
            " | Status: " + status +
-           " | Approved By: " + (approvingOfficer != null ? approvingOfficer.getRole() : "Pending");
+           " | Approved By: " + (approvingOfficer != null ? approvingOfficer.getPosition() : "Pending");
 }
 
 }

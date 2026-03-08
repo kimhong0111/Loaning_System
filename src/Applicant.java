@@ -76,6 +76,7 @@ public class Applicant {
         }
     }
 
+
     // ===== Comparison and toString =====
     @Override
     public String toString() {

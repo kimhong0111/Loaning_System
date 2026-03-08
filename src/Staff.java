@@ -3,27 +3,28 @@ package src;
 
 public class Staff implements IStaff {
 
-    // ===== Fields =====
     private String name;
     private int age;
     private String password;
     private  int staffIndexID = 1;
     private int staffId;
     private boolean active;
+    private double salary;
+    private String position;
 
-    // ===== Constructor =====
-    public Staff(String name, int age, String password) {
+    public Staff(String name, int age) {
         setName(name);
+        this.password="12345678";
         setAge(age);
-        setPassword(password);
         this.staffId = getNextIndexID();
         this.active=true;
+        this.salary=0;
+        this.position="Staff";
         System.out.println("Staff Constructor run Successfully");
 
 
     }
 
-    // ===== Getters =====
 
     public  int getNextIndexID() {
         return staffIndexID++;
@@ -39,11 +40,18 @@ public class Staff implements IStaff {
         return age;
     }
 
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
     public boolean isActive(){
         return  active;
     }
 
-    // check password
     public boolean checkPassword(String password){
        if(password==null){
         return false;
@@ -82,7 +90,26 @@ public class Staff implements IStaff {
     this.password = password;
 }
 
+public void setSalary(double salary){
+    if(salary <= 0){
+        System.out.println("Error: Salary cannot be negative.");
+        return;
+    }
+    this.salary = salary;
+}
 
+public void setPosition(String position){
+    if(position == null || position.isBlank()){
+        System.out.println("Error: Position cannot be empty.");
+        return;
+    }
+    this.position = position;
+}
+
+
+public void setActive(boolean c){
+    this.active=c;
+}
    
 
     @Override
