@@ -1,8 +1,9 @@
+package src;
 public interface IStaff {
     String getName();
-    String getStaffId();
+    int getStaffId();
     boolean isActive();
-    boolean can();
+    boolean can(String action);
     boolean checkPassword(String input);
 
 }
