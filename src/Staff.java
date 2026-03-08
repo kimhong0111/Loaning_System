@@ -87,11 +87,11 @@ public class Staff implements IStaff {
 
     @Override
     public String toString() {
-        return "Staff ID: " + staffId + ",Name: " + name  + "id: " + staffId; 
+        return "Staff ID: " + staffId + ",Name: " + name;
     }
 
     @Override
-    public boolean equals(Obj obj) {
+    public boolean equals(Object obj) {
         Staff s1 = (Staff) obj;
         if(s1.name.equals(this.name) && s1.staffId==this.staffId){
             return true;
