@@ -8,7 +8,10 @@ public class Main {
     static LoaningSystem system = new LoaningSystem("KH Bank", 0.05);
 
     public static void main(String[] args) {
-       
+
+        System.out.println(system.checkTypeArrayList());
+
+  /*           
         System.out.println("==========================================");
         System.out.println("       WELCOME TO KH BANK LOANING SYSTEM ");
         System.out.println("==========================================");
@@ -40,6 +43,7 @@ public class Main {
             }
         }
         scanner.close();
+        */
     }
 
     // ===== Main Menu =====

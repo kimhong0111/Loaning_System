@@ -1,7 +1,7 @@
 package src;
 
 
-public class Staff implements IStaff {
+public abstract class Staff implements IStaff {
 
     private String name;
     private int age;
@@ -12,11 +12,11 @@ public class Staff implements IStaff {
     private double salary;
     private String position;
 
-    public Staff(String name, int age) {
+    public Staff(String name, int age , String password) {
         setName(name);
-        this.password="12345678";
+        setPassword(password);
         setAge(age);
-        this.staffId = getNextIndexID();
+        this.staffId = staffIndexID++;
         this.active=true;
         this.salary=0;
         this.position="Staff";
@@ -26,9 +26,7 @@ public class Staff implements IStaff {
     }
 
 
-    public  int getNextIndexID() {
-        return staffIndexID++;
-    }
+    
     public String getName(){
         return name;
     }
@@ -128,9 +126,7 @@ public void setActive(boolean c){
 
     }
 
-    public boolean can(String action){
-        return false;
-    }
+    public abstract boolean can(String action);
 
 
 }

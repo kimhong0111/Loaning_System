@@ -10,6 +10,8 @@ public class LoaningSystem {
     public static final String APPROVE_LOAN     = "APPROVE_LOAN";
     public static final String REJECT_LOAN      = "REJECT_LOAN";
     public static final String ADD_COSIGNER     = "ADD_COSIGNER";
+    public static final String SET_NEW_APVL     = "SET_NEW_APVL";    
+    public static final String SET_NEW_REQV     = "SET_NEW_REQV";
 
     private String bankName;
     private static int indexBankId = 1;
@@ -44,6 +46,16 @@ public class LoaningSystem {
     public String getLastMessage()               { return lastMessage; }
     public boolean isStaffLoggedIn()             { return loggedInStaff != null; }
     public IStaff getLoggedInStaff()             { return loggedInStaff; }
+    public boolean checkTypeArrayList(){ 
+      for( Staff s : staffs){
+        if(s instanceof Manager){
+            return true;
+        }
+      }
+        return false;
+
+    }
+
 
     public void setBankName(String bankName) {
         if (isBlank(bankName)) {
@@ -58,7 +70,7 @@ public class LoaningSystem {
             System.out.println("Error: Interest rate must be between 0 and 1 (e.g. 0.05 for 5%).");
             return;
         }
-        this.currentInterestRate = rate;
+        LoaningSystem.currentInterestRate = rate;
     }
 
     private void setLastMessage(String msg) {
@@ -68,8 +80,7 @@ public class LoaningSystem {
 
     // ===== Seed Default Admin =====
     private void seedDefaultAdmin() {
-        Staff base = new Staff("Admin",18);
-        Manager admin = new Manager(base,"1234", 5000);
+      Manager admin = new Manager("Admin",18,"1234", 5000);
         staffs.add(admin);
         setLastMessage("System ready. Default admin seeded: Admin / 1234");
     }
@@ -124,15 +135,14 @@ public class LoaningSystem {
             }
         }
 
-        Staff base = new Staff(name, age);
 
         Staff newStaff;
         if (position.equals("Manager")) {
-            newStaff = new Manager(base,password, salary);
+            newStaff = new Manager(name ,age,password, salary);
         } else if (position.equals("LoanOfficer")) {
-            newStaff = new LoanOfficer(base,password, salary, 50000); 
+            newStaff = new LoanOfficer(name ,age ,password, salary, 50000); 
         } else if (position.equals("CreditCommittee")) {
-            newStaff = new CreditCommittee(base,password, salary, 3);
+            newStaff = new CreditCommittee(name ,age,password, salary, 3);
         } else {
             setLastMessage("Error: Unknown position '" + position + "'. Use Manager, LoanOfficer, or CreditCommittee.");
             return;
@@ -204,7 +214,7 @@ public class LoaningSystem {
             setLastMessage("Error: Contract cannot be approved at status: " + contract.getStatus());
             return;
         }
-
+       // what to use beside instanceof  
         if (loggedInStaff instanceof LoanOfficer) {
             LoanOfficer officer = (LoanOfficer) loggedInStaff;
             if (!officer.canApprove(contract.getPrincipalAmount())) {
@@ -295,6 +305,29 @@ public class LoaningSystem {
         staff.setActive(false);
         setLastMessage("Staff deactivated: " + staff.getName());
     }
+
+
+    public void setNewApprovalLimit(int loanOfficerId , double newAmount){
+        if(!requireStaffLogin()) return;
+        if(!requirePermission(LoaningSystem.SET_NEW_APVL)) return;
+
+        Staff staff=findStaffById(loanOfficerId);
+        if(staff==null){
+            setLastMessage("Error : No staff found");
+        }
+
+        if(!(staff instanceof LoanOfficer)){
+            setLastMessage("Error : staff is not a Loan Officerr");
+            return;
+        }
+
+        LoanOfficer officer = (LoanOfficer) staff;
+        officer.setMaxApprovalLimit(newAmount);
+        setLastMessage("Sucessfully set new approval limit for "+ officer.getName());
+         
+    }
+
+
 
     public void printStaffs() {
         System.out.println("\n--- Staffs (" + staffs.size() + ") ---");

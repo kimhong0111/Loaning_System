@@ -4,10 +4,9 @@ package src;
 public class LoanOfficer extends Staff {
    private double maxApprovalLimit;
 
-  public LoanOfficer(Staff s ,String newPassword, double salary, double maxApprovalLimit){
-     super(s.getName(), s.getAge());
+  public LoanOfficer(String name , int age ,String password, double salary, double maxApprovalLimit){
+     super(name , age , password);
      setSalary(salary);
-     setPassword(newPassword);
      setPosition("Credit Commitee");
      setMaxApprovalLimit(maxApprovalLimit);
   }

@@ -5,11 +5,10 @@ public class CreditCommittee extends Staff {
     private int requiredVotes;
     private int currentVotes;
 
-    public CreditCommittee(Staff s, String password,
+    public CreditCommittee(String name , int age ,String password,
                            double salary, int requiredVotes) {
-        super(s.getName(),s.getAge());
+        super(name, age, password);
         setSalary(salary);
-        setPassword(password);
         setPosition("Credit Committee");
         setRequiredVotes(requiredVotes);
         this.currentVotes = 0;
