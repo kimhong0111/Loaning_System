@@ -1,5 +1,7 @@
-package src;
+package src.model;
 import java.util.ArrayList;
+
+import src.controller.LoaningSystem;
 
 public class Contract {
 

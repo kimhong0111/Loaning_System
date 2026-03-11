@@ -1,12 +1,32 @@
-package src;
+package src.model;
+
+import src.controller.LoaningSystem;
 
 public class Manager extends Staff {
+     private int accessLevel;
 
-    public Manager(String name , int age , String password , double salary) {
+    public Manager(String name , int age , String password , double salary, int accessLevel) {
         super(name , age , password);
         setSalary(salary);
-        setPosition("Manager");
+        setAccessLevel(accessLevel);
+        setPosition(LoaningSystem.MANAGER);
     }
+
+    public int getAccessLevel(){
+        return accessLevel;
+    }
+
+    protected void setAccessLevel(int accessLevel){
+        if(accessLevel < 1 || accessLevel > 3){
+            System.out.println("Error : access level is not in range ");
+            return;
+        }
+        this.accessLevel=accessLevel;
+
+    }
+
+
+
 
     @Override
     public boolean can(String action) {

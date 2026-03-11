@@ -1,5 +1,6 @@
-package src;
+package src.model;
 
+import src.controller.LoaningSystem;
 
 public class CreditCommittee extends Staff {
     private int requiredVotes;
@@ -9,7 +10,7 @@ public class CreditCommittee extends Staff {
                            double salary, int requiredVotes) {
         super(name, age, password);
         setSalary(salary);
-        setPosition("Credit Committee");
+        setPosition(LoaningSystem.CREDIT_COMMITTEE);
         setRequiredVotes(requiredVotes);
         this.currentVotes = 0;
     }

@@ -1,6 +1,14 @@
-package src;
+package src.controller;
 
 import java.util.ArrayList;
+
+import src.interfaces.IStaff;
+import src.model.Applicant;
+import src.model.Contract;
+import src.model.CreditCommittee;
+import src.model.LoanOfficer;
+import src.model.Manager;
+import src.model.Staff;
 
 public class LoaningSystem {
 
@@ -12,6 +20,11 @@ public class LoaningSystem {
     public static final String ADD_COSIGNER     = "ADD_COSIGNER";
     public static final String SET_NEW_APVL     = "SET_NEW_APVL";    
     public static final String SET_NEW_REQV     = "SET_NEW_REQV";
+
+    public static final String MANAGER          = "MANAGER";
+    public static final String LOAN_OFFICER     = "LOAN_OFFICER";
+    public static final String CREDIT_COMMITTEE  = "CREDIT_COMMITTEE";
+
 
     private String bankName;
     private static int indexBankId = 1;
@@ -39,6 +52,50 @@ public class LoaningSystem {
 
         seedDefaultAdmin();
     }
+
+    public void addStaffForTest(String name, int age, String password, double salary, String position){
+
+        if (isBlank(name) || isBlank(password)) {
+            setLastMessage("Error: Name or password cannot be empty.");
+            return;
+        }
+
+        for (int i = 0; i < staffs.size(); i++) {
+            if (staffs.get(i).getName().equalsIgnoreCase(name.trim())) {
+                setLastMessage("Error: Staff with this name already exists.");
+                return;
+            }
+        }
+
+
+        Staff newStaff;
+        if (position.equals(LoaningSystem.MANAGER)) {
+            newStaff = new Manager(name ,age,password, salary,1);
+        } else if (position.equals(LoaningSystem.LOAN_OFFICER)) {
+            newStaff = new LoanOfficer(name ,age ,password, salary, 50000); 
+        } else if (position.equals(LoaningSystem.CREDIT_COMMITTEE)) {
+            newStaff = new CreditCommittee(name ,age,password, salary, 3);
+        } else {
+            setLastMessage("Error: Unknown position '" + position + "'. Use Manager, LoanOfficer, or CreditCommittee.");
+            return;
+        }
+
+        staffs.add(newStaff);
+        setLastMessage("Staff created successfully: " + newStaff.getName() + " | Role: " + position);
+    
+    }
+
+    public void findTypeOfStaff(){
+        System.out.println("---- Testing type of Staff ----");
+        for( Staff staff : staffs){
+
+        System.out.println("Perform action   CREATE_CONTRACT " + staff.getPosition()  +" Staff id : "+ staff.getStaffId() + " " + " Output " + staff.can(LoaningSystem.CREATE_CONTRACT));
+    }
+    }
+   
+
+
+
 
     public String getBankName()                  { return bankName; }
     public int getBankId()                       { return bankId; }
@@ -80,7 +137,7 @@ public class LoaningSystem {
 
     // ===== Seed Default Admin =====
     private void seedDefaultAdmin() {
-      Manager admin = new Manager("Admin",18,"1234", 5000);
+      Manager admin = new Manager("Admin",18,"1234", 5000,2);
         staffs.add(admin);
         setLastMessage("System ready. Default admin seeded: Admin / 1234");
     }
@@ -128,20 +185,12 @@ public class LoaningSystem {
             return;
         }
 
-        for (int i = 0; i < staffs.size(); i++) {
-            if (staffs.get(i).getName().equalsIgnoreCase(name.trim())) {
-                setLastMessage("Error: Staff with this name already exists.");
-                return;
-            }
-        }
-
-
         Staff newStaff;
-        if (position.equals("Manager")) {
-            newStaff = new Manager(name ,age,password, salary);
-        } else if (position.equals("LoanOfficer")) {
+        if (position.equals(LoaningSystem.MANAGER)) {
+            newStaff = new Manager(name ,age,password, salary,1);
+        } else if (position.equals(LoaningSystem.LOAN_OFFICER)) {
             newStaff = new LoanOfficer(name ,age ,password, salary, 50000); 
-        } else if (position.equals("CreditCommittee")) {
+        } else if (position.equals(LoaningSystem.CREDIT_COMMITTEE)) {
             newStaff = new CreditCommittee(name ,age,password, salary, 3);
         } else {
             setLastMessage("Error: Unknown position '" + position + "'. Use Manager, LoanOfficer, or CreditCommittee.");
@@ -214,7 +263,6 @@ public class LoaningSystem {
             setLastMessage("Error: Contract cannot be approved at status: " + contract.getStatus());
             return;
         }
-       // what to use beside instanceof  
         if (loggedInStaff instanceof LoanOfficer) {
             LoanOfficer officer = (LoanOfficer) loggedInStaff;
             if (!officer.canApprove(contract.getPrincipalAmount())) {

@@ -1,5 +1,6 @@
-package src;
+package src.model;
 
+import src.controller.LoaningSystem;
 
 public class LoanOfficer extends Staff {
    private double maxApprovalLimit;
@@ -7,7 +8,7 @@ public class LoanOfficer extends Staff {
   public LoanOfficer(String name , int age ,String password, double salary, double maxApprovalLimit){
      super(name , age , password);
      setSalary(salary);
-     setPosition("Credit Commitee");
+     setPosition(LoaningSystem.LOAN_OFFICER);
      setMaxApprovalLimit(maxApprovalLimit);
   }
 public double getMaxApprovalLimit() {

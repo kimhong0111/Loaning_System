@@ -1,4 +1,4 @@
-package src;
+package src.interfaces;
 public interface IStaff {
     String getName();
     int getStaffId();

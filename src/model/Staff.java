@@ -1,12 +1,13 @@
-package src;
+package src.model;
 
+import src.interfaces.IStaff;
 
 public abstract class Staff implements IStaff {
 
     private String name;
     private int age;
     private String password;
-    private  int staffIndexID = 1;
+    private  static  int staffIndexID = 1;
     private int staffId;
     private boolean active;
     private double salary;
@@ -16,7 +17,7 @@ public abstract class Staff implements IStaff {
         setName(name);
         setPassword(password);
         setAge(age);
-        this.staffId = staffIndexID++;
+        setNextStaffId();
         this.active=true;
         this.salary=0;
         this.position="Staff";
@@ -58,6 +59,11 @@ public abstract class Staff implements IStaff {
     }
 
     // ===== Setters with validation =====
+
+
+    public void setNextStaffId(){
+        this.staffId=staffIndexID++;
+    }
     public void setName(String name) {
         String regex = "^[A-Z][a-z]{2,29}";
         if (name.matches(regex)) {

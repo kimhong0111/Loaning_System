@@ -1,4 +1,4 @@
-package src;
+package src.controller;
 
 import java.util.Scanner;
 
@@ -8,10 +8,12 @@ public class Main {
     static LoaningSystem system = new LoaningSystem("KH Bank", 0.05);
 
     public static void main(String[] args) {
+       system.addStaffForTest("Alice", 30, "pass123", 60000, LoaningSystem.MANAGER);  
+        system.addStaffForTest("Charlie", 35, "pass789", 70000, LoaningSystem.CREDIT_COMMITTEE);
+        system.findTypeOfStaff();
 
-        System.out.println(system.checkTypeArrayList());
-
-  /*           
+/*
+  
         System.out.println("==========================================");
         System.out.println("       WELCOME TO KH BANK LOANING SYSTEM ");
         System.out.println("==========================================");
@@ -43,6 +45,8 @@ public class Main {
             }
         }
         scanner.close();
+        
+    
         */
     }
 
