@@ -24,7 +24,7 @@ public void setMaxApprovalLimit(double maxApprovalLimit) {
   }
 
 
-public boolean canApprove(double amount) {
+private boolean canApprove(double amount) {
     return amount <= maxApprovalLimit;
 }
 
@@ -46,5 +46,20 @@ public boolean canApprove(double amount) {
                " | Position: Loan Officer" +
                " | Salary: " + getSalary() +
                " | Max Approval: $" + maxApprovalLimit;
+    }
+
+
+    @Override
+    public void canContractApprove(Staff staff, Contract contract){
+        LoanOfficer officer = (LoanOfficer) staff;
+        if(!(officer.canApprove(contract.getPrincipalAmount()))){
+            contract.setStatus("FORWARDED");
+                LoaningSystem.setLastMessage("Loan amount exceeds officer limit. Forwarded to Credit Committee.");
+                return;
+        }
+         contract.setStatus("APPROVED");
+            contract.setApprovingOfficer(officer);
+            LoaningSystem.setLastMessage("Contract #" + contract.getContractId() + " approved by Loan Officer: " + officer.getName());
+            return;
     }
 }

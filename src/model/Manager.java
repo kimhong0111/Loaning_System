@@ -49,4 +49,9 @@ public class Manager extends Staff {
                " | Position: Manager" +
                " | Salary: " + getSalary();
     }
+
+    @Override
+    public void canContractApprove(Staff staff , Contract contract){
+         System.out.println("Error : Manager cannot approve contract");
+    }
 }

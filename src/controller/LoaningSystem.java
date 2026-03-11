@@ -36,7 +36,7 @@ public class LoaningSystem {
     private ArrayList<Contract> contracts;
 
     private Staff loggedInStaff;
-    private String lastMessage;
+    private  static String lastMessage;
 
     public LoaningSystem(String bankName, double currentInterestRate) {
         this.bankId = indexBankId++;
@@ -48,7 +48,7 @@ public class LoaningSystem {
         this.contracts  = new ArrayList<>();
 
         this.loggedInStaff = null;
-        this.lastMessage   = "";
+        LoaningSystem.lastMessage   = "";
 
         seedDefaultAdmin();
     }
@@ -130,8 +130,8 @@ public class LoaningSystem {
         LoaningSystem.currentInterestRate = rate;
     }
 
-    private void setLastMessage(String msg) {
-        this.lastMessage = msg;
+    public  static void setLastMessage(String msg) {
+        LoaningSystem.lastMessage = msg;
         System.out.println(msg);
     }
 
@@ -263,33 +263,13 @@ public class LoaningSystem {
             setLastMessage("Error: Contract cannot be approved at status: " + contract.getStatus());
             return;
         }
-        if (loggedInStaff instanceof LoanOfficer) {
-            LoanOfficer officer = (LoanOfficer) loggedInStaff;
-            if (!officer.canApprove(contract.getPrincipalAmount())) {
-                contract.setStatus("FORWARDED");
-                setLastMessage("Loan amount exceeds officer limit. Forwarded to Credit Committee.");
-                return;
-            }
-            contract.setStatus("APPROVED");
-            contract.setApprovingOfficer(loggedInStaff);
-            setLastMessage("Contract #" + contractId + " approved by Loan Officer: " + loggedInStaff.getName());
-            return;
-        }
 
-        if (loggedInStaff instanceof CreditCommittee) {
-            CreditCommittee committee = (CreditCommittee) loggedInStaff;
-            committee.castVote();
-            if (!committee.hasEnoughVotes()) {
-                setLastMessage("Vote cast. Current votes: " + committee.getCurrentVotes()
-                        + "/" + committee.getRequiredVotes());
-                return;
-            }
-            committee.resetVotes();
-            contract.setStatus("APPROVED");
-            contract.setApprovingOfficer(loggedInStaff);
-            setLastMessage("Contract #" + contractId + " approved by Credit Committee.");
-            return;
-        }
+
+        loggedInStaff.canContractApprove(loggedInStaff, contract);
+            
+        
+
+
     }
 
     public void rejectContract(int contractId) {
@@ -352,6 +332,7 @@ public class LoaningSystem {
 
         staff.setActive(false);
         setLastMessage("Staff deactivated: " + staff.getName());
+        
     }
 
 

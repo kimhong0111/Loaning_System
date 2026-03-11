@@ -133,6 +133,7 @@ public void setActive(boolean c){
     }
 
     public abstract boolean can(String action);
+    public abstract void canContractApprove(Staff staff , Contract contract);
 
 
 }

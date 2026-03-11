@@ -54,4 +54,21 @@ public class CreditCommittee extends Staff {
                " | Salary: " + getSalary() +
                " | Votes: " + currentVotes + "/" + requiredVotes;
     }
+
+    @Override 
+    public void canContractApprove(Staff staff , Contract contract){
+         CreditCommittee committee = (CreditCommittee) staff;
+            committee.castVote();
+            if (!committee.hasEnoughVotes()) {
+                LoaningSystem.setLastMessage("Vote cast. Current votes: " + committee.getCurrentVotes()
+                        + "/" + committee.getRequiredVotes());
+                return;
+            }
+            committee.resetVotes();
+            contract.setStatus("APPROVED");
+            contract.setApprovingOfficer(committee);
+            LoaningSystem.setLastMessage("Contract #" + contract.getContractId() + " approved by Credit Committee.");
+            return;
+    }
 }
+
