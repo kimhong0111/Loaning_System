@@ -14,9 +14,16 @@ public class Main {
         system.createStaff("Kimhong",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
         system.createStaff("Panha",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
         system.createStaff("Vichea",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
+        system.createApplicant("Jefff", 18, 10000000, "M");
         system.printStaffs();
-        system.deactivateStaff(2);
+        system.printApplicants();
+     //   system.deactivateStaff(2);
         system.testActive();
+
+        system.staffLogin("Kimhong","1234");
+        system.createContract(1,100000,5);
+        system.approveContract(1);
+        system.printContracts();
     
 /*
   

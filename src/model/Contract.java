@@ -149,7 +149,7 @@ public String toString() {
            " | Duration: " + duration + " yrs" +
            " | Rate: " + (interestRate * 100) + "%" +
            " | Status: " + status +
-           " | Approved By: " + (approvingOfficer != null ? approvingOfficer.getPosition() : "Pending");
+           " | Check By: " + (approvingOfficer != null ? approvingOfficer.getPosition() + " " + approvingOfficer.getName() : "Pending");
 }
 
 }

@@ -8,7 +8,7 @@ public class Applicant {
     private static int indexID = 1;
     public int applicantId;
     private static int salary;
-    private int age;
+    private static int age;
 
     // ===== Constructor =====
     public Applicant(String name, String gender, int salary, int age) {
@@ -28,7 +28,7 @@ public class Applicant {
         return salary;
     }
 
-    public int getAge() {
+   static public int getAge() {
         return age;
     }
 
@@ -42,7 +42,7 @@ public class Applicant {
 
     // ===== Setters with validation =====
     public void setName(String name) {
-        String regex = "^[A-Z][a-z]{2,29}+ [A-Z][a-z]{2,29}$";
+        String regex = "^[A-Z][a-z]{2,29}";
         if (name.matches(regex)) {
             this.name = name;
             return;
