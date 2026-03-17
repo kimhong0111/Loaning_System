@@ -7,7 +7,7 @@ public class Applicant {
     private String gender;
     private static int indexID = 1;
     public int applicantId;
-    private int salary;
+    private static int salary;
     private int age;
 
     // ===== Constructor =====
@@ -24,7 +24,7 @@ public class Applicant {
         return name;
     }
 
-    public int getSalary() {
+   static public int getSalary() {
         return salary;
     }
 

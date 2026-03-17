@@ -5,6 +5,14 @@ import src.controller.LoaningSystem;
 
 public class Contract {
 
+   public static final String APPROVED="APPROVED";
+   public static final String PENDING="PENDING";
+   public static final String REJECTED="REJECTED";
+   public static final String ACTIVE="ACTIVE";
+   public static final String CLOSED="CLOSED";
+   public static final String FORWARDED="FORWARDED";
+
+
     private static int indexID = 1;
     private int contractId;
 
@@ -32,7 +40,7 @@ public class Contract {
     this.interestRate = LoaningSystem.getCurrentInterestRate();
     this.totalAmount = calculateTotal();   // runs ONCE here, never again
     this.coSigners = new ArrayList<>();
-    this.status = "PENDING"; 
+    this.status =PENDING; 
   }
 
 

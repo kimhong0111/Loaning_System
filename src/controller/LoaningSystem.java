@@ -9,6 +9,7 @@ import src.model.CreditCommittee;
 import src.model.LoanOfficer;
 import src.model.Manager;
 import src.model.Staff;
+import src.model.StaffFilter;
 
 public class LoaningSystem {
 
@@ -53,47 +54,18 @@ public class LoaningSystem {
         seedDefaultAdmin();
     }
 
-    public void addStaffForTest(String name, int age, String password, double salary, String position){
 
-        if (isBlank(name) || isBlank(password)) {
-            setLastMessage("Error: Name or password cannot be empty.");
-            return;
-        }
+    public void testActive(){
+        StaffFilter filter = (s)-> {
+            return s.isActive();
+        }; 
 
-        for (int i = 0; i < staffs.size(); i++) {
-            if (staffs.get(i).getName().equalsIgnoreCase(name.trim())) {
-                setLastMessage("Error: Staff with this name already exists.");
-                return;
+        for (Staff staff : staffs){
+            if( filter.Active(staff)){
+                System.out.println(staff.getName());
             }
         }
-
-
-        Staff newStaff;
-        if (position.equals(LoaningSystem.MANAGER)) {
-            newStaff = new Manager(name ,age,password, salary,1);
-        } else if (position.equals(LoaningSystem.LOAN_OFFICER)) {
-            newStaff = new LoanOfficer(name ,age ,password, salary, 50000); 
-        } else if (position.equals(LoaningSystem.CREDIT_COMMITTEE)) {
-            newStaff = new CreditCommittee(name ,age,password, salary, 3);
-        } else {
-            setLastMessage("Error: Unknown position '" + position + "'. Use Manager, LoanOfficer, or CreditCommittee.");
-            return;
-        }
-
-        staffs.add(newStaff);
-        setLastMessage("Staff created successfully: " + newStaff.getName() + " | Role: " + position);
-    
     }
-
-    public void findTypeOfStaff(){
-        System.out.println("---- Testing type of Staff ----");
-        for( Staff staff : staffs){
-
-        System.out.println("Perform action   CREATE_CONTRACT " + staff.getPosition()  +" Staff id : "+ staff.getStaffId() + " " + " Output " + staff.can(LoaningSystem.CREATE_CONTRACT));
-    }
-    }
-   
-
 
 
 
@@ -103,6 +75,7 @@ public class LoaningSystem {
     public String getLastMessage()               { return lastMessage; }
     public boolean isStaffLoggedIn()             { return loggedInStaff != null; }
     public IStaff getLoggedInStaff()             { return loggedInStaff; }
+   
     public boolean checkTypeArrayList(){ 
       for( Staff s : staffs){
         if(s instanceof Manager){

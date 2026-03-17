@@ -1,17 +1,23 @@
 package src.controller;
 
 import java.util.Scanner;
+import src.controller.LoaningSystem;
 
 public class Main {
 
     static Scanner scanner = new Scanner(System.in);
-    static LoaningSystem system = new LoaningSystem("KH Bank", 0.05);
 
     public static void main(String[] args) {
+     LoaningSystem system = new LoaningSystem("KH Bank", 0.05);
+
         system.staffLogin("Admin","1234");
         system.createStaff("Kimhong",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
-        system.checkTypeArrayList();
-
+        system.createStaff("Panha",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
+        system.createStaff("Vichea",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
+        system.printStaffs();
+        system.deactivateStaff(2);
+        system.testActive();
+    
 /*
   
         System.out.println("==========================================");
@@ -82,7 +88,7 @@ public class Main {
     }
 
     // ===== Handlers =====
-
+/*
     private static void handleLogin() {
         System.out.println("\n--- LOGIN ---");
         String name     = readString("Enter name: ");
@@ -185,4 +191,5 @@ public class Main {
             }
         }
     }
+        */
 }

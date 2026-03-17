@@ -24,9 +24,16 @@ public void setMaxApprovalLimit(double maxApprovalLimit) {
   }
 
 
-private boolean canApprove(double amount) {
+
+private boolean checkLoanOfficerApprovalLimit(double amount){
     return amount <= maxApprovalLimit;
 }
+
+private boolean checkApplicantSalary(double amount){
+    int applicantSalary=Applicant.getSalary();
+    return amount < applicantSalary /2 ;
+}
+
 
 
 @Override
@@ -52,12 +59,17 @@ private boolean canApprove(double amount) {
     @Override
     public void canContractApprove(Staff staff, Contract contract){
         LoanOfficer officer = (LoanOfficer) staff;
-        if(!(officer.canApprove(contract.getPrincipalAmount()))){
-            contract.setStatus("FORWARDED");
-                LoaningSystem.setLastMessage("Loan amount exceeds officer limit. Forwarded to Credit Committee.");
-                return;
+        if(!officer.checkApplicantSalary(contract.getPrincipalAmount())){
+            System.out.println("REJECTED : Applicant's Salary not high enough");
+            contract.setStatus(Contract.REJECTED);
+            return;
         }
-         contract.setStatus("APPROVED");
+        if(!officer.checkLoanOfficerApprovalLimit(contract.getPrincipalAmount())){
+            System.out.println("LOAN OFFICER APPROVAL LIMIT IS NOT HIGH ENOUGH");
+            contract.setStatus(Contract.FORWARDED);
+            return;
+        }
+            contract.setStatus(Contract.APPROVED);
             contract.setApprovingOfficer(officer);
             LoaningSystem.setLastMessage("Contract #" + contract.getContractId() + " approved by Loan Officer: " + officer.getName());
             return;
