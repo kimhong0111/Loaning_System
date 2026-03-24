@@ -63,8 +63,7 @@ public class Contract {
 
   public void setApplicant(Applicant applicant) {
      if(applicant == null){
-        System.out.println("Error: Applicant cannot be null.");        
-        return;
+        throw new IllegalArgumentException("Error: Applicant cannot be null.");        
      }
     this.applicant = applicant;
 }
@@ -72,8 +71,7 @@ public class Contract {
 
   public void setPrincipalAmount(double principalAmount) {
     if(principalAmount <=0){
-        System.out.println("Amount should be higher than 0 ");
-        return;
+        throw new IllegalArgumentException("Amount should be > 0 ");
     }
     this.principalAmount = principalAmount;
   }
@@ -81,8 +79,7 @@ public class Contract {
 
   public void setDuration(int duration) {
     if(duration <=0 ){
-     System.out.println("Duration should be higher than 0 ");
-     return;
+      throw new IllegalArgumentException("Duration should be > 0");
     }
     this.duration = duration;
   }

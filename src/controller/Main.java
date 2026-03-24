@@ -12,7 +12,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-  
+         system.staffLogin("admin","1234");
+         system.createStaff("Alice", 30, "pass1", 50000, LoaningSystem.MANAGER);
+         system.createStaff("Bob", 28, "pass2", 40000, LoaningSystem.LOAN_OFFICER);
+         system.createStaff("Charlie", 35, "pass3", 60000, LoaningSystem.CREDIT_COMMITTEE);
+         
+         system.createApplicant("David", 25, 2000, "M");
+         system.staffLogin("bob","pass2");
+         system.createContract(1, 400, 1);
+         system.createContract(1, 600, 1);
+         system.createContract(1, 01, 01);
+
+
+
         System.out.println("==========================================");
         System.out.println("       WELCOME TO KH BANK LOANING SYSTEM ");
         System.out.println("==========================================");
@@ -110,6 +122,7 @@ public class Main {
     private static void handleLogout() {
         System.out.println("\n--- LOGOUT ---");
         system.staffLogout();
+        loggin=false;
     }
 
     private static void handleCreateStaff() {
@@ -152,12 +165,22 @@ public class Main {
     }
 
     private static void handleCreateContract() {
-        System.out.println("\n--- CREATE CONTRACT ---");
+        boolean validInput = false;
+        while(!validInput){
+            try {
+         System.out.println("\n--- CREATE CONTRACT ---");
         system.printApplicants();
         int    applicantId = readInt("Enter applicant ID: ");
         double amount      = readDouble("Enter loan amount: ");
         int    duration    = readInt("Enter duration (years): ");
         system.createContract(applicantId, amount, duration);
+        validInput=true;
+            
+    } catch (IllegalArgumentException e) {
+           System.out.println(e.getMessage());
+            }
+        }
+        
     }
 
     private static void handleApproveContract() {

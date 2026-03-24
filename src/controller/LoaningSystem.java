@@ -182,18 +182,31 @@ public class LoaningSystem {
 
         Applicant applicant = findApplicantById(applicantId);
         if (applicant == null) {
-            setLastMessage("Error: Applicant not found.");
-            return;
+            throw new IllegalArgumentException("Applicant ID "+ applicantId + " doesn't exist");
         }
+    
+        double borrowedAmount=0;
 
         for (int i = 0; i < contracts.size(); i++) {
+
             Contract c = contracts.get(i);
-            if (c.getApplicant().getApplicantId() == applicantId
+            if(c.getApplicant().getApplicantId() == applicantId){
+                borrowedAmount+=c.getPrincipalAmount();
+                if(borrowedAmount + amount >= applicant.getSalary() / 2){
+                    throw new IllegalArgumentException("Applicant cannot take more loan. Total would exceed 1/2 of salary." +
+            "\n  Already borrowed: " + borrowedAmount +
+            "\n  Requested: " + amount +
+            "\n  Max allowed: " + (applicant.getSalary() / 2));
+                }
+            }
+
+
+           /*  if (c.getApplicant().getApplicantId() == applicantId
             && c.getPrincipalAmount() == amount
                     && c.getDuration() == duration) {
-                setLastMessage("Error: Identical contract already exists for this applicant.");
-                return;
+                throw new IllegalArgumentException("Error: Identical contract already exists for this applicant.");
             }
+            */
         }
 
         Contract contract = new Contract(applicant, amount, duration);
