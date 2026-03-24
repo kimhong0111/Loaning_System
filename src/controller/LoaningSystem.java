@@ -148,8 +148,8 @@ public class LoaningSystem {
         } else if (position.equals(LoaningSystem.CREDIT_COMMITTEE)) {
             newStaff = new CreditCommittee(name ,age,password, salary, 3);
         } else {
-            setLastMessage("Error: Unknown position '" + position + "'. Use Manager, LoanOfficer, or CreditCommittee.");
-            return;
+
+         throw new IllegalArgumentException("Error: Unknown position '" + position + "'. Use Manager, LoanOfficer, or CreditCommittee.");
         }
 
         staffs.add(newStaff);

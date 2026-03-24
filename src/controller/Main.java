@@ -113,15 +113,24 @@ public class Main {
     }
 
     private static void handleCreateStaff() {
+        boolean validInput = false;
+        while(!validInput) {
+            try {
         System.out.println("\n--- CREATE STAFF ---");
         String name     = readString("Enter name: ");
         int    age      = readInt("Enter age: ");
         String password = readString("Enter password: ");
         double salary   = readDouble("Enter salary: ");
         System.out.println("Positions: Manager | LoanOfficer | CreditCommittee");
-        String position = readString("Enter position: ");
+        String position = readString("Enter position: ").toUpperCase();
         system.createStaff(name, age, password, salary, position);
+        validInput=true;
+            }
+            catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+            }
     }
+}
 
     private static void handleCreateApplicant() {
         System.out.println("\n--- CREATE APPLICANT ---");

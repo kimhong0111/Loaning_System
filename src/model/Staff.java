@@ -70,42 +70,38 @@ public abstract class Staff implements IStaff{
             this.name = name;
             return;
         }
-        System.out.println("Invalid name format. Name should only contain letters");
+        throw new IllegalArgumentException("Invalid name format. Name should start with a capital letter and be 3-30 characters long.");
     }
 
 
     public void setAge(int age){
          if(age < 0 || age > 99){
-            System.out.println("Invaild Age : write a correct age");
-         }else {
+         throw new IllegalArgumentException("Invalid age. Age should be between 0 and 99.");
+          }else {
             this.age=age;
          }
     }
 
     public void setPassword(String password) {
     if (password == null || password.isBlank()) {
-        System.out.println("Error: Password cannot be empty.");
-        return;
+         throw new IllegalArgumentException("Error: Password cannot be empty.");
     }
     if (password.length() < 4) {
-        System.out.println("Error: Password must be at least 4 characters.");
-        return;
+        throw new IllegalArgumentException("Error: Password must be at least 4 characters long.");
     }
     this.password = password;
 }
 
 public void setSalary(double salary){
     if(salary <= 0){
-        System.out.println("Error: Salary cannot be negative.");
-        return;
+       throw new IllegalArgumentException("Error: Salary must be greater than 0."); 
     }
     this.salary = salary;
 }
 
 public void setPosition(String position){
     if(position == null || position.isBlank()){
-        System.out.println("Error: Position cannot be empty.");
-        return;
+        throw new IllegalArgumentException("Error: Position cannot be empty.");
     }
     this.position = position;
 }
