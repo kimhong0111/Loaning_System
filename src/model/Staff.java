@@ -1,8 +1,8 @@
 package src.model;
 
 import src.interfaces.IStaff;
-
-public abstract class Staff implements IStaff {
+    
+public abstract class Staff implements IStaff{
 
     private String name;
     private int age;

@@ -29,9 +29,9 @@ private boolean checkLoanOfficerApprovalLimit(double amount){
     return amount <= maxApprovalLimit;
 }
 
-private boolean checkApplicantSalaryAndAge(double amount){
-    int applicantSalary=Applicant.getSalary();
-    int applicantAge=Applicant.getAge();
+private boolean checkApplicantSalaryAndAge(double amount, Applicant applicant){
+    int applicantSalary=applicant.getSalary();
+    int applicantAge=applicant.getAge();
     return amount < applicantSalary /2 &&  applicantAge >= 18;
 }
 
@@ -57,10 +57,12 @@ private boolean checkApplicantSalaryAndAge(double amount){
     }
 
 
+
+    
     @Override
     public void canContractApprove(Staff staff, Contract contract){
         LoanOfficer officer = (LoanOfficer) staff;
-        if(!officer.checkApplicantSalaryAndAge(contract.getPrincipalAmount())){
+        if(!officer.checkApplicantSalaryAndAge(contract.getPrincipalAmount(),contract.getApplicant())){
             System.out.println("REJECTED : Applicant's Salary not high enough");
             contract.setStatus(Contract.REJECTED);
             contract.setApprovingOfficer(officer);
@@ -77,4 +79,5 @@ private boolean checkApplicantSalaryAndAge(double amount){
             LoaningSystem.setLastMessage("Contract #" + contract.getContractId() + " approved by Loan Officer: " + officer.getName());
             return;
     }
+            
 }

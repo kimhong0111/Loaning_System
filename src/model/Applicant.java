@@ -7,8 +7,8 @@ public class Applicant {
     private String gender;
     private static int indexID = 1;
     public int applicantId;
-    private static int salary;
-    private static int age;
+    private int salary;
+    private  int age;
 
     // ===== Constructor =====
     public Applicant(String name, String gender, int salary, int age) {
@@ -24,11 +24,11 @@ public class Applicant {
         return name;
     }
 
-   static public int getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-   static public int getAge() {
+    public int getAge() {
         return age;
     }
 
@@ -70,7 +70,7 @@ public class Applicant {
 
     public void setAge(int age) {
         if (age >= 18 && age <= 65) {
-            this.age = age;
+            this.age= age;
         } else {
             System.out.println("Invalid age. Age should be between 18 and 65.");
         }

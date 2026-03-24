@@ -9,7 +9,6 @@ import src.model.CreditCommittee;
 import src.model.LoanOfficer;
 import src.model.Manager;
 import src.model.Staff;
-import src.model.StaffFilter;
 
 public class LoaningSystem {
 
@@ -23,8 +22,8 @@ public class LoaningSystem {
     public static final String SET_NEW_REQV     = "SET_NEW_REQV";
 
     public static final String MANAGER          = "MANAGER";
-    public static final String LOAN_OFFICER     = "LOAN_OFFICER";
-    public static final String CREDIT_COMMITTEE  = "CREDIT_COMMITTEE";
+    public static final String LOAN_OFFICER     = "LOANOFFICER";
+    public static final String CREDIT_COMMITTEE  = "CREDITCOMMITTEE";
 
 
     private String bankName;
@@ -53,21 +52,6 @@ public class LoaningSystem {
 
         seedDefaultAdmin();
     }
-
-
-    public void testActive(){
-        StaffFilter filter = (s)-> {
-            return s.isActive();
-        }; 
-
-        for (Staff staff : staffs){
-            if( filter.Active(staff)){
-                System.out.println(staff.getName());
-            }
-        }
-    }
-
-
 
     public String getBankName()                  { return bankName; }
     public int getBankId()                       { return bankId; }
@@ -172,7 +156,8 @@ public class LoaningSystem {
 
         staffs.add(newStaff);
         setLastMessage("Staff created successfully: " + newStaff.getName() + " | Role: " + position);
-    }
+
+            }
 
     public void createApplicant(String name, int age, int income, String gender) {
         if (!requireStaffLogin()) return;
@@ -190,6 +175,9 @@ public class LoaningSystem {
         }
 
         applicants.add(new Applicant(name, gender, income, age));
+        applicants.add(new Applicant("Kimhong", "M", 500, 20));
+        applicants.add(new Applicant("Sokha", "M", 400, 19));
+        applicants.add(new Applicant("Sopheak", "M", 5000, 30));
         setLastMessage("Applicant created successfully: " + name);
     }
 
@@ -292,7 +280,6 @@ public class LoaningSystem {
             setLastMessage("Error: Could not add co-signer.");
         }
     }
-
     public void deactivateStaff(int staffId) {
         if (!requireStaffLogin()) return;
         if (!requirePermission(CREATE_STAFF)) return;
