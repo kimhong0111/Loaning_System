@@ -7,6 +7,7 @@ public class Main {
 
     static Scanner scanner = new Scanner(System.in);
     static    LoaningSystem system = new LoaningSystem("KH Bank", 0.05);
+    static boolean loggin = false;
 
 
     public static void main(String[] args) {
@@ -24,6 +25,15 @@ public class Main {
             switch (choice) {
                 case 1:  handleLogin();         break;
                 case 2:  handleLogout();        break;
+                case 0:
+                    System.out.println("Exiting system. Goodbye!");
+                    running = false;
+                    break;
+                default:
+                 if(!loggin){
+                    System.out.println("Need to Log in first");
+                 }else {
+                    switch(choice){
                 case 3:  handleCreateStaff();   break;
                 case 4:  handleCreateApplicant();break;
                 case 5:  handleCreateContract();break;
@@ -34,12 +44,8 @@ public class Main {
                 case 10: system.printStaffs();  break;
                 case 11: system.printApplicants();break;
                 case 12: system.printContracts();break;
-                case 0:
-                    System.out.println("Exiting system. Goodbye!");
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                    }
+                 }
             }
         }
         scanner.close();
@@ -48,12 +54,15 @@ public class Main {
     }
 
     // ===== Main Menu =====
-    private static void printMainMenu() {
-        System.out.println("\n==========================================");
-        System.out.println("                 MAIN MENU               ");
-        System.out.println("==========================================");
-        System.out.println("  AUTH");
+   private static void printMainMenu() {
+    System.out.println("\n==========================================");
+    System.out.println("                 MAIN MENU               ");
+    System.out.println("==========================================");
+    System.out.println("  AUTH");
+
+    if (!loggin) {
         System.out.println("  [1] Login");
+    } else {
         System.out.println("  [2] Logout");
         System.out.println("------------------------------------------");
         System.out.println("  MANAGER ACTIONS");
@@ -73,17 +82,29 @@ public class Main {
         System.out.println("  [10] Print All Staffs");
         System.out.println("  [11] Print All Applicants");
         System.out.println("  [12] Print All Contracts");
-        System.out.println("------------------------------------------");
-        System.out.println("  [0] Exit");
-        System.out.println("==========================================");
     }
+
+    System.out.println("------------------------------------------");
+    System.out.println("  [0] Exit");
+    System.out.println("==========================================");
+}
 
     // ===== Handlers =====
     private static void handleLogin() {
+        while(!loggin){
+
+        try {
         System.out.println("\n--- LOGIN ---");
         String name     = readString("Enter name: ");
         String password = readString("Enter password: ");
         system.staffLogin(name, password);
+        loggin=true;
+        } catch (LogginException e) {
+            System.out.println(e.getMessage());
+            
+        }
+        
+        }
     }
 
     private static void handleLogout() {

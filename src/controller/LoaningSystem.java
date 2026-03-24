@@ -109,19 +109,17 @@ public class LoaningSystem {
             Staff s = staffs.get(i);
             if (s.getName().equalsIgnoreCase(name.trim())) {
                 if (!s.isActive()) {
-                    setLastMessage("Error: Staff account is inactive.");
-                    return;
+                    throw new LogginException("Error : Staff account is inactive");
                 }
                 if (!s.checkPassword(password)) {
-                    setLastMessage("Error: Wrong password.");
-                    return;
+                    throw new LogginException("Error : Wrong Password");
                 }
                 loggedInStaff = s;
                 setLastMessage("Login success. Welcome " + s.getName() + "!");
                 return;
             }
         }
-        setLastMessage("Error: Staff not found.");
+        throw new LogginException("Error : Staff not found");
     }
 
     public void staffLogout() {
