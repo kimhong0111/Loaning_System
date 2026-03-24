@@ -6,26 +6,11 @@ import src.controller.LoaningSystem;
 public class Main {
 
     static Scanner scanner = new Scanner(System.in);
+    static    LoaningSystem system = new LoaningSystem("KH Bank", 0.05);
+
 
     public static void main(String[] args) {
-     LoaningSystem system = new LoaningSystem("KH Bank", 0.05);
 
-        system.staffLogin("Admin","1234");
-        system.createStaff("Kimhong",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
-        system.createStaff("Panha",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
-        system.createStaff("Vichea",18,"1234",1000,LoaningSystem.LOAN_OFFICER);
-        system.createApplicant("Jefff", 18, 10000000, "M");
-        system.printStaffs();
-        system.printApplicants();
-     //   system.deactivateStaff(2);
-        system.testActive();
-
-        system.staffLogin("Kimhong","1234");
-        system.createContract(1,100000,5);
-        system.approveContract(1);
-        system.printContracts();
-    
-/*
   
         System.out.println("==========================================");
         System.out.println("       WELCOME TO KH BANK LOANING SYSTEM ");
@@ -60,7 +45,6 @@ public class Main {
         scanner.close();
         
     
-        */
     }
 
     // ===== Main Menu =====
@@ -95,7 +79,6 @@ public class Main {
     }
 
     // ===== Handlers =====
-/*
     private static void handleLogin() {
         System.out.println("\n--- LOGIN ---");
         String name     = readString("Enter name: ");
@@ -121,12 +104,21 @@ public class Main {
 
     private static void handleCreateApplicant() {
         System.out.println("\n--- CREATE APPLICANT ---");
-        String name   = readString("Enter name: ");
+        boolean validInput = false;
+    while(!validInput) {
+        try {
+         String name   = readString("Enter name: ");
         int    age    = readInt("Enter age: ");
         int    income = readInt("Enter income: ");
         System.out.println("Gender: Male | Female | Other");
         String gender = readString("Enter gender: ");
         system.createApplicant(name, age, income, gender);
+        validInput=true;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+    }
     }
 
     private static void handleCreateContract() {
@@ -170,10 +162,17 @@ public class Main {
 
     // ===== Input Helpers =====
 
-    private static String readString(String prompt) {
+   private static String readString(String prompt) {
+    String input;
+    do {
         System.out.print(prompt);
-        return scanner.nextLine().trim();
-    }
+        input = scanner.nextLine().trim();
+        if (input.isEmpty()) {
+            System.out.println("Input cannot be empty. Please try again.");
+        }
+    } while (input.isEmpty());
+    return input;
+}
 
     private static int readInt(String prompt) {
         while (true) {
@@ -198,5 +197,5 @@ public class Main {
             }
         }
     }
-        */
+    
 }

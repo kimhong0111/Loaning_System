@@ -175,9 +175,6 @@ public class LoaningSystem {
         }
 
         applicants.add(new Applicant(name, gender, income, age));
-        applicants.add(new Applicant("Kimhong", "M", 500, 20));
-        applicants.add(new Applicant("Sokha", "M", 400, 19));
-        applicants.add(new Applicant("Sopheak", "M", 5000, 30));
         setLastMessage("Applicant created successfully: " + name);
     }
 
@@ -194,7 +191,7 @@ public class LoaningSystem {
         for (int i = 0; i < contracts.size(); i++) {
             Contract c = contracts.get(i);
             if (c.getApplicant().getApplicantId() == applicantId
-                    && c.getPrincipalAmount() == amount
+            && c.getPrincipalAmount() == amount
                     && c.getDuration() == duration) {
                 setLastMessage("Error: Identical contract already exists for this applicant.");
                 return;

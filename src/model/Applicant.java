@@ -47,7 +47,8 @@ public class Applicant {
             this.name = name;
             return;
         }
-        System.out.println("Invalid name format. Name should only contain letters");
+        throw new IllegalArgumentException("Invalid name format. Name should start with a capital letter and be 3-30 characters long.");
+
     }
 
     public void setGender(String gender) {
@@ -56,24 +57,23 @@ public class Applicant {
             this.gender = gender;
             return;
         }
-        System.out.println("Invalid gender format. Gender should be either 'M' or 'F'");
+      throw new IllegalArgumentException("Invalid gender. Gender should be 'M' or 'F'.");
     }
 
     public void setSalary(int salary) {
         if (salary > 0) {
             this.salary = salary;
             return;
-        } else {
-            System.out.println("Invalid salary. Salary should be a positive integer.");
         }
+        throw new IllegalArgumentException("Invalid salary. Salary should be a positive integer.");
     }
 
     public void setAge(int age) {
         if (age >= 18 && age <= 65) {
             this.age= age;
-        } else {
-            System.out.println("Invalid age. Age should be between 18 and 65.");
-        }
+            return;
+        } 
+      throw new IllegalArgumentException("Invalid age. Age should be between 18 and 65.");  
     }
 
 
