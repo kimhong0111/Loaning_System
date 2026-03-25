@@ -32,18 +32,13 @@ public class Main {
             printMainMenu();
             int choice = readInt("Enter your choice: ");
              try {
+            validateChoice(choice, loggin);
             switch (choice) {
                 case 1:  handleLogin();         break;
                 case 0:
                     System.out.println("Exiting system. Goodbye!");
                     running = false;
                     break;
-                default:
-                    if(!loggin){
-                    throw new InputMismatchException("Error : Invaild choice");
-                    } else {
-                        
-                    switch(choice){
                 case 2:  handleLogout();        break;
                 case 3:  handleCreateStaff();   break;
                 case 4:  handleCreateApplicant();break;
@@ -58,20 +53,11 @@ public class Main {
                    default :
                      throw new InputMismatchException("Error : Invaild Choice");
                             }
-                }
-            
-                        }
-                    }
-            
-             
-              catch(InputMismatchException e){
+                } catch(InputMismatchException e){
                  System.out.println(e.getMessage());
               }
             }
-
             scanner.close();
-        
-    
     }
 
     // ===== Main Menu =====
@@ -109,15 +95,26 @@ public class Main {
     System.out.println("  [0] Exit");
     System.out.println("==========================================");
 }
-
+    
+    private static void validateChoice(int choice, boolean loggin) {
+        if(!loggin){
+            if(choice != 1 && choice != 0){
+                throw new InputMismatchException("Error : Invaild choice");
+            }
+        } else {
+            if (choice == 1){
+                throw new InputMismatchException("Error : You are already logged in");
+            }
+        }
+    }
     // ===== Handlers =====
     private static void handleLogin() {
         while(!loggin){
 
         try {
         System.out.println("\n--- LOGIN ---");
-        String name     = readString("Enter name: ");
-        String password = readString("Enter password: ");
+        String name     = readUserName("Enter name: ");
+        String password = readPassword("Enter password: ");
         system.staffLogin(name, password);
         loggin=true;
         } catch (LogginException e) {
@@ -139,9 +136,9 @@ public class Main {
         while(!validInput) {
             try {
         System.out.println("\n--- CREATE STAFF ---");
-        String name     = readString("Enter name: ");
-        int    age      = readInt("Enter age: ");
-        String password = readString("Enter password: ");
+        String name     = readUserName("Enter name: ");
+        int    age      = readAge("Enter age: ");
+        String password = readNewPassword("Enter password: ");
         double salary   = readDouble("Enter salary: ");
         String position = readPosition("Select Position");
         system.createStaff(name, age, password, salary, position);
@@ -158,8 +155,8 @@ public class Main {
         boolean validInput = false;
     while(!validInput) {
         try {
-         String name   = readString("Enter name: ");
-        int    age    = readInt("Enter age: ");
+         String name   = readUserName("Enter name: ");
+        int    age    = readAge("Enter age: ");
         int    income = readInt("Enter income: ");
         String gender = readGender("Select Gender");
         system.createApplicant(name, age, income, gender);
@@ -222,26 +219,98 @@ public class Main {
 
     // ===== Input Helpers =====
 
-   private static String readString(String prompt) {
+   private static String readUserName(String prompt) {
     String input;
-    do {
+    while (true) {
         System.out.print(prompt);
-        input = scanner.nextLine().trim();
-        if (input.isEmpty()) {
-            System.out.println("Input cannot be empty. Please try again.");
+        //check if the input is empty + only contains letters
+        try {
+            input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                throw new InputMismatchException("Input cannot be empty.");
+            }
+            if (!input.matches("^[a-zA-Z]+$")) {
+                throw new InputMismatchException("Input must contain only letters.");
+            }
+            return input;
+        } catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
         }
-    } while (input.isEmpty());
-    return input;
+    }
 }
+    private static String readPassword(String prompt) {
+        String input;
+        while(true) {
+            System.out.print(prompt);
+            try {
+                input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    throw new InputMismatchException("Input cannot be empty.");
+                }
+                return input;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private static String readNewPassword(String prompt) {
+        String input;
+        while(true) {
+            System.out.print(prompt);
+            try {
+                input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    throw new InputMismatchException("Input cannot be empty.");
+                }
+                if (input.length() < 4){
+                    throw new InputMismatchException("Password must be at least 4 characters long.");
+                }
+                return input;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+
+    private static int readAge(String prompt){
+        while (true) {
+            System.out.print(prompt);
+            try {
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()){
+                    throw new InputMismatchException("Input cannot be empty.");
+                }
+                int value = Integer.parseInt(input);
+                if (value < 18 || value > 65) {
+                    throw new InputMismatchException("Age must be between 18 and 65.");
+                }
+                return value;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a whole number.");
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+
 
     private static int readInt(String prompt) {
         while (true) {
             System.out.print(prompt);
             try {
-                int value = Integer.parseInt(scanner.nextLine().trim());
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()){
+                    throw new InputMismatchException("Input cannot be empty.");
+                }
+                int value = Integer.parseInt(input);
                 return value;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a whole number.");
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -250,10 +319,19 @@ public class Main {
         while (true) {
             System.out.print(prompt);
             try {
-                double value = Double.parseDouble(scanner.nextLine().trim());
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()){
+                    throw new InputMismatchException("Input cannot be empty.");
+                }
+                double value = Double.parseDouble(input);
+                if (value < 0){
+                    throw new InputMismatchException("Input cannot be negative.");
+                }
                 return value;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println("Invalid input. Please enter a valid number.");
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
