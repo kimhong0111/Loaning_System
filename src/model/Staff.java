@@ -75,8 +75,8 @@ public abstract class Staff implements IStaff{
 
 
     public void setAge(int age){
-         if(age < 0 || age > 99){
-         throw new IllegalArgumentException("Invalid age. Age should be between 0 and 99.");
+         if(age < 18 || age > 65){
+         throw new IllegalArgumentException("Invalid age. Age should be over 18 and under 65");
           }else {
             this.age=age;
          }

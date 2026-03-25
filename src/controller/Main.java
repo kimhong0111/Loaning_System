@@ -19,10 +19,7 @@ public class Main {
          
          system.createApplicant("David", 25, 2000, "M");
          system.staffLogin("bob","pass2");
-         system.createContract(1, 400, 1);
-         system.createContract(1, 600, 1);
-         system.createContract(1, 01, 01);
-
+        
 
 
         System.out.println("==========================================");
@@ -134,8 +131,7 @@ public class Main {
         int    age      = readInt("Enter age: ");
         String password = readString("Enter password: ");
         double salary   = readDouble("Enter salary: ");
-        System.out.println("Positions: Manager | LoanOfficer | CreditCommittee");
-        String position = readString("Enter position: ").toUpperCase();
+        String position = readPosition("Select Position");
         system.createStaff(name, age, password, salary, position);
         validInput=true;
             }
@@ -154,7 +150,7 @@ public class Main {
         int    age    = readInt("Enter age: ");
         int    income = readInt("Enter income: ");
         System.out.println("Gender: Male | Female | Other");
-        String gender = readString("Enter gender: ");
+        String gender = readGender("Select Gender");
         system.createApplicant(name, age, income, gender);
         validInput=true;
         } catch (IllegalArgumentException e) {
@@ -250,5 +246,35 @@ public class Main {
             }
         }
     }
+
+    private static String readGender(String prompt) {
+    System.out.println(prompt);
+    System.out.println("  [1] Male");
+    System.out.println("  [2] Female");
+    while (true) {
+        int choice = readInt("Enter choice: ");
+        switch (choice) {
+            case 1: return "M";
+            case 2: return "F";
+            default: System.out.println("Invalid choice. Please select 1-2.");
+        }
+    }
+}
+
+private static String readPosition(String prompt) {
+    System.out.println(prompt);
+    System.out.println("  [1] Manager");
+    System.out.println("  [2] LoanOfficer");
+    System.out.println("  [3] CreditCommittee");
+    while (true) {
+        int choice = readInt("Enter choice: ");
+        switch (choice) {
+            case 1: return LoaningSystem.MANAGER;
+            case 2: return LoaningSystem.LOAN_OFFICER;
+            case 3: return LoaningSystem.CREDIT_COMMITTEE;
+            default: System.out.println("Invalid choice. Please select 1-3.");
+        }
+    }
+}
     
 }
