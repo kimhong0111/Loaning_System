@@ -149,7 +149,6 @@ public class Main {
          String name   = readString("Enter name: ");
         int    age    = readInt("Enter age: ");
         int    income = readInt("Enter income: ");
-        System.out.println("Gender: Male | Female | Other");
         String gender = readGender("Select Gender");
         system.createApplicant(name, age, income, gender);
         validInput=true;
