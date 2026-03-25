@@ -1,5 +1,6 @@
 package src.controller;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import src.controller.LoaningSystem;
 
@@ -30,19 +31,20 @@ public class Main {
         while (running) {
             printMainMenu();
             int choice = readInt("Enter your choice: ");
-
+             try {
             switch (choice) {
                 case 1:  handleLogin();         break;
-                case 2:  handleLogout();        break;
                 case 0:
                     System.out.println("Exiting system. Goodbye!");
                     running = false;
                     break;
                 default:
-                 if(!loggin){
-                    System.out.println("Need to Log in first");
-                 }else {
+                    if(!loggin){
+                    throw new InputMismatchException("Error : Invaild choice");
+                    } else {
+                        
                     switch(choice){
+                case 2:  handleLogout();        break;
                 case 3:  handleCreateStaff();   break;
                 case 4:  handleCreateApplicant();break;
                 case 5:  handleCreateContract();break;
@@ -53,11 +55,21 @@ public class Main {
                 case 10: system.printStaffs();  break;
                 case 11: system.printApplicants();break;
                 case 12: system.printContracts();break;
+                   default :
+                     throw new InputMismatchException("Error : Invaild Choice");
+                            }
+                }
+            
+                        }
                     }
-                 }
+            
+             
+              catch(InputMismatchException e){
+                 System.out.println(e.getMessage());
+              }
             }
-        }
-        scanner.close();
+
+            scanner.close();
         
     
     }
