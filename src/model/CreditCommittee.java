@@ -43,7 +43,7 @@ public class CreditCommittee extends Staff {
         switch (action) {
             case LoaningSystem.APPROVE_LOAN: return true;
             case LoaningSystem.ADD_COSIGNER: return true;
-            default: return false;
+            default: return super.can(action);
         }
     }
 

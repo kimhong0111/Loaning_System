@@ -35,7 +35,7 @@ public class Manager extends Staff {
             case LoaningSystem.CREATE_APPLICANT: return true;
             case LoaningSystem.SET_NEW_APVL: return true;
             case LoaningSystem.SET_NEW_REQV: return true;
-            default: return false;
+            default: return super.can(action);
         }
     }
 

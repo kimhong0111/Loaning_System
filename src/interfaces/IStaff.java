@@ -7,4 +7,6 @@ public interface IStaff {
     boolean can(String action);
     boolean checkPassword(String input);
 
+    void setNewName(String name);
+
 }

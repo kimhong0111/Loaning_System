@@ -37,6 +37,8 @@ private boolean checkApplicantSalaryAndAge(double amount, Applicant applicant){
 
 
 
+
+
 @Override
     public boolean can(String action) {
         switch (action) {
@@ -44,7 +46,7 @@ private boolean checkApplicantSalaryAndAge(double amount, Applicant applicant){
             case LoaningSystem.APPROVE_LOAN:    return true;
             case LoaningSystem.REJECT_LOAN:     return true;
             case LoaningSystem.ADD_COSIGNER:    return true;
-            default: return false;
+            default: return super.can(action);
         }
     }
 

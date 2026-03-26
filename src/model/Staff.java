@@ -1,5 +1,6 @@
 package src.model;
 
+import src.controller.LoaningSystem;
 import src.interfaces.IStaff;
     
 public abstract class Staff implements IStaff{
@@ -65,12 +66,7 @@ public abstract class Staff implements IStaff{
         this.staffId=staffIndexID++;
     }
     public void setName(String name) {
-        String regex = "^[A-Z][a-z]{2,29}";
-        if (name.matches(regex)) {
-            this.name = name;
-            return;
-        }
-        throw new IllegalArgumentException("Invalid name format. Name should start with a capital letter and be 3-30 characters long.");
+        this.name=name;
     }
 
 
@@ -128,7 +124,17 @@ public void setActive(boolean c){
 
     }
 
-    public abstract boolean can(String action);
+    public void setNewName(String name){
+         setName(name);
+    }
+
+    public boolean can(String action){
+           switch (action) {
+            case LoaningSystem.SET_NEW_NAME : return true;
+            default : return false;
+
+        }
+    }
     public abstract void canContractApprove(Staff staff , Contract contract);
 
 

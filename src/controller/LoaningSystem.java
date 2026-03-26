@@ -1,6 +1,7 @@
 package src.controller;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 import src.interfaces.IStaff;
 import src.model.Applicant;
@@ -24,6 +25,8 @@ public class LoaningSystem {
     public static final String MANAGER          = "MANAGER";
     public static final String LOAN_OFFICER     = "LOANOFFICER";
     public static final String CREDIT_COMMITTEE  = "CREDITCOMMITTEE";
+
+    public static final String SET_NEW_NAME = "SET_NEW_NAME";
 
 
     private String bankName;
@@ -94,7 +97,7 @@ public class LoaningSystem {
 
     // ===== Seed Default Admin =====
     private void seedDefaultAdmin() {
-      Manager admin = new Manager("Admin",18,"1234", 5000,2);
+      Staff admin = new Manager("Admin",18,"1234", 5000,2);
         staffs.add(admin);
         setLastMessage("System ready. Default admin seeded: Admin / 1234");
     }
@@ -323,6 +326,19 @@ public class LoaningSystem {
         setLastMessage("Sucessfully set new approval limit for "+ officer.getName());
          
     }
+
+    public void setNewName(String name ,String newName ,  String password){
+        if(!requireStaffLogin())  return;
+        if(!requirePermission(LoaningSystem.SET_NEW_NAME)) return;
+
+        if(loggedInStaff.getName().equalsIgnoreCase(name) && loggedInStaff.checkPassword(password)){
+                loggedInStaff.setName(newName);
+                System.out.println("Successfully change user name ");
+                return;
+            }
+            throw new InputMismatchException("Error : Authentication failed");
+        }
+    
 
 
 
