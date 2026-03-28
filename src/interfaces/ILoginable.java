@@ -7,6 +7,7 @@ public interface ILoginable {
      boolean checkPassword(String password);
      boolean isActive();
      boolean can(String action);
+     String toString();
 
 
     

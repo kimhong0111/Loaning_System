@@ -98,6 +98,7 @@ public class Applicant  implements ILoginable {
            switch (action) {
             case LoaningSystem.SET_NEW_NAME : return true;
             case LoaningSystem.SET_NEW_PASSWORD: return true;
+            case LoaningSystem.CREATE_CONTRACT : return true;
             default : return false;
         }
     }

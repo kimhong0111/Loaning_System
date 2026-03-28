@@ -3,12 +3,16 @@ package src.controller;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import src.controller.LoaningSystem;
+import src.interfaces.ILoginable;
+import src.model.Applicant;
+import src.model.Staff;
 
 public class Main {
 
     static Scanner scanner = new Scanner(System.in);
     static    LoaningSystem system = new LoaningSystem("KH Bank", 0.05);
-    static boolean loggin = false;
+    static boolean loggin;
+    static int isUser=-1;
 
 
     public static void main(String[] args) {
@@ -34,29 +38,32 @@ public class Main {
              try {
                  validateChoice(choice,loggin);
 
-                switch(choice){
-                case 1:  handleLogin();  break;
-                case 0:System.out.println("Exiting system. Goodbye!");  
-                running = false; 
-                break;
-                case 2:  handleLogout();        break;
-                case 3:  handleCreateStaff();   break;
-                case 4:  handleCreateApplicant();break;
-                case 5:  handleCreateContract();break;
-                case 6:  handleApproveContract();break; 
-                case 7:  handleRejectContract(); break;
-                case 8:  handleAddCoSigner();   break;
-                case 9:  handleDeactivateStaff();break;
-                case 10: system.printStaffs();  break;
-                case 11: system.printApplicants();break;
-                case 12: system.printContracts();break;    
-                case 13: handleSetNewName(); break;
-                case 14: handleSetNewPassword(); break;
-             }
+                switch (choice) {
+            case 0:  System.out.println("Exiting. Goodbye!"); running = false; break;
+            case 1:  handleLogin();           break;
+            case 2:  handleLogout();          break;
+            case 3:  handleCreateStaff();     break;
+            case 4:  handleCreateApplicant(); break;
+            case 5:
+                    handleCreateContract();   
+             break; 
+            case 6:  handleApproveContract();  break;
+            case 7:  handleRejectContract();   break;
+            case 8:  handleAddCoSigner();      break;
+            case 9:  handleDeactivateStaff();  break;
+            case 10: system.printStaffs();     break;
+            case 11: system.printApplicants(); break;
+            case 12:
+           system.printContracts();    
+            break;
+            case 13: handleSetNewName();       break;
+            case 14: handleSetNewPassword();   break;
+            case 15:system.viewMyProfile();
+}
             }
             
              
-              catch(InputMismatchException e){
+        catch(InputMismatchException e){
                  System.out.println(e.getMessage());
               }
             }
@@ -91,17 +98,30 @@ public class Main {
   
 
     // ===== Main Menu =====
-   private static void printMainMenu() {
+  private static void printMainMenu() {
     System.out.println("\n==========================================");
     System.out.println("                 MAIN MENU               ");
     System.out.println("==========================================");
-    System.out.println("  AUTH");
 
     if (!loggin) {
+        // ===== NOT LOGGED IN =====
         System.out.println("  [1] Login");
-    } else {
-        System.out.println("  [2] Logout");
+
+    } else if (isUser == 1) {
+        // ===== APPLICANT MENU =====
+        System.out.println("  APPLICATIONS");
+        System.out.println("  [5]  Submit Loan Application");
+        System.out.println("  [12] View My Applications");
         System.out.println("------------------------------------------");
+        System.out.println("  PROFILE");
+        System.out.println("  [13] Change Name");
+        System.out.println("  [14] Change Password");
+        System.out.println("  [15] View My Profile");
+        System.out.println("------------------------------------------");
+        System.out.println("  [2] Logout");
+
+    } else {
+        // ===== STAFF MENU =====
         System.out.println("  MANAGER ACTIONS");
         System.out.println("  [3] Create Staff");
         System.out.println("  [4] Create Applicant");
@@ -110,24 +130,22 @@ public class Main {
         System.out.println("  [5] Create Contract");
         System.out.println("  [6] Approve Contract");
         System.out.println("  [7] Reject Contract");
-        System.out.println("  CREDIT COMMITEE ACTIONS");
-        System.out.println("  [6] Approve Contract");
         System.out.println("  [8] Add Co-Signer");
         System.out.println("------------------------------------------");
         System.out.println("  ADMIN ACTIONS");
-        System.out.println("  [9]  Deactivate Staff");
+        System.out.println("  [9] Deactivate Staff");
         System.out.println("------------------------------------------");
         System.out.println("  VIEW");
         System.out.println("  [10] Print All Staffs");
         System.out.println("  [11] Print All Applicants");
         System.out.println("  [12] Print All Contracts");
-        System.out.println("STAFF HELPER ACTIONS");
-        System.out.println("  [13] SET NEW NAME");
-        System.out.println("  [14] SET NEW PASSWORD");
-
-
-        
-
+        System.out.println("------------------------------------------");
+        System.out.println("  PROFILE");
+        System.out.println("  [13] Change Name");
+        System.out.println("  [14] Change Password");
+        System.out.println("  [15] View My Profile");
+        System.out.println("------------------------------------------");
+        System.out.println("  [2] Logout");
     }
 
     System.out.println("------------------------------------------");
@@ -135,6 +153,7 @@ public class Main {
     System.out.println("==========================================");
 }
 
+   
     // ===== Handlers =====
     private static void handleLogin() {
         while(!loggin){
@@ -145,12 +164,23 @@ public class Main {
         String password = readPassword("Enter password: ");
         system.login(name, password);
         loggin=true;
+        validateUser();
         } catch (LogginException e) {
             System.out.println(e.getMessage());
             
         }
         
         }
+    }
+
+    private static void validateUser(){
+      ILoginable user =  system.getLoggedInUser();
+      if(user instanceof Applicant){
+          isUser=1;
+      }else if(user instanceof Staff){
+         isUser=0;
+      }
+
     }
 
     private static void handleSetNewName(){

@@ -64,6 +64,10 @@ public class LoaningSystem {
     public String getLastMessage()               { return lastMessage; }
     public boolean isLoggedIn()             { return loggedInUser != null; }
     public ILoginable getLoggedInUser()             { return loggedInUser; }
+
+    public void viewMyProfile(){
+        System.out.println(loggedInUser.toString());
+    }
    
     public boolean checkTypeArrayList(){ 
       for( Staff s : staffs){
