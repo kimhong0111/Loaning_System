@@ -52,6 +52,7 @@ public class Main {
                 case 11: system.printApplicants();break;
                 case 12: system.printContracts();break;    
                 case 13: handleSetNewName(); break;
+                case 14: handleSetNewPassword(); break;
              }
             }
             
@@ -123,6 +124,8 @@ public class Main {
         System.out.println("  [12] Print All Contracts");
         System.out.println("STAFF HELPER ACTIONS");
         System.out.println("  [13] SET NEW NAME");
+        System.out.println("  [14] SET NEW PASSWORD");
+
 
         
 
@@ -167,6 +170,28 @@ public class Main {
             }
         }
     }
+    private static void handleSetNewPassword(){
+        boolean validInput =false;
+        while(!validInput){
+            try {
+        System.out.println("\n--- SET NEW PASSWORD ---");
+        String name = readUserName("Enter your name: ");
+        String password = readPassword("Enter your password: ");
+        String newPassword = readPassword("Enter your new password: ");
+        String confirmNewPassword = readPassword("Enter your new password again: ");
+        if(!newPassword.equals(confirmNewPassword)){
+           throw new InputMismatchException("Error : mismatch confirmation password");
+        }
+    
+        system.setNewPassword(name, password, newPassword);
+        validInput=true;
+ 
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 
     private static void handleLogout() {
         System.out.println("\n--- LOGOUT ---");

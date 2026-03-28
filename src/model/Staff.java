@@ -131,6 +131,7 @@ public void setActive(boolean c){
     public boolean can(String action){
            switch (action) {
             case LoaningSystem.SET_NEW_NAME : return true;
+            case LoaningSystem.SET_NEW_PASSWORD: return true;
             default : return false;
 
         }

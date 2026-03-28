@@ -27,6 +27,7 @@ public class LoaningSystem {
     public static final String CREDIT_COMMITTEE  = "CREDITCOMMITTEE";
 
     public static final String SET_NEW_NAME = "SET_NEW_NAME";
+    public static final String SET_NEW_PASSWORD = "SET_NEW_PASSWORD";
 
 
     private String bankName;
@@ -338,6 +339,21 @@ public class LoaningSystem {
             }
             throw new InputMismatchException("Error : Authentication failed");
         }
+
+    public void setNewPassword(String name , String password , String  newPassword){
+        if(!requireStaffLogin()) return;
+        if(!requirePermission(LoaningSystem.SET_NEW_PASSWORD)) return ;
+
+        if(loggedInStaff.getName().equalsIgnoreCase(name) && loggedInStaff.checkPassword(password)){
+                loggedInStaff.setPassword(newPassword);
+                System.out.println("Successfully change your password");
+                return;
+        }
+        throw new InputMismatchException("Error : Authentication failed");
+
+
+
+    }
     
 
 
