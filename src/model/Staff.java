@@ -1,9 +1,10 @@
 package src.model;
 
 import src.controller.LoaningSystem;
+import src.interfaces.ILoginable;
 import src.interfaces.IStaff;
     
-public abstract class Staff implements IStaff{
+public abstract class Staff implements IStaff , ILoginable{
 
     private String name;
     private int age;
@@ -79,13 +80,7 @@ public abstract class Staff implements IStaff{
     }
 
     public void setPassword(String password) {
-    if (password == null || password.isBlank()) {
-         throw new IllegalArgumentException("Error: Password cannot be empty.");
-    }
-    if (password.length() < 4) {
-        throw new IllegalArgumentException("Error: Password must be at least 4 characters long.");
-    }
-    this.password = password;
+        this.password = password;
 }
 
 public void setSalary(double salary){

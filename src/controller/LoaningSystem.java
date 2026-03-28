@@ -3,6 +3,7 @@ package src.controller;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+import src.interfaces.ILoginable;
 import src.interfaces.IStaff;
 import src.model.Applicant;
 import src.model.Contract;
@@ -39,7 +40,7 @@ public class LoaningSystem {
     private ArrayList<Applicant> applicants;
     private ArrayList<Contract> contracts;
 
-    private Staff loggedInStaff;
+    private ILoginable loggedInUser;
     private  static String lastMessage;
 
     public LoaningSystem(String bankName, double currentInterestRate) {
@@ -51,7 +52,7 @@ public class LoaningSystem {
         this.applicants = new ArrayList<>();
         this.contracts  = new ArrayList<>();
 
-        this.loggedInStaff = null;
+        this.loggedInUser = null;
         LoaningSystem.lastMessage   = "";
 
         seedDefaultAdmin();
@@ -61,8 +62,8 @@ public class LoaningSystem {
     public int getBankId()                       { return bankId; }
     public static double getCurrentInterestRate(){ return currentInterestRate; }
     public String getLastMessage()               { return lastMessage; }
-    public boolean isStaffLoggedIn()             { return loggedInStaff != null; }
-    public IStaff getLoggedInStaff()             { return loggedInStaff; }
+    public boolean isLoggedIn()             { return loggedInUser != null; }
+    public ILoginable getLoggedInUser()             { return loggedInUser; }
    
     public boolean checkTypeArrayList(){ 
       for( Staff s : staffs){
@@ -103,7 +104,7 @@ public class LoaningSystem {
         setLastMessage("System ready. Default admin seeded: Admin / 1234");
     }
 
-    public void staffLogin(String name, String password) {
+    public void login(String name, String password) {
         if (isBlank(name) || isBlank(password)) {
             setLastMessage("Error: Name or password cannot be empty.");
             return;
@@ -113,30 +114,45 @@ public class LoaningSystem {
             Staff s = staffs.get(i);
             if (s.getName().equalsIgnoreCase(name.trim())) {
                 if (!s.isActive()) {
-                    throw new LogginException("Error : Staff account is inactive");
+                    throw new LogginException("Error : User account is inactive");
                 }
                 if (!s.checkPassword(password)) {
                     throw new LogginException("Error : Wrong Password");
                 }
-                loggedInStaff = s;
+                loggedInUser = s;
                 setLastMessage("Login success. Welcome " + s.getName() + "!");
                 return;
             }
         }
-        throw new LogginException("Error : Staff not found");
+
+        for (int i = 0; i < applicants.size(); i++) {
+            Applicant a = applicants.get(i);
+            if (a.getName().equalsIgnoreCase(name.trim())) {
+                if (!a.isActive()) {
+                    throw new LogginException("Error : User account is inactive");
+                }
+                if (!a.checkPassword(password)) {
+                    throw new LogginException("Error : Wrong Password");
+                }
+                loggedInUser = a;
+                setLastMessage("Login success. Welcome " + a.getName() + "!");
+                return;
+            }
+        }
+        throw new LogginException("Error : User not found");
     }
 
-    public void staffLogout() {
-        if (loggedInStaff == null) {
+    public void logout() {
+        if (loggedInUser== null) {
             setLastMessage("No staff is currently logged in.");
             return;
         }
-        setLastMessage("Goodbye " + loggedInStaff.getName() + ". Logged out successfully.");
-        loggedInStaff = null;
+        setLastMessage("Goodbye " + loggedInUser.getName() + ". Logged out successfully.");
+        loggedInUser = null;
     }
 
     public void createStaff(String name, int age, String password, double salary, String position) {
-        if (!requireStaffLogin()) return;
+        if (!requireLogin()) return;
         if (!requirePermission(CREATE_STAFF)) return;
 
         if (isBlank(name) || isBlank(password)) {
@@ -161,27 +177,20 @@ public class LoaningSystem {
 
             }
 
-    public void createApplicant(String name, int age, int income, String gender) {
-        if (!requireStaffLogin()) return;
+    public void createApplicant(String name,String password, int age, int income, String gender) {
+        if (!requireLogin()) return;
 
         if (isBlank(name)) {
             setLastMessage("Error: Applicant name cannot be empty.");
             return;
         }
 
-        for (int i = 0; i < applicants.size(); i++) {
-            if (applicants.get(i).getName().equalsIgnoreCase(name.trim())) {
-                setLastMessage("Error: Applicant already exists.");
-                return;
-            }
-        }
-
-        applicants.add(new Applicant(name, gender, income, age));
+        applicants.add(new Applicant(name,password, gender, income, age));
         setLastMessage("Applicant created successfully: " + name);
     }
 
     public void createContract(int applicantId, double amount, int duration) {
-        if (!requireStaffLogin()) return;
+        if (!requireLogin()) return;
         if (!requirePermission(CREATE_CONTRACT)) return;
 
         Applicant applicant = findApplicantById(applicantId);
@@ -213,14 +222,17 @@ public class LoaningSystem {
             */
         }
 
+
+
         Contract contract = new Contract(applicant, amount, duration);
-        contract.setDraftingOfficer(loggedInStaff);
+        Staff officer = (LoanOfficer) loggedInUser;
+        contract.setDraftingOfficer(officer);
         contracts.add(contract);
         setLastMessage("Contract created successfully. ID: " + contract.getContractId());
     }
 
     public void approveContract(int contractId) {
-        if (!requireStaffLogin()) return;
+        if (!requireLogin()) return;
         if (!requirePermission(APPROVE_LOAN)) return;
 
         Contract contract = findContractById(contractId);
@@ -236,9 +248,9 @@ public class LoaningSystem {
             setLastMessage("Error: Contract cannot be approved at status: " + contract.getStatus());
             return;
         }
-
-
-        loggedInStaff.canContractApprove(loggedInStaff, contract);
+        // probably have bug here will check later
+        Staff officer = (Staff) loggedInUser;
+        officer.canContractApprove(officer, contract);
             
         
 
@@ -246,7 +258,7 @@ public class LoaningSystem {
     }
 
     public void rejectContract(int contractId) {
-        if (!requireStaffLogin()) return;
+        if (!requireLogin()) return;
         if (!requirePermission(REJECT_LOAN)) return;
 
         Contract contract = findContractById(contractId);
@@ -260,12 +272,12 @@ public class LoaningSystem {
         }
 
         contract.setStatus("REJECTED");
-        setLastMessage("Contract #" + contractId + " rejected by: " + loggedInStaff.getName());
+        setLastMessage("Contract #" + contractId + " rejected by: " + loggedInUser.getName());
     }
 
     // ===== Add CoSigner =====
     public void addCoSigner(int contractId, int staffId) {
-        if (!requireStaffLogin()) return;
+        if (!requireLogin()) return;
         if (!requirePermission(ADD_COSIGNER)) return;
 
         Contract contract = findContractById(contractId);
@@ -293,7 +305,7 @@ public class LoaningSystem {
         }
     }
     public void deactivateStaff(int staffId) {
-        if (!requireStaffLogin()) return;
+        if (!requireLogin()) return;
         if (!requirePermission(CREATE_STAFF)) return;
 
         Staff staff = findStaffById(staffId);
@@ -309,7 +321,7 @@ public class LoaningSystem {
 
 
     public void setNewApprovalLimit(int loanOfficerId , double newAmount){
-        if(!requireStaffLogin()) return;
+        if(!requireLogin()) return;
         if(!requirePermission(LoaningSystem.SET_NEW_APVL)) return;
 
         Staff staff=findStaffById(loanOfficerId);
@@ -329,11 +341,11 @@ public class LoaningSystem {
     }
 
     public void setNewName(String name ,String newName ,  String password){
-        if(!requireStaffLogin())  return;
+        if(!requireLogin())  return;
         if(!requirePermission(LoaningSystem.SET_NEW_NAME)) return;
 
-        if(loggedInStaff.getName().equalsIgnoreCase(name) && loggedInStaff.checkPassword(password)){
-                loggedInStaff.setName(newName);
+        if(loggedInUser.getName().equalsIgnoreCase(name) && loggedInUser.checkPassword(password)){
+                loggedInUser.setName(newName);
                 System.out.println("Successfully change user name ");
                 return;
             }
@@ -341,11 +353,11 @@ public class LoaningSystem {
         }
 
     public void setNewPassword(String name , String password , String  newPassword){
-        if(!requireStaffLogin()) return;
+        if(!requireLogin()) return;
         if(!requirePermission(LoaningSystem.SET_NEW_PASSWORD)) return ;
 
-        if(loggedInStaff.getName().equalsIgnoreCase(name) && loggedInStaff.checkPassword(password)){
-                loggedInStaff.setPassword(newPassword);
+        if(loggedInUser.getName().equalsIgnoreCase(name) && loggedInUser.checkPassword(password)){
+                loggedInUser.setPassword(newPassword);
                 System.out.println("Successfully change your password");
                 return;
         }
@@ -419,21 +431,21 @@ public class LoaningSystem {
         return null;
     }
 
-    private boolean requireStaffLogin() {
-        if (loggedInStaff == null) {
+    private boolean requireLogin() {
+        if (loggedInUser == null) {
             setLastMessage("Action denied: please login first.");
             return false;
         }
-        if (!loggedInStaff.isActive()) {
-            loggedInStaff = null;
-            setLastMessage("Action denied: staff is inactive. Auto logout.");
+        if (!loggedInUser.isActive()) {
+            loggedInUser = null;
+            setLastMessage("Action denied: User is inactive. Auto logout.");
             return false;
         }
         return true;
     }
 
     private boolean requirePermission(String action) {
-        if (!loggedInStaff.can(action)) {
+        if (!loggedInUser.can(action)) {
             setLastMessage("Error: Permission denied for action: " + action);
             return false;
         }

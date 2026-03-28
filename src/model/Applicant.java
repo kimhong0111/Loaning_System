@@ -1,25 +1,32 @@
 package src.model;
 
-public class Applicant {
+import src.interfaces.ILoginable;
+import src.controller.LoaningSystem;
+
+
+public class Applicant  implements ILoginable {
 
     // ===== Fields =====
     private String name;
+    private String password;
     private String gender;
+    private boolean active;
     private static int indexID = 1;
     public int applicantId;
     private int salary;
     private  int age;
 
     // ===== Constructor =====
-    public Applicant(String name, String gender, int salary, int age) {
+    public Applicant(String name,String password, String gender, int salary, int age) {
         setName(name);
+        setPassword(password);
         setGender(gender);
         setAge(age);
         setSalary(salary);
         this.applicantId = indexID++;
+        this.active=true;
     }
-
-    // ===== Getters =====
+  @Override
     public String getName() {
         return name;
     }
@@ -39,17 +46,15 @@ public class Applicant {
     public int getApplicantId() {
         return applicantId;
     }
-
-    // ===== Setters with validation =====
+    @Override
     public void setName(String name) {
-        String regex = "^[A-Z][a-z]{2,29}";
-        if (name.matches(regex)) {
-            this.name = name;
-            return;
-        }
-        throw new IllegalArgumentException("Invalid name format. Name should start with a capital letter and be 3-30 characters long.");
+        this.name=name;
 
     }
+    @Override
+     public void setPassword(String password) {
+        this.password = password;
+}
 
     public void setGender(String gender) {
         String regex = "^[MF]$";
@@ -75,6 +80,29 @@ public class Applicant {
         } 
       throw new IllegalArgumentException("Invalid age. Age should be between 18 and 65.");  
     }
+
+@Override
+    public boolean checkPassword(String password){
+       if(password==null){
+        return false;
+       }
+       return this.password.equals(password);
+    }
+@Override
+     public boolean isActive(){
+        return  active;
+    }
+
+ @Override
+    public boolean can(String action){
+           switch (action) {
+            case LoaningSystem.SET_NEW_NAME : return true;
+            case LoaningSystem.SET_NEW_PASSWORD: return true;
+            default : return false;
+        }
+    }
+    
+
 
 
     // ===== Comparison and toString =====

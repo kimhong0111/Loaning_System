@@ -1,12 +1,13 @@
 package src.interfaces;
-public interface IStaff {
-    String getName();
-    int getStaffId();
-    boolean isActive();
-    void setActive(boolean c);
-    boolean can(String action);
-    boolean checkPassword(String input);
 
+import src.model.Contract;
+import src.model.Staff;
+
+public interface IStaff {
+    
+    int getStaffId();
     void setNewName(String name);
+    void canContractApprove(Staff staff , Contract contract);
+
 
 }

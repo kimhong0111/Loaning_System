@@ -13,13 +13,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-         system.staffLogin("admin","1234");
+         system.login("admin","1234");
          system.createStaff("Alice", 30, "pass1", 50000, LoaningSystem.MANAGER);
          system.createStaff("Bob", 28, "pass2", 40000, LoaningSystem.LOAN_OFFICER);
          system.createStaff("Charlie", 35, "pass3", 60000, LoaningSystem.CREDIT_COMMITTEE);
          
-         system.createApplicant("David", 25, 2000, "M");
-         system.staffLogin("bob","pass2");
+         system.login("bob","pass2");
         
 
 
@@ -144,7 +143,7 @@ public class Main {
         System.out.println("\n--- LOGIN ---");
         String name     = readUserName("Enter name: ");
         String password = readPassword("Enter password: ");
-        system.staffLogin(name, password);
+        system.login(name, password);
         loggin=true;
         } catch (LogginException e) {
             System.out.println(e.getMessage());
@@ -195,7 +194,7 @@ public class Main {
 
     private static void handleLogout() {
         System.out.println("\n--- LOGOUT ---");
-        system.staffLogout();
+        system.logout();
         loggin=false;
     }
 
@@ -224,10 +223,11 @@ public class Main {
     while(!validInput) {
         try {
          String name   = readUserName("Enter name: ");
-        int    age    = readInt("Enter age: ");
-        int    income = readInt("Enter income: ");
+         String password = readPassword("Enter password: ");
+        int    age    = readAge("Enter age: ");
+        int   income = readInt("Enter income: ");
         String gender = readGender("Select Gender");
-        system.createApplicant(name, age, income, gender);
+        system.createApplicant(name,password, age, income, gender);
         validInput=true;
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
@@ -331,6 +331,9 @@ private static String readString(String prompt) {
             System.out.print(prompt);
             try {
                 int value = Integer.parseInt(scanner.nextLine().trim());
+                if(value <0 || value > 10000){
+                    throw new NumberFormatException("Range number 0 - 10000 ");
+                }
                 return value;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a whole number.");
@@ -374,6 +377,9 @@ private static String readString(String prompt) {
             System.out.print(prompt);
             try {
                 double value = Double.parseDouble(scanner.nextLine().trim());
+                if(value < 0 || value > 10000){
+                    throw new NumberFormatException("Range number from 0 - 10000");
+                }
                 return value;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
