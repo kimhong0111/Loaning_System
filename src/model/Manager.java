@@ -5,8 +5,8 @@ import src.controller.LoaningSystem;
 public class Manager extends Staff {
      private int accessLevel;
 
-    public Manager(String name , int age , String password , double salary, int accessLevel) {
-        super(name , age , password);
+    public Manager(String name,String userName , String phoneNumber , int age , String password , double salary, int accessLevel) {
+        super(name,userName,phoneNumber ,age, password);
         setSalary(salary);
         setAccessLevel(accessLevel);
         setPosition(LoaningSystem.MANAGER);

@@ -7,6 +7,8 @@ import src.interfaces.IStaff;
 public abstract class Staff implements IStaff , ILoginable{
 
     private String name;
+    private String userName;
+    private String phoneNumber;
     private int age;
     private String password;
     private  static  int staffIndexID = 1;
@@ -15,10 +17,12 @@ public abstract class Staff implements IStaff , ILoginable{
     private double salary;
     private String position;
 
-    public Staff(String name, int age , String password) {
+    public Staff(String name,String userName , String phoneNumber, int age , String password) {
         setName(name);
         setPassword(password);
         setAge(age);
+        setUsername(userName);
+        setPhoneNumber(phoneNumber);
         setNextStaffId();
         this.active=true;
         this.salary=0;
@@ -28,6 +32,15 @@ public abstract class Staff implements IStaff , ILoginable{
 
     }
 
+
+ @Override 
+  public String getUsername(){
+    return userName;
+  }
+  @Override
+  public String getPhoneNumber(){
+    return phoneNumber;
+  }
 
     
     public String getName(){
@@ -70,6 +83,12 @@ public abstract class Staff implements IStaff , ILoginable{
         this.name=name;
     }
 
+    public void setUsername(String username){
+        this.userName=username;
+    }
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber=phoneNumber;
+    }
 
     public void setAge(int age){
          if(age < 18 || age > 65){
@@ -118,11 +137,11 @@ public void setActive(boolean c){
         return false;
 
     }
-
+    @Override
     public void setNewName(String name){
          setName(name);
     }
-
+    @Override
     public boolean can(String action){
            switch (action) {
             case LoaningSystem.SET_NEW_NAME : return true;
@@ -131,7 +150,6 @@ public void setActive(boolean c){
 
         }
     }
-    public abstract void canContractApprove(Staff staff , Contract contract);
 
 
 }

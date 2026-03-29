@@ -8,21 +8,25 @@ public class Applicant  implements ILoginable {
 
     // ===== Fields =====
     private String name;
+    private String userName;
+    private String phoneNumber;
     private String password;
     private String gender;
     private boolean active;
     private static int indexID = 1;
-    public int applicantId;
+    private int applicantId;
     private int salary;
     private  int age;
 
     // ===== Constructor =====
-    public Applicant(String name,String password, String gender, int salary, int age) {
+    public Applicant(String name,String username , String phoneNumber,String password, String gender, int salary, int age) {
         setName(name);
         setPassword(password);
         setGender(gender);
         setAge(age);
         setSalary(salary);
+        setUsername(username);
+        setPhoneNumber(phoneNumber);
         this.applicantId = indexID++;
         this.active=true;
     }
@@ -30,7 +34,15 @@ public class Applicant  implements ILoginable {
     public String getName() {
         return name;
     }
-
+  @Override 
+  public String getUsername(){
+    return userName;
+  }
+  @Override
+  public String getPhoneNumber(){
+    return phoneNumber;
+  }
+  
     public int getSalary() {
         return salary;
     }
@@ -46,7 +58,7 @@ public class Applicant  implements ILoginable {
     public int getApplicantId() {
         return applicantId;
     }
-    @Override
+    
     public void setName(String name) {
         this.name=name;
 
@@ -54,7 +66,17 @@ public class Applicant  implements ILoginable {
     @Override
      public void setPassword(String password) {
         this.password = password;
-}
+    }
+
+    @Override 
+    public void setUsername(String username){
+        this.userName=username;  
+    }
+
+    @Override
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber=phoneNumber;
+    }
 
     public void setGender(String gender) {
         String regex = "^[MF]$";

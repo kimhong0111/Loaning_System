@@ -6,9 +6,9 @@ public class CreditCommittee extends Staff {
     private int requiredVotes;
     private int currentVotes;
 
-    public CreditCommittee(String name , int age ,String password,
+    public CreditCommittee(String name , String userName , String phoneNumber , int age ,String password,
                            double salary, int requiredVotes) {
-        super(name, age, password);
+        super(name,userName,phoneNumber ,age, password);
         setSalary(salary);
         setPosition(LoaningSystem.CREDIT_COMMITTEE);
         setRequiredVotes(requiredVotes);

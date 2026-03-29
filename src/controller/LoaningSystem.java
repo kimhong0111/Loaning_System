@@ -103,9 +103,9 @@ public class LoaningSystem {
 
     // ===== Seed Default Admin =====
     private void seedDefaultAdmin() {
-      Staff admin = new Manager("Admin",18,"1234", 5000,2);
+      Staff admin = new Manager("Admin","Admin123","default",18,"1234", 5000,2);
         staffs.add(admin);
-        setLastMessage("System ready. Default admin seeded: Admin / 1234");
+        setLastMessage("System ready. Default admin seeded: Admin123 / 1234");
     }
 
     public void login(String name, String password) {
@@ -116,7 +116,7 @@ public class LoaningSystem {
 
         for (int i = 0; i < staffs.size(); i++) {
             Staff s = staffs.get(i);
-            if (s.getName().equalsIgnoreCase(name.trim())) {
+            if (s.getUsername().equalsIgnoreCase(name.trim())) {
                 if (!s.isActive()) {
                     throw new LogginException("Error : User account is inactive");
                 }
@@ -131,7 +131,7 @@ public class LoaningSystem {
 
         for (int i = 0; i < applicants.size(); i++) {
             Applicant a = applicants.get(i);
-            if (a.getName().equalsIgnoreCase(name.trim())) {
+            if (a.getUsername().equalsIgnoreCase(name.trim())) {
                 if (!a.isActive()) {
                     throw new LogginException("Error : User account is inactive");
                 }
@@ -155,7 +155,7 @@ public class LoaningSystem {
         loggedInUser = null;
     }
 
-    public void createStaff(String name, int age, String password, double salary, String position) {
+    public void createStaff(String name,String userName , String phoneNumber, int age, String password, double salary, String position) {
         if (!requireLogin()) return;
         if (!requirePermission(CREATE_STAFF)) return;
 
@@ -163,14 +163,21 @@ public class LoaningSystem {
             setLastMessage("Error: Name or password cannot be empty.");
             return;
         }
+        for(int i=0;i<staffs.size();i++){
+            Staff s = staffs.get(i);
+            if(s.getPhoneNumber().equals(phoneNumber) || s.getUsername().equals(userName)){
+                 throw new InputMismatchException("Error : Account already existed");
+            }
+
+        }
 
         Staff newStaff;
         if (position.equals(LoaningSystem.MANAGER)) {
-            newStaff = new Manager(name ,age,password, salary,1);
+            newStaff = new Manager(name ,userName,phoneNumber,age,password, salary,1);
         } else if (position.equals(LoaningSystem.LOAN_OFFICER)) {
-            newStaff = new LoanOfficer(name ,age ,password, salary, 50000); 
+            newStaff = new LoanOfficer(name ,userName,phoneNumber,age ,password, salary, 50000); 
         } else if (position.equals(LoaningSystem.CREDIT_COMMITTEE)) {
-            newStaff = new CreditCommittee(name ,age,password, salary, 3);
+            newStaff = new CreditCommittee(name ,userName ,phoneNumber,age,password, salary, 3);
         } else {
 
          throw new IllegalArgumentException("Error: Unknown position '" + position + "'. Use Manager, LoanOfficer, or CreditCommittee.");
@@ -181,15 +188,21 @@ public class LoaningSystem {
 
             }
 
-    public void createApplicant(String name,String password, int age, int income, String gender) {
+    public void createApplicant(String name,String userName , String phoneNumber,String password, int age, int income, String gender) {
         if (!requireLogin()) return;
 
         if (isBlank(name)) {
             setLastMessage("Error: Applicant name cannot be empty.");
             return;
         }
+        for(int i=0;i<applicants.size();i++){
+            Applicant applicant = applicants.get(i);
+            if(applicant.getUsername().equals(userName) || applicant.getPhoneNumber().equals(phoneNumber)){
+                throw new InputMismatchException("Error : account already existed");
+            }
+        }
 
-        applicants.add(new Applicant(name,password, gender, income, age));
+        applicants.add(new Applicant(name,userName,phoneNumber,password, gender, income, age));
         setLastMessage("Applicant created successfully: " + name);
     }
 
@@ -344,12 +357,12 @@ public class LoaningSystem {
          
     }
 
-    public void setNewName(String name ,String newName ,  String password){
+    public void setNewUserName(String name ,String newName ,  String password){
         if(!requireLogin())  return;
         if(!requirePermission(LoaningSystem.SET_NEW_NAME)) return;
 
-        if(loggedInUser.getName().equalsIgnoreCase(name) && loggedInUser.checkPassword(password)){
-                loggedInUser.setName(newName);
+        if(loggedInUser.getUsername().equalsIgnoreCase(name) && loggedInUser.checkPassword(password)){
+                loggedInUser.setUsername(newName);
                 System.out.println("Successfully change user name ");
                 return;
             }

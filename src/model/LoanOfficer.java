@@ -5,8 +5,8 @@ import src.controller.LoaningSystem;
 public class LoanOfficer extends Staff {
    private double maxApprovalLimit;
 
-  public LoanOfficer(String name , int age ,String password, double salary, double maxApprovalLimit){
-     super(name , age , password);
+  public LoanOfficer(String name ,String userName , String phoneNumber, int age ,String password, double salary, double maxApprovalLimit){
+     super(name,userName,phoneNumber ,age, password);
      setSalary(salary);
      setPosition(LoaningSystem.LOAN_OFFICER);
      setMaxApprovalLimit(maxApprovalLimit);

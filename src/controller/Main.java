@@ -17,14 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-         system.login("admin","1234");
-         system.createStaff("Alice", 30, "pass1", 50000, LoaningSystem.MANAGER);
-         system.createStaff("Bob", 28, "pass2", 40000, LoaningSystem.LOAN_OFFICER);
-         system.createStaff("Charlie", 35, "pass3", 60000, LoaningSystem.CREDIT_COMMITTEE);
          
-         system.login("bob","pass2");
-        
-
 
         System.out.println("==========================================");
         System.out.println("       WELCOME TO KH BANK LOANING SYSTEM ");
@@ -191,7 +184,7 @@ public class Main {
         String name = readUserName("Enter your name: ");
         String password = readPassword("Enter your password: ");
         String newName = readUserName("Enter your new name: ");
-        system.setNewName(name,newName,password);
+        system.setNewUserName(name, newName, password);
         validInput=true;
  
             } catch (InputMismatchException e) {
@@ -234,11 +227,13 @@ public class Main {
             try {
         System.out.println("\n--- CREATE STAFF ---");
         String name     = readUserName("Enter name: ");
+        String userName     = readUserName("Enter username: ");
+        String phoneNumber= readString("Enter your phone number: ");
         int    age      = readAge("Enter age: ");
         String password = readPassword("Enter password: ");
         double salary   = readDouble("Enter salary: ");
         String position = readPosition("Select Position");
-        system.createStaff(name, age, password, salary, position);
+        system.createStaff(name,userName,phoneNumber,age, password, salary, position);
         validInput=true;
             }
             catch(IllegalArgumentException e){
@@ -253,11 +248,13 @@ public class Main {
     while(!validInput) {
         try {
          String name   = readUserName("Enter name: ");
+         String userName     = readUserName("Enter username: ");
+         String phoneNumber= readString("Enter your phone number: ");
          String password = readPassword("Enter password: ");
         int    age    = readAge("Enter age: ");
         int   income = readInt("Enter income: ");
         String gender = readGender("Select Gender");
-        system.createApplicant(name,password, age, income, gender);
+        system.createApplicant(name,userName,phoneNumber,password, age, income, gender);
         validInput=true;
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
