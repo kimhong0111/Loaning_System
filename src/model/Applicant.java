@@ -125,10 +125,10 @@ public class Applicant  implements ILoginable {
         }
     }
     
+     
+   
 
 
-
-    // ===== Comparison and toString =====
     @Override
     public String toString() {
         return "Name: " + name + " , Username: "+ userName + " , Phone number: " + phoneNumber + ", Id: " + applicantId + ", gender: " + gender + ", salary: " + salary + ", age: " + age;

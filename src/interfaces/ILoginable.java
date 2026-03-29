@@ -1,5 +1,9 @@
 package src.interfaces;
 
+import java.util.ArrayList;
+
+import src.model.Applicant;
+
 public interface ILoginable {
      String getName();
      String getUsername();

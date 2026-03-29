@@ -153,7 +153,7 @@ public class Main {
 
         try {
         System.out.println("\n--- LOGIN ---");
-        String username     = readString("Enter name: ");
+        String username     = readUsername("Enter username: ");
         String password = readPassword("Enter password: ");
         system.login(username, password);
         loggin=true;
@@ -181,9 +181,9 @@ public class Main {
         while(!validInput){
             try {
         System.out.println("\n--- SET NEW NAME ---");
-        String name = readString("Enter your name: ");
+        String name = readName("Enter your name: ");
         String password = readPassword("Enter your password: ");
-        String newName = readString("Enter your new name: ");
+        String newName = readUsername("Enter your new name: ");
         system.setNewUserName(name, newName, password);
         validInput=true;
  
@@ -227,8 +227,8 @@ public class Main {
             try {
         System.out.println("\n--- CREATE STAFF ---");
         String name     = readName("Enter name: ");
-        String userName     = readString("Enter username: ");
-        String phoneNumber= readString("Enter your phone number: ");
+        String userName     = readNewUsername("Enter username: ");
+        String phoneNumber= readPhoneNumber("Enter your phone number: ");
         int    age      = readAge("Enter age: ");
         String password = readPassword("Enter password: ");
         double salary   = readDouble("Enter salary: ");
@@ -248,8 +248,8 @@ public class Main {
     while(!validInput) {
         try {
          String name   = readName("Enter name: ");
-         String userName     = readString("Enter username: ");
-         String phoneNumber= readString("Enter your phone number: ");
+         String userName     = readNewUsername("Enter username: ");
+         String phoneNumber= readPhoneNumber("Enter your phone number: ");
          String password = readPassword("Enter password: ");
         int    age    = readAge("Enter age: ");
         int   income = readInt("Enter income: ");
@@ -313,23 +313,61 @@ public class Main {
     }
 
     // ===== Input Helpers =====
-
-private static String readString(String prompt) {
-    String input = "";
+private static String readUsername(String prompt) {
+    String input;
     while (true) {
         System.out.print(prompt);
         try {
-            if (!scanner.hasNextInt()) {
-                input = scanner.nextLine().trim();
-                if (input.isEmpty()) {
-                    throw new InputMismatchException("Error :Input cannot be empty. Please try again.");
-                }
+              input=scanner.nextLine();
+             if (input.isEmpty()) {
+              throw new InputMismatchException("Error :Input cannot be empty. Please try again.");
+             }
                 return input;
-            } else {
-                scanner.nextLine();
-                throw new InputMismatchException("Input cannot be a number");
+            
             }
-        } catch (InputMismatchException e) {
+            catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+private static String readNewUsername(String prompt) {
+    String input;
+    while (true) {
+        System.out.print(prompt);
+        try {
+              input=scanner.nextLine();
+             if (input.isEmpty()) {
+              throw new InputMismatchException("Error :Input cannot be empty. Please try again.");
+                }
+            if(!(system.checkIfUsernameAvailable(input))){
+                throw new InputMismatchException("Error : Username already exist");
+            }
+                return input;
+            
+            }
+            catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+private static String readPhoneNumber(String prompt) {
+    String input;
+    while (true) {
+        System.out.print(prompt);
+        try {
+              input=scanner.nextLine();
+             if (input.isEmpty()) {
+              throw new InputMismatchException("Error :Input cannot be empty. Please try again.");
+                }
+            if(!(system.checkIfPhoneNumerAvailable(input))){
+                throw new InputMismatchException("Error : Phone number already exist");
+            }
+                return input;
+            
+            }
+            catch (InputMismatchException e) {
             System.out.println(e.getMessage());
         }
     }
