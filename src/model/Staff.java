@@ -124,7 +124,7 @@ public void setActive(boolean c){
 
     @Override
     public String toString() {
-        return "Staff ID: " + staffId + ",Name: " + name;
+        return "Staff ID: " + staffId + ", Name: " + name + " , Username: " + userName + " , Phone number:" + phoneNumber;
     }
 
     @Override

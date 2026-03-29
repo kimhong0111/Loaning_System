@@ -153,9 +153,9 @@ public class Main {
 
         try {
         System.out.println("\n--- LOGIN ---");
-        String name     = readUserName("Enter name: ");
+        String username     = readString("Enter name: ");
         String password = readPassword("Enter password: ");
-        system.login(name, password);
+        system.login(username, password);
         loggin=true;
         validateUser();
         } catch (LogginException e) {
@@ -181,9 +181,9 @@ public class Main {
         while(!validInput){
             try {
         System.out.println("\n--- SET NEW NAME ---");
-        String name = readUserName("Enter your name: ");
+        String name = readString("Enter your name: ");
         String password = readPassword("Enter your password: ");
-        String newName = readUserName("Enter your new name: ");
+        String newName = readString("Enter your new name: ");
         system.setNewUserName(name, newName, password);
         validInput=true;
  
@@ -197,7 +197,7 @@ public class Main {
         while(!validInput){
             try {
         System.out.println("\n--- SET NEW PASSWORD ---");
-        String name = readUserName("Enter your name: ");
+        String name = readName("Enter your name: ");
         String password = readPassword("Enter your password: ");
         String newPassword = readPassword("Enter your new password: ");
         String confirmNewPassword = readPassword("Enter your new password again: ");
@@ -226,8 +226,8 @@ public class Main {
         while(!validInput) {
             try {
         System.out.println("\n--- CREATE STAFF ---");
-        String name     = readUserName("Enter name: ");
-        String userName     = readUserName("Enter username: ");
+        String name     = readName("Enter name: ");
+        String userName     = readString("Enter username: ");
         String phoneNumber= readString("Enter your phone number: ");
         int    age      = readAge("Enter age: ");
         String password = readPassword("Enter password: ");
@@ -247,8 +247,8 @@ public class Main {
         boolean validInput = false;
     while(!validInput) {
         try {
-         String name   = readUserName("Enter name: ");
-         String userName     = readUserName("Enter username: ");
+         String name   = readName("Enter name: ");
+         String userName     = readString("Enter username: ");
          String phoneNumber= readString("Enter your phone number: ");
          String password = readPassword("Enter password: ");
         int    age    = readAge("Enter age: ");
@@ -334,7 +334,7 @@ private static String readString(String prompt) {
         }
     }
 }
-   private static String readUserName(String prompt) {
+   private static String readName(String prompt) {
     String input;
     while (true) {
         System.out.print(prompt);

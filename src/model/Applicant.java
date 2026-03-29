@@ -58,7 +58,7 @@ public class Applicant  implements ILoginable {
     public int getApplicantId() {
         return applicantId;
     }
-    
+
     public void setName(String name) {
         this.name=name;
 
@@ -131,7 +131,7 @@ public class Applicant  implements ILoginable {
     // ===== Comparison and toString =====
     @Override
     public String toString() {
-        return "Name: " + name + ", Id: " + applicantId + ", gender: " + gender + ", salary: " + salary + ", age: " + age;
+        return "Name: " + name + " , Username: "+ userName + " , Phone number: " + phoneNumber + ", Id: " + applicantId + ", gender: " + gender + ", salary: " + salary + ", age: " + age;
     }
 
     public boolean equals(Applicant applicant2) {
