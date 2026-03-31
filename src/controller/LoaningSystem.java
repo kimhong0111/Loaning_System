@@ -358,10 +358,9 @@ public class LoaningSystem {
 
 
         if(loggedInUser.getUsername().equalsIgnoreCase(username) && loggedInUser.checkPassword(password)){
-            if(!checkIfUsernameAvailable(newUsername)) { return ; }
 
                 loggedInUser.setUsername(newUsername);
-                System.out.println("Successfully change user name ");
+                System.out.println("Successfully change username ");
                 return;
             }
             throw new InputMismatchException("Error : Authentication failed");
@@ -371,7 +370,7 @@ public class LoaningSystem {
         if(!requireLogin()) return;
         if(!requirePermission(LoaningSystem.SET_NEW_PASSWORD)) return ;
 
-        if(loggedInUser.getName().equalsIgnoreCase(name) && loggedInUser.checkPassword(password)){
+        if(loggedInUser.getUsername().equals(name) && loggedInUser.checkPassword(password)){
                 loggedInUser.setPassword(newPassword);
                 System.out.println("Successfully change your password");
                 return;
