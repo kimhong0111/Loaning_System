@@ -13,6 +13,7 @@ public interface ILoginable {
      boolean isActive();
      boolean can(String action);
      String toString();
+     int getId();
 
 
     

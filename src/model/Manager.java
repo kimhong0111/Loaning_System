@@ -51,7 +51,8 @@ public class Manager extends Staff {
     }
 
     @Override
-    public void canContractApprove( Staff staff ,Contract contract){
+    public boolean canContractApprove( Staff staff ,Contract contract){
          System.out.println("Error : Manager cannot approve contract");
+         return false;
     }
 }

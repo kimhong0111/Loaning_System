@@ -56,19 +56,20 @@ public class CreditCommittee extends Staff {
     }
 
     @Override 
-    public void canContractApprove(Staff staff , Contract contract){
+    public boolean canContractApprove(Staff staff , Contract contract){
          CreditCommittee committee = (CreditCommittee) staff;
             committee.castVote();
             if (!committee.hasEnoughVotes()) {
                 LoaningSystem.setLastMessage("Vote cast. Current votes: " + committee.getCurrentVotes()
                         + "/" + committee.getRequiredVotes());
-                return;
+                return false;
             }
             committee.resetVotes();
             contract.setStatus("APPROVED");
             contract.setApprovingOfficer(committee);
-            LoaningSystem.setLastMessage("Contract #" + contract.getContractId() + " approved by Credit Committee.");
-            return;
+            return true;
+            
+
     }
 }
 

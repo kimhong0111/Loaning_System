@@ -10,6 +10,8 @@ import src.model.Contract;
 import src.model.CreditCommittee;
 import src.model.LoanOfficer;
 import src.model.Manager;
+import src.model.Payment;
+import src.model.PaymentSchedule;
 import src.model.Staff;
 
 public class LoaningSystem {
@@ -29,6 +31,7 @@ public class LoaningSystem {
 
     public static final String SET_NEW_NAME = "SET_NEW_NAME";
     public static final String SET_NEW_PASSWORD = "SET_NEW_PASSWORD";
+    public static final String MAKE_PAYMENT = "MAKE_PAYMENT";
 
 
     private String bankName;
@@ -39,6 +42,7 @@ public class LoaningSystem {
     private ArrayList<Staff> staffs;
     private ArrayList<Applicant> applicants;
     private ArrayList<Contract> contracts;
+    private ArrayList<PaymentSchedule> schedules;
 
     private ILoginable loggedInUser;
     private  static String lastMessage;
@@ -51,6 +55,7 @@ public class LoaningSystem {
         this.staffs     = new ArrayList<>();
         this.applicants = new ArrayList<>();
         this.contracts  = new ArrayList<>();
+        this.schedules = new ArrayList<>();
 
         this.loggedInUser = null;
         LoaningSystem.lastMessage   = "";
@@ -68,6 +73,8 @@ public class LoaningSystem {
     public void viewMyProfile(){
         System.out.println(loggedInUser.toString());
     }
+
+   
    
     public boolean checkTypeArrayList(){ 
       for( Staff s : staffs){
@@ -101,11 +108,24 @@ public class LoaningSystem {
         System.out.println(msg);
     }
 
-    // ===== Seed Default Admin =====
     private void seedDefaultAdmin() {
       Staff admin = new Manager("Admin","Admin123","default",18,"1234", 5000,2);
         staffs.add(admin);
         setLastMessage("System ready. Default admin seeded: Admin123 / 1234");
+    }
+
+    public void printMyContract(){
+        if(!requireLogin()) return;
+        if(!requirePermission(LoaningSystem.MAKE_PAYMENT)) return;
+
+      for(int i=0;i<contracts.size();i++){
+           Contract contract = contracts.get(i);
+           if(loggedInUser.getId() == contract.getApplicant().getId()){
+               System.out.println(contract.toString());
+               return;
+           }
+      }
+      setLastMessage("Error : Contract not found");
     }
 
     public void login(String name, String password) {
@@ -215,7 +235,7 @@ public class LoaningSystem {
         for (int i = 0; i < contracts.size(); i++) {
 
             Contract c = contracts.get(i);
-            if(c.getApplicant().getApplicantId() == applicantId){
+            if(c.getApplicant().getId() == applicantId){
                 borrowedAmount+=c.getPrincipalAmount();
                 if(borrowedAmount + amount >= applicant.getSalary() / 2){
                     throw new IllegalArgumentException("Applicant cannot take more loan. Total would exceed 1/2 of salary." +
@@ -262,12 +282,62 @@ public class LoaningSystem {
         }
         // probably have bug here will check later
         Staff officer = (Staff) loggedInUser;
-        officer.canContractApprove(officer, contract);
+        if(officer.canContractApprove(officer,contract)){
+             PaymentSchedule schedule = new PaymentSchedule(contract);
+            schedules.add(schedule);
+            LoaningSystem.setLastMessage("Contract #" + contract.getContractId() + " approved by Loan Officer: " + officer.getName() + " generate schedule for payment : " + schedule.getScheduleId());
+        }
             
         
 
 
     }
+
+    public void makePayment(int contractId , int monthNumber){
+       if(!requireLogin()) return;
+       if(!requirePermission(LoaningSystem.MAKE_PAYMENT)) return;
+         
+       PaymentSchedule schedule = findScheduleByContractId(contractId);
+       if(schedule==null){
+        setLastMessage("Error: No payment schedule found for this contract.");
+        return;
+       }
+       
+       Applicant applicant = (Applicant) loggedInUser;
+       if(schedule.getContract().getApplicant().getId()!= applicant.getId()){
+         setLastMessage("Error: This is not your contract.");
+         return;
+       }
+     
+       boolean success = schedule.payMonth(monthNumber);
+    if (success && schedule.isFullyPaid()) {
+        schedule.getContract().setStatus("CLOSED");
+        setLastMessage("Congratulations! Loan fully paid. Contract CLOSED.");
+       }
+    }
+
+
+    public void printMySchedule(int contractId){
+        if(!requireLogin()) return;
+        if(!requirePermission(LoaningSystem.MAKE_PAYMENT)) return;
+
+         PaymentSchedule schedule = findScheduleByContractId(contractId);
+       if(schedule==null){
+        setLastMessage("Error: No payment schedule found for this contract.");
+        return;
+       }
+       
+       Applicant applicant = (Applicant) loggedInUser;
+       if(schedule.getContract().getApplicant().getId()!= applicant.getId()){
+         setLastMessage("Error: This is not your contract.");
+         return;
+       }
+
+
+       schedule.printSchedule();
+    }
+
+
 
     public void rejectContract(int contractId) {
         if (!requireLogin()) return;
@@ -429,7 +499,7 @@ public class LoaningSystem {
 
     private Applicant findApplicantById(int applicantId) {
         for (int i = 0; i < applicants.size(); i++) {
-            if (applicants.get(i).getApplicantId() == applicantId) {
+            if (applicants.get(i).getId() == applicantId) {
                 return applicants.get(i);
             }
         }
@@ -438,11 +508,21 @@ public class LoaningSystem {
 
     private Staff findStaffById(int staffId) {
         for (int i = 0; i < staffs.size(); i++) {
-            if (staffs.get(i).getStaffId() == staffId) {
+            if (staffs.get(i).getId() == staffId) {
                 return staffs.get(i);
             }
         }
         return null;
+    }
+
+    private PaymentSchedule findScheduleByContractId(int contractId){
+          for(int i=0;i<schedules.size();i++){
+             PaymentSchedule schedule = schedules.get(i);
+             if(schedule.getContract().getContractId()==contractId){
+                   return schedules.get(i);
+             }
+          }
+          return null;
     }
 
     private boolean requireLogin() {

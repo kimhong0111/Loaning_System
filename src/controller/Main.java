@@ -27,6 +27,10 @@ public class Main {
         system.createStaff("Alice Manager", "aliceM123", "0123456789", 35, "password3", 7000, LoaningSystem.MANAGER);
         system.login("Jeff123", "1234");
         system.createContract(1, 1000, 5);
+        system.approveContract(1);
+        system.login("john123", "password1");
+        system.printMySchedule(1);
+
 
         System.out.println("==========================================");
         System.out.println("       WELCOME TO KH BANK LOANING SYSTEM ");
@@ -57,7 +61,7 @@ public class Main {
                     case 13: handleSetNewName();       break;
                     case 14: handleSetNewPassword();   break;
                     case 15: system.viewMyProfile();   break;
-                    case 16: break;
+                    case 16: handleViewPaymentSchedule(); break;
                 }
 
             } catch (InputMismatchException e) {
@@ -81,7 +85,7 @@ public class Main {
                 throw new InputMismatchException("Error : Invalid Choice");
             }
             if (isUser == 1) {
-                if (choice != 5 && choice != 12 && choice != 13 && choice != 14 && choice != 15 && choice != 2 && choice != 0) {
+                if (choice != 5 && choice != 12 && choice != 13 && choice != 14 && choice != 15 && choice != 2 && choice != 0 && choice!=16) {
                     throw new InputMismatchException("Error : Invalid Choice");
                 }
             }
@@ -105,6 +109,8 @@ public class Main {
             System.out.println("  [13] Change Name");
             System.out.println("  [14] Change Password");
             System.out.println("  [15] View My Profile");
+            System.out.println("  [16] View My Payment Schedule");
+
             System.out.println("------------------------------------------");
             System.out.println("  [2] Logout");
 
@@ -139,6 +145,21 @@ public class Main {
         System.out.println("  [0] Exit");
         System.out.println("==========================================");
     
+}
+private static void handleMakePayment() {
+    boolean validInput = false;
+    while (!validInput) {
+        try {
+            System.out.println("\n--- MAKE PAYMENT ---");
+            system.printMyContract();
+            int contractId  = readInt("Enter contract ID: ");
+            int monthNumber = readInt("Enter month number to pay: ");
+            system.makePayment(contractId, monthNumber);
+            validInput = true;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
 
     private static void handleLogin() {
@@ -188,6 +209,12 @@ public class Main {
             }
         }
     }
+    private static void handleViewPaymentSchedule() {
+    System.out.println("\n--- MY PAYMENT SCHEDULE ---");
+    system.printMyContract();
+    int contractId = readInt("Enter contract ID: ");
+    system.printMySchedule(contractId);
+}
 
     private static void handleSetNewPassword() {
         printBackHint();

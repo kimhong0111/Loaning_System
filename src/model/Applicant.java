@@ -55,7 +55,7 @@ public class Applicant  implements ILoginable {
         return gender;
     }
 
-    public int getApplicantId() {
+    public int getId() {
         return applicantId;
     }
 
@@ -121,6 +121,7 @@ public class Applicant  implements ILoginable {
             case LoaningSystem.SET_NEW_NAME : return true;
             case LoaningSystem.SET_NEW_PASSWORD: return true;
             case LoaningSystem.CREATE_CONTRACT : return true;
+            case LoaningSystem.MAKE_PAYMENT : return true;
             default : return false;
         }
     }

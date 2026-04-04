@@ -62,24 +62,23 @@ private boolean checkApplicantSalaryAndAge(double amount, Applicant applicant){
 
     
     @Override
-    public void canContractApprove(Staff staff, Contract contract){
+    public boolean canContractApprove(Staff staff, Contract contract){
         LoanOfficer officer = (LoanOfficer) staff;
         if(!officer.checkApplicantSalaryAndAge(contract.getPrincipalAmount(),contract.getApplicant())){
             System.out.println("REJECTED : Applicant's Salary not high enough");
             contract.setStatus(Contract.REJECTED);
             contract.setApprovingOfficer(officer);
-            return;
+            return false;
         }
         if(!officer.checkLoanOfficerApprovalLimit(contract.getPrincipalAmount())){
             System.out.println("LOAN OFFICER APPROVAL LIMIT IS NOT HIGH ENOUGH");
             contract.setStatus(Contract.FORWARDED);
             contract.setApprovingOfficer(officer);
-            return;
+            return false;
         }
             contract.setStatus(Contract.APPROVED);
             contract.setApprovingOfficer(officer);
-            LoaningSystem.setLastMessage("Contract #" + contract.getContractId() + " approved by Loan Officer: " + officer.getName());
-            return;
+            return true;
     }
             
 }

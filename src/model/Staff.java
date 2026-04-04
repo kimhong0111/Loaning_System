@@ -46,8 +46,8 @@ public abstract class Staff implements IStaff , ILoginable{
     public String getName(){
         return name;
     }
-
-    public int getStaffId(){
+  @Override
+    public int getId(){
         return staffId;
     }
     public int getAge(){
