@@ -62,6 +62,7 @@ public class Main {
                     case 14: handleSetNewPassword();   break;
                     case 15: system.viewMyProfile();   break;
                     case 16: handleViewPaymentSchedule(); break;
+                    case 17: handleMakePayment(); break;
                 }
 
             } catch (InputMismatchException e) {
@@ -85,7 +86,7 @@ public class Main {
                 throw new InputMismatchException("Error : Invalid Choice");
             }
             if (isUser == 1) {
-                if (choice != 5 && choice != 12 && choice != 13 && choice != 14 && choice != 15 && choice != 2 && choice != 0 && choice!=16) {
+                if (choice != 12 && choice != 13 && choice != 14 && choice != 15 && choice != 2 && choice != 0 && choice!=16 && choice !=17) {
                     throw new InputMismatchException("Error : Invalid Choice");
                 }
             }
@@ -102,14 +103,16 @@ public class Main {
 
         } else if (isUser == 1) {
             System.out.println("  APPLICATIONS");
-            System.out.println("  [5]  Submit Loan Application");
             System.out.println("  [12] View My Applications");
+            System.out.println("  [16] View My Payment Schedule");
+            System.out.println("  [17] MAKE PAYMENT");
+
             System.out.println("------------------------------------------");
             System.out.println("  PROFILE");
             System.out.println("  [13] Change Name");
             System.out.println("  [14] Change Password");
             System.out.println("  [15] View My Profile");
-            System.out.println("  [16] View My Payment Schedule");
+
 
             System.out.println("------------------------------------------");
             System.out.println("  [2] Logout");
@@ -446,7 +449,7 @@ private static void handleMakePayment() {
                 }
                 return input;
             } catch (InputMismatchException e) {
-                System.out.println(e.getMessage());
+                System.out.println(e.getMessage()); 
             }
         }
     }

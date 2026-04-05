@@ -32,6 +32,9 @@ public class LoaningSystem {
     public static final String SET_NEW_NAME = "SET_NEW_NAME";
     public static final String SET_NEW_PASSWORD = "SET_NEW_PASSWORD";
     public static final String MAKE_PAYMENT = "MAKE_PAYMENT";
+    public static final String VIEW_OWN_CONTRACT = "VIEW_OWN_CONTRACT";
+    public static final String VIEW_OWN_SCHEDULE = "VIEW_OWN_SCHEDULE";
+
 
 
     private String bankName;
@@ -116,7 +119,7 @@ public class LoaningSystem {
 
     public void printMyContract(){
         if(!requireLogin()) return;
-        if(!requirePermission(LoaningSystem.MAKE_PAYMENT)) return;
+        if(!requirePermission(LoaningSystem.VIEW_OWN_CONTRACT)) return;
 
       for(int i=0;i<contracts.size();i++){
            Contract contract = contracts.get(i);
@@ -308,6 +311,10 @@ public class LoaningSystem {
          setLastMessage("Error: This is not your contract.");
          return;
        }
+    if(monthNumber > schedule.getPaidCount() + 1){
+        setLastMessage("Error : Need to follow schedule payment month , Month  " + (schedule.getPaidCount() +1) + " need to be pay first");
+        return;
+    }
      
        boolean success = schedule.payMonth(monthNumber);
     if (success && schedule.isFullyPaid()) {
@@ -319,7 +326,7 @@ public class LoaningSystem {
 
     public void printMySchedule(int contractId){
         if(!requireLogin()) return;
-        if(!requirePermission(LoaningSystem.MAKE_PAYMENT)) return;
+        if(!requirePermission(LoaningSystem.VIEW_OWN_SCHEDULE)) return;
 
          PaymentSchedule schedule = findScheduleByContractId(contractId);
        if(schedule==null){
@@ -565,6 +572,8 @@ public class LoaningSystem {
 
           return true;
     }
+
+
 
     private boolean requirePermission(String action) {
         if (!loggedInUser.can(action)) {

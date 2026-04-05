@@ -26,7 +26,7 @@ public class PaymentSchedule {
     }
 
     public boolean payMonth(int monthNumber) {
-        for (int i = 0; i < payments.size(); i++) {
+        for (int i = 0 ; i < payments.size(); i++) {
             Payment p = payments.get(i);
             if (p.getMonthNumber() == monthNumber) {
                 if (p.isPaid()) {
@@ -48,7 +48,7 @@ public class PaymentSchedule {
         System.out.println("Applicant   : " + contract.getApplicant().getName());
         System.out.println("Total Amount: $" + String.format("%.2f", contract.getTotalAmount()));
         System.out.println("------------------------------------------");
-        for (int i =0 ; i < payments.size(); i++) {
+        for (int i =getPaidCount() ; i < payments.size(); i++) {
             System.out.println("Month " + (i+1) + " :" + String.format("%.2f", payments.get(i).getAmount()) + "$");
         }
         System.out.println("------------------------------------------");

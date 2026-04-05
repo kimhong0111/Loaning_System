@@ -122,6 +122,8 @@ public class Applicant  implements ILoginable {
             case LoaningSystem.SET_NEW_PASSWORD: return true;
             case LoaningSystem.CREATE_CONTRACT : return true;
             case LoaningSystem.MAKE_PAYMENT : return true;
+            case LoaningSystem.VIEW_OWN_CONTRACT : return true;
+            case LoaningSystem.VIEW_OWN_SCHEDULE : return true;
             default : return false;
         }
     }
