@@ -63,6 +63,8 @@ public class Main {
                     case 15: system.viewMyProfile();   break;
                     case 16: handleViewPaymentSchedule(); break;
                     case 17: handleMakePayment(); break;
+                    case 18 : system.viewMyBalance(); break;
+                    case 19: handleAddBalanceForApplicant(); break;
                 }
 
             } catch (InputMismatchException e) {
@@ -86,7 +88,7 @@ public class Main {
                 throw new InputMismatchException("Error : Invalid Choice");
             }
             if (isUser == 1) {
-                if (choice != 12 && choice != 13 && choice != 14 && choice != 15 && choice != 2 && choice != 0 && choice!=16 && choice !=17) {
+                if (choice != 12 && choice != 13 && choice != 14 && choice != 15 && choice != 2 && choice != 0 && choice!=16 && choice !=17  && choice!=18) {
                     throw new InputMismatchException("Error : Invalid Choice");
                 }
             }
@@ -106,6 +108,8 @@ public class Main {
             System.out.println("  [12] View My Applications");
             System.out.println("  [16] View My Payment Schedule");
             System.out.println("  [17] MAKE PAYMENT");
+            System.out.println("  [18] VIEW BALANCE");
+
 
             System.out.println("------------------------------------------");
             System.out.println("  PROFILE");
@@ -121,6 +125,7 @@ public class Main {
             System.out.println("  MANAGER ACTIONS");
             System.out.println("  [3] Create Staff");
             System.out.println("  [4] Create Applicant");
+            System.out.println("  [19] ADD BALANCE TO APPLICANT ACCOUNT");
             System.out.println("------------------------------------------");
             System.out.println("  LOAN OFFICER ACTIONS");
             System.out.println("  [5] Create Contract");
@@ -191,6 +196,27 @@ private static void handleMakePayment() {
         } else if (user instanceof Staff) {
             isUser = 0;
         }
+    }
+
+    private static void handleAddBalanceForApplicant(){
+        boolean validInput=false;
+        while(!validInput){
+             try {
+                system.printApplicants();
+             int applicantId=readInt("Enter applicant id: ");
+             int amount=readInt("Enter amount will be add: ");
+             system.addBalanceforApplicant(applicantId, amount);
+             validInput=true;
+                
+             } catch ( BackActionException e) {
+                 System.out.println(e.getMessage());
+                 return;
+             }
+             catch ( InputMismatchException e){
+                 System.out.println(e.getMessage());
+             }
+        }
+
     }
 
     private static void handleSetNewName() {

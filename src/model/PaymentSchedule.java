@@ -25,7 +25,14 @@ public class PaymentSchedule {
         }
     }
 
-    public boolean payMonth(int monthNumber) {
+    public double getMonthlyPayment(){
+         int totalMonths = contract.getDuration() * 12;
+         double  monthlyAmount = contract.getTotalAmount() / totalMonths;
+
+        return monthlyAmount;
+    }
+
+    public boolean  payMonth(int monthNumber , double applicantBalance) {
         for (int i = 0 ; i < payments.size(); i++) {
             Payment p = payments.get(i);
             if (p.getMonthNumber() == monthNumber) {
@@ -33,9 +40,11 @@ public class PaymentSchedule {
                     System.out.println("Error: Month " + monthNumber + " already paid.");
                     return false;
                 }
+                if(applicantBalance >= p.getAmount()){
                 p.setPaid(true);
                 System.out.println("Payment successful for month: " + monthNumber);
                 return true;
+                }
             }
         }
         System.out.println("Error: Month not found.");

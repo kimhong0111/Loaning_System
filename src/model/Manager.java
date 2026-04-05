@@ -25,6 +25,11 @@ public class Manager extends Staff {
 
     }
 
+    public void setBalanceApplicant(Applicant applicant , double amount){
+        double newAmount= applicant.getBalance() +amount;
+         applicant.setBalance(newAmount);
+    } 
+
 
 
 
@@ -35,6 +40,7 @@ public class Manager extends Staff {
             case LoaningSystem.CREATE_APPLICANT: return true;
             case LoaningSystem.SET_NEW_APVL: return true;
             case LoaningSystem.SET_NEW_REQV: return true;
+            case LoaningSystem.ADD_BALANCE : return true;
             default: return super.can(action);
         }
     }

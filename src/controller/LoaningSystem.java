@@ -34,8 +34,11 @@ public class LoaningSystem {
     public static final String MAKE_PAYMENT = "MAKE_PAYMENT";
     public static final String VIEW_OWN_CONTRACT = "VIEW_OWN_CONTRACT";
     public static final String VIEW_OWN_SCHEDULE = "VIEW_OWN_SCHEDULE";
+    public static final String VIEW_OWN_BALANCE = "VIEW_OWN_BALANCE";
 
+    public static final String ADD_BALANCE = "ADD_BALANCE";
 
+   
 
     private String bankName;
     private static int indexBankId = 1;
@@ -73,22 +76,34 @@ public class LoaningSystem {
     public boolean isLoggedIn()             { return loggedInUser != null; }
     public ILoginable getLoggedInUser()             { return loggedInUser; }
 
+
+
     public void viewMyProfile(){
         System.out.println(loggedInUser.toString());
     }
 
-   
-   
-    public boolean checkTypeArrayList(){ 
-      for( Staff s : staffs){
-        if(s instanceof Manager){
-            return true;
-        }
-      }
-        return false;
+    public void viewMyBalance(){
+        if(!requireLogin()) return;
+        if(!requirePermission(LoaningSystem.VIEW_OWN_BALANCE)) return;
 
+        Applicant applicant = findApplicantById(loggedInUser.getId());
+
+         System.out.println("Your balance : " + applicant.getBalance() + "$");
     }
 
+    public void addBalanceforApplicant(int applicantId , int amount){
+         if(!requireLogin()) return;
+         if(!requirePermission(ADD_BALANCE)) return;
+
+         Applicant applicant = findApplicantById(applicantId);
+         if(applicant == null){
+            setLastMessage("Error : Invalid id applicant not found");
+            return;
+         }
+         Manager manager = (Manager) loggedInUser;
+         manager.setBalanceApplicant(applicant, amount);
+         setLastMessage("Successfully add money into " + applicant.getName() + " balance");
+    }
 
     public void setBankName(String bankName) {
         if (isBlank(bankName)) {
@@ -296,6 +311,7 @@ public class LoaningSystem {
 
     }
 
+
     public void makePayment(int contractId , int monthNumber){
        if(!requireLogin()) return;
        if(!requirePermission(LoaningSystem.MAKE_PAYMENT)) return;
@@ -315,8 +331,15 @@ public class LoaningSystem {
         setLastMessage("Error : Need to follow schedule payment month , Month  " + (schedule.getPaidCount() +1) + " need to be pay first");
         return;
     }
-     
-       boolean success = schedule.payMonth(monthNumber);
+       double applicantBalance = applicant.getBalance();
+       boolean success = schedule.payMonth(monthNumber, applicantBalance);
+    
+    if(success){
+     double amountPaid = schedule.getMonthlyPayment();
+    applicant.deductBalance(amountPaid);
+    setLastMessage("Payment for month " + monthNumber + " successful. Remaining balance: " + applicant.getBalance());
+    }
+
     if (success && schedule.isFullyPaid()) {
         schedule.getContract().setStatus("CLOSED");
         setLastMessage("Congratulations! Loan fully paid. Contract CLOSED.");

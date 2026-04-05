@@ -10,6 +10,7 @@ public class Applicant  implements ILoginable {
     private String name;
     private String userName;
     private String phoneNumber;
+    private double accountBalance;
     private String password;
     private String gender;
     private boolean active;
@@ -29,6 +30,7 @@ public class Applicant  implements ILoginable {
         setPhoneNumber(phoneNumber);
         this.applicantId = indexID++;
         this.active=true;
+        this.accountBalance=0;
     }
   @Override
     public String getName() {
@@ -41,6 +43,11 @@ public class Applicant  implements ILoginable {
   @Override
   public String getPhoneNumber(){
     return phoneNumber;
+  }
+
+
+  public double getBalance(){
+     return accountBalance;
   }
   
     public int getSalary() {
@@ -87,6 +94,10 @@ public class Applicant  implements ILoginable {
       throw new IllegalArgumentException("Invalid gender. Gender should be 'M' or 'F'.");
     }
 
+    protected void setBalance(double amount){
+         this.accountBalance=amount;
+    }
+
     public void setSalary(int salary) {
         if (salary > 0) {
             this.salary = salary;
@@ -101,6 +112,15 @@ public class Applicant  implements ILoginable {
             return;
         } 
       throw new IllegalArgumentException("Invalid age. Age should be between 18 and 65.");  
+    }
+
+    public boolean deductBalance(double amount){
+        if(getBalance() < amount){
+              return false;
+        }
+        double newAmount = getBalance() - amount;
+        this.setBalance(newAmount);
+        return true;
     }
 
 @Override
@@ -124,6 +144,7 @@ public class Applicant  implements ILoginable {
             case LoaningSystem.MAKE_PAYMENT : return true;
             case LoaningSystem.VIEW_OWN_CONTRACT : return true;
             case LoaningSystem.VIEW_OWN_SCHEDULE : return true;
+            case LoaningSystem.VIEW_OWN_BALANCE : return true;
             default : return false;
         }
     }
