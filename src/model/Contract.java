@@ -57,9 +57,14 @@ public class Contract {
   public String getStatus()         { return status; }
 
 
-
-
-  
+// Called by LoaningSystem when payment is made
+  public void setTotalAmount(double amount) {
+    if(amount <= 0){
+        throw new IllegalArgumentException("Total amount should be > 0");
+    }
+    this.totalAmount -= amount;
+    System.out.println("Payment of $" + amount);
+  }
 
   public void setApplicant(Applicant applicant) {
      if(applicant == null){
