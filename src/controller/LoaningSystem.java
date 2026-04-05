@@ -20,6 +20,7 @@ public class LoaningSystem {
     public static final String ADD_COSIGNER     = "ADD_COSIGNER";
     public static final String SET_NEW_APVL     = "SET_NEW_APVL";    
     public static final String SET_NEW_REQV     = "SET_NEW_REQV";
+    public static final String MAKE_PAYMENT    = "MAKE_PAYMENT";
 
     public static final String MANAGER          = "MANAGER";
     public static final String LOAN_OFFICER     = "LOANOFFICER";
@@ -324,7 +325,20 @@ public class LoaningSystem {
          
     }
 
-
+    public void makePayment(int contractId , double paymentAmount) {
+        if (!requireStaffLogin()) return;
+        if (!requirePermission(MAKE_PAYMENT)) {
+            setLastMessage("Error: staff is not a Manager");
+            return ; 
+        }       
+        Contract contract = findContractById(contractId);
+        if (contract == null) {
+            setLastMessage("Error: Contract not found.");
+            return;
+        }
+        contract.setTotalAmount(paymentAmount);
+        setLastMessage("Successfully updated total amount after payment for Contract #" + contractId);
+    }
 
     public void printStaffs() {
         System.out.println("\n--- Staffs (" + staffs.size() + ") ---");
