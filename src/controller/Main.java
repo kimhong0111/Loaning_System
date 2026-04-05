@@ -19,6 +19,7 @@ public class Main {
          system.createStaff("Charlie", 35, "pass3", 60000, LoaningSystem.CREDIT_COMMITTEE);
          
          system.createApplicant("David", 25, 2000, "M");
+
          system.staffLogin("bob","pass2");
         
 
@@ -42,14 +43,15 @@ public class Main {
                 case 2:  handleLogout();        break;
                 case 3:  handleCreateStaff();   break;
                 case 4:  handleCreateApplicant();break;
-                case 5:  handleCreateContract();break;
-                case 6:  handleApproveContract();break;
-                case 7:  handleRejectContract(); break;
-                case 8:  handleAddCoSigner();   break;
-                case 9:  handleDeactivateStaff();break;
-                case 10: system.printStaffs();  break;
-                case 11: system.printApplicants();break;
-                case 12: system.printContracts();break;
+                case 5:  handlePayment();         break;
+                case 6:  handleCreateContract();break;
+                case 7:  handleApproveContract();break;
+                case 8:  handleRejectContract(); break;
+                case 9:  handleAddCoSigner();   break;
+                case 10:  handleDeactivateStaff();break;
+                case 11: system.printStaffs();  break;
+                case 12: system.printApplicants();break;
+                case 13: system.printContracts();break;
                    default :
                      throw new InputMismatchException("Error : Invaild Choice");
                             }
@@ -75,20 +77,21 @@ public class Main {
         System.out.println("  MANAGER ACTIONS");
         System.out.println("  [3] Create Staff");
         System.out.println("  [4] Create Applicant");
+        System.out.println("  [5] Make Payment");
         System.out.println("------------------------------------------");
         System.out.println("  LOAN OFFICER ACTIONS");
-        System.out.println("  [5] Create Contract");
-        System.out.println("  [6] Approve Contract");
-        System.out.println("  [7] Reject Contract");
-        System.out.println("  [8] Add Co-Signer");
+        System.out.println("  [6] Create Contract");
+        System.out.println("  [7] Approve Contract");
+        System.out.println("  [8] Reject Contract");
+        System.out.println("  [9] Add Co-Signer");
         System.out.println("------------------------------------------");
         System.out.println("  ADMIN ACTIONS");
-        System.out.println("  [9]  Deactivate Staff");
+        System.out.println("  [10]  Deactivate Staff");
         System.out.println("------------------------------------------");
         System.out.println("  VIEW");
-        System.out.println("  [10] Print All Staffs");
-        System.out.println("  [11] Print All Applicants");
-        System.out.println("  [12] Print All Contracts");
+        System.out.println("  [11] Print All Staffs");
+        System.out.println("  [12] Print All Applicants");
+        System.out.println("  [13] Print All Contracts");
     }
 
     System.out.println("------------------------------------------");
@@ -167,7 +170,13 @@ public class Main {
         
     }
     }
-
+    private static void handlePayment() {
+        System.out.println("\n--- MAKE PAYMENT ---");
+        system.printContracts();
+        int contractId = readInt("Enter contract ID to make payment: ");
+        double amount = readDouble("Enter payment amount: ");
+        system.makePayment(contractId, amount);
+    }
     private static void handleCreateContract() {
         boolean validInput = false;
         while(!validInput){
